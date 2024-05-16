@@ -1,4 +1,4 @@
-package cl.ucn.ingsoftware.taller2.taller2;
+package cl.ucn.ingsoftware.taller2.taller2.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
