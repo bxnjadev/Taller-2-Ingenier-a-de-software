@@ -10,11 +10,6 @@ public class Credentials {
         this.username = username;
         this.password = password;
 
-
-
-
-
-
     }
 
     public String getUsername() {

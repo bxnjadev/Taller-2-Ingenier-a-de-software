@@ -1,6 +1,5 @@
 package cl.ucn.ingsoftware.taller2.taller2.authenticate;
 
-import cl.ucn.ingsoftware.taller2.taller2.file.GsonArrayProvider;
 import cl.ucn.ingsoftware.taller2.taller2.model.User;
 
 import java.util.ArrayList;
@@ -8,7 +7,12 @@ import java.util.List;
 
 public class FileAuthenticator implements Authenticator {
 
-    private final List<User> users;
+    @Override
+    public User authenticate(Credentials credentials) {
+        return null;
+    }
+
+    /*private final List<User> users;
 
     public FileAuthenticator(GsonArrayProvider userGsonArrayProvider) {
 
@@ -44,5 +48,5 @@ public class FileAuthenticator implements Authenticator {
 
         return null;
     }
-
+*/
 }
