@@ -6,6 +6,8 @@ public interface UserService {
 
     User find(String name);
 
+    User findByMail(String mail);
+
     void register(User user);
 
     default boolean exists(String name) {

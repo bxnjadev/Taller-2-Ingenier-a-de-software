@@ -10,7 +10,7 @@ import javafx.scene.control.TextField;
 public class AuthenticationController {
 
     @FXML
-    private TextField name;
+    private TextField mail;
 
     @FXML
     private TextField password;
@@ -27,7 +27,7 @@ public class AuthenticationController {
     }
 
     public void handleLogin() {
-        Credentials credentials = new Credentials(name.getText(),
+        Credentials credentials = new Credentials(mail.getText(),
                 password.getText());
 
         AuthenticationResponse response = authenticator.authenticate(

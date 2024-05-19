@@ -2,18 +2,18 @@ package cl.ucn.ingsoftware.taller2.taller2.authenticate;
 
 public class Credentials {
 
-    private final String username;
+    private final String mail;
     private final String password;
 
-    public Credentials(String username,
+    public Credentials(String mail,
                        String password) {
-        this.username = username;
+        this.mail = mail;
         this.password = password;
 
     }
 
-    public String getUsername() {
-        return username;
+    public String getMail() {
+        return mail;
     }
 
     public String getPassword() {

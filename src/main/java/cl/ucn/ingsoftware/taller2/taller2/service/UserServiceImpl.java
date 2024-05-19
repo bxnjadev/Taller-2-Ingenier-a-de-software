@@ -10,6 +10,7 @@ public class UserServiceImpl implements UserService {
     private static UserService USER_SERVICE;
 
     private final Map<String, User> users = new HashMap<>();
+    private final Map<String, User> usersMail = new HashMap<>();
 
     private UserServiceImpl() {
     }
@@ -20,8 +21,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User findByMail(String mail) {
+        return usersMail.get(mail);
+    }
+
+    @Override
     public void register(User user) {
         users.put(user.getName(), user);
+        usersMail.put(user.getMail(), user);
     }
 
     public static UserService getService() {

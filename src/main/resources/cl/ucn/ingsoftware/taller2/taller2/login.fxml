@@ -15,8 +15,8 @@
             <Font name="Verdana" size="24.0" />
          </font>
       </Label>
-      <TextField fx:id="name" layoutX="50.0" layoutY="105.0" prefHeight="26.0" prefWidth="327.0" promptText="nombre" />
-      <Label layoutX="50.0" layoutY="86.0" prefHeight="17.0" prefWidth="69.0" text="Nombre:">
+      <TextField fx:id="mail" layoutX="50.0" layoutY="105.0" prefHeight="26.0" prefWidth="327.0" promptText="correo" />
+      <Label layoutX="50.0" layoutY="86.0" prefHeight="17.0" prefWidth="69.0" text="Correo:">
          <font>
             <Font name="Verdana" size="15.0" />
          </font>
