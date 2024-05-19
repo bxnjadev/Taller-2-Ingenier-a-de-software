@@ -27,6 +27,9 @@ public class HelloApplication extends Application {
     }
 
     public static void main(String[] args) {
+        Loader userLoader = new UserLoader(UserService.getInstance());
+        userLoader.load();
+
         launch();
     }
 }

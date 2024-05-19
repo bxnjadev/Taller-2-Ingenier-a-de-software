@@ -21,6 +21,10 @@ public class AuthenticationResponse {
         return response;
     }
 
+    public boolean isFailed() {
+        return response == StatusAuthenticationResponse.FAILED;
+    }
+
     public static AuthenticationResponse failed() {
         return new AuthenticationResponse(
                 null, StatusAuthenticationResponse.FAILED
