@@ -10,6 +10,6 @@ public interface Authenticator {
      * @return User the user access
      */
 
-    User authenticate(Credentials credentials);
+    AuthenticationResponse authenticate(Credentials credentials);
 
 }

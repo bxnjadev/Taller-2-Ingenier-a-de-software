@@ -7,7 +7,7 @@ import java.io.InputStream;
 
 public class StringReaderAdapter implements Reader {
 
-    private final  Reader reader;
+    private final Reader reader;
 
     public StringReaderAdapter(String fileName) {
         InputStream inputStream = HelloApplication

@@ -1,5 +1,11 @@
 package cl.ucn.ingsoftware.taller2.taller2;
 
+import cl.ucn.ingsoftware.taller2.taller2.authenticate.*;
+import cl.ucn.ingsoftware.taller2.taller2.loader.Loader;
+import cl.ucn.ingsoftware.taller2.taller2.loader.UserLoader;
+import cl.ucn.ingsoftware.taller2.taller2.model.User;
+import cl.ucn.ingsoftware.taller2.taller2.service.UserService;
+import cl.ucn.ingsoftware.taller2.taller2.service.UserServiceImpl;
 import cl.ucn.ingsoftware.taller2.taller2.util.DefaultReader;
 import cl.ucn.ingsoftware.taller2.taller2.util.Reader;
 import cl.ucn.ingsoftware.taller2.taller2.util.StringReaderAdapter;
@@ -21,6 +27,5 @@ public class HelloApplication extends Application {
     }
 
     public static void main(String[] args) {
-        launch();
     }
 }
