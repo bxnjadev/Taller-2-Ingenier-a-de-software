@@ -12,4 +12,8 @@ public interface UserService {
         return find(name) != null;
     }
 
+    default UserService getInstance() {
+        return UserServiceImpl.getService();
+    }
+
 }

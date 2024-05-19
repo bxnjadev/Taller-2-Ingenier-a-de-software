@@ -7,7 +7,7 @@ public interface Authenticator {
     /**
      * Authenticate with the system
      * @param credentials the access credentials
-     * @return User the user access
+     * @return AuthenticationResponse
      */
 
     AuthenticationResponse authenticate(Credentials credentials);
