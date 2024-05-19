@@ -3,12 +3,14 @@ package cl.ucn.ingsoftware.taller2.taller2;
 import cl.ucn.ingsoftware.taller2.taller2.authenticate.Credentials;
 import cl.ucn.ingsoftware.taller2.taller2.gson.adapter.CredentialsAdapter;
 import cl.ucn.ingsoftware.taller2.taller2.gson.adapter.CreditCardAdapter;
+import cl.ucn.ingsoftware.taller2.taller2.gson.adapter.PaymentAdapter;
 import cl.ucn.ingsoftware.taller2.taller2.gson.adapter.TokenAdapter;
 import cl.ucn.ingsoftware.taller2.taller2.http.HttpWrapperBuilder;
 import cl.ucn.ingsoftware.taller2.taller2.loader.Loader;
 import cl.ucn.ingsoftware.taller2.taller2.loader.UserLoader;
 import cl.ucn.ingsoftware.taller2.taller2.model.CreditCard;
 import cl.ucn.ingsoftware.taller2.taller2.model.ObjectToken;
+import cl.ucn.ingsoftware.taller2.taller2.model.Payment;
 import cl.ucn.ingsoftware.taller2.taller2.service.CreditCardService;
 import cl.ucn.ingsoftware.taller2.taller2.service.HttpCreditCardService;
 import cl.ucn.ingsoftware.taller2.taller2.service.UserService;
@@ -60,6 +62,7 @@ public class HelloApplication extends Application {
                 .registerTypeAdapter(ObjectToken.class, new TokenAdapter())
                 .registerTypeAdapter(Credentials.class, new CredentialsAdapter())
                 .registerTypeAdapter(CreditCard.class, new CreditCardAdapter())
+                .registerTypeAdapter(Payment.class, new PaymentAdapter(new CreditCardAdapter()))
                 .create();
 
         CreditCardService creditCardService = new HttpCreditCardService(
@@ -67,6 +70,9 @@ public class HelloApplication extends Application {
         );
 
         creditCardService.authenticate(userCredentials);
+
+        creditCardService.pay(creditCard, "Prueba desde Java", 59);
+
         System.out.println(creditCardService.getBalance(creditCard));
 
         Loader userLoader = new UserLoader(UserService.getInstance());

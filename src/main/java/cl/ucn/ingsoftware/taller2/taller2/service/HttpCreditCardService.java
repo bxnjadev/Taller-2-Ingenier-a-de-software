@@ -3,6 +3,7 @@ package cl.ucn.ingsoftware.taller2.taller2.service;
 import cl.ucn.ingsoftware.taller2.taller2.authenticate.Credentials;
 import cl.ucn.ingsoftware.taller2.taller2.http.HttpWrapperBuilder;
 import cl.ucn.ingsoftware.taller2.taller2.model.CreditCard;
+import cl.ucn.ingsoftware.taller2.taller2.model.Payment;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -14,6 +15,7 @@ import java.util.Map;
 public class HttpCreditCardService implements CreditCardService {
 
     private static final Map<String, Boolean> CREDIT_CARD_VALIDATE = new HashMap<>();
+    private static final Map<String, Boolean> UPDATE_MONEY = new HashMap<>();
 
     private static final String BASE_URL = "https://idonosob.pythonanywhere.com/";
     private final HttpClient httpClient;
@@ -27,6 +29,10 @@ public class HttpCreditCardService implements CreditCardService {
 
         CREDIT_CARD_VALIDATE.put("Tarjeta válida", Boolean.TRUE);
         CREDIT_CARD_VALIDATE.put("Tarjeta inválida", Boolean.FALSE);
+
+        UPDATE_MONEY.put("Cargo realizado exitosamente", Boolean.TRUE);
+        UPDATE_MONEY.put("Tarjeta inválida", Boolean.FALSE);
+
     }
 
     @Override
@@ -47,7 +53,7 @@ public class HttpCreditCardService implements CreditCardService {
     @Override
     public boolean validate(CreditCard creditCard) throws IOException, InterruptedException {
 
-        if (isAuthenticated()) {
+        if (!isAuthenticated()) {
             return false;
         }
 
@@ -69,7 +75,7 @@ public class HttpCreditCardService implements CreditCardService {
     @Override
     public double getBalance(CreditCard creditCard) throws IOException, InterruptedException {
 
-        if (isAuthenticated()) {
+        if (!isAuthenticated()) {
             return -1;
         }
 
@@ -89,12 +95,28 @@ public class HttpCreditCardService implements CreditCardService {
 
     @Override
     public boolean isAuthenticated() {
-        return token == null;
+        return token != null;
     }
 
     @Override
-    public void pay(CreditCard creditCard, String description, int amount) {
+    public boolean pay(CreditCard creditCard, String description, int amount) throws IOException, InterruptedException {
+        Payment payment = new Payment(creditCard, description, amount);
 
+        if(!isAuthenticated()){
+            return false;
+        }
+
+        JsonObject object = new HttpWrapperBuilder<JsonObject>(JsonObject.class,
+                httpClient,
+                gson).url(BASE_URL + "realizar_cargo")
+                .body(payment)
+                .post()
+                .applicationJson()
+                .authenticationBearerToken(token)
+                .build();
+
+        String message = object.get("msg").getAsString();
+        return UPDATE_MONEY.get(message);
     }
 
 }

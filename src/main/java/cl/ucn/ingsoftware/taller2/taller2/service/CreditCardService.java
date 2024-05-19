@@ -16,8 +16,8 @@ public interface CreditCardService {
 
     boolean isAuthenticated();
 
-    void pay(CreditCard creditCard,
+    boolean pay(CreditCard creditCard,
              String description,
-             int amount);
+             int amount) throws IOException, InterruptedException;
 
 }
