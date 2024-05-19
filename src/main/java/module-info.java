@@ -2,6 +2,7 @@ module cl.ucn.ingsoftware.taller2.taller2 {
     requires javafx.controls;
     requires javafx.fxml;
     requires com.google.gson;
+    requires java.net.http;
 
 
     opens cl.ucn.ingsoftware.taller2.taller2 to javafx.fxml;

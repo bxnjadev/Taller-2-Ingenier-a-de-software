@@ -13,7 +13,7 @@ public class BasicAuthenticator implements Authenticator {
 
     @Override
     public AuthenticationResponse authenticate(Credentials credentials) {
-        User userFound = userService.findByMail(credentials.getMail());
+        User userFound = userService.findByMail(credentials.getIdentifier());
 
         if (userFound == null || !userFound.getPassword().equals(credentials.getPassword())) {
             return AuthenticationResponse.failed();
