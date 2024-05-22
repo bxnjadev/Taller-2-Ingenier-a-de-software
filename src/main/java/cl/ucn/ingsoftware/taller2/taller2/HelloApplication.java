@@ -71,7 +71,7 @@ public class HelloApplication extends Application {
 
         creditCardService.authenticate(userCredentials);
 
-        creditCardService.pay(creditCard, "Prueba desde Java", 59);
+        //creditCardService.pay(creditCard, "Prueba desde Java [6]", 500);
 
         System.out.println(creditCardService.getBalance(creditCard));
 

@@ -5,5 +5,12 @@
     "age": 20,
     "mail": "benjamin.miranda02@alumnos.ucn.cl",
     "rolType": "ADMINISTRATOR"
+  },
+  {
+    "username": "byron",
+    "password": "234",
+    "age": 50,
+    "mail": "byron.letelier@alumnos.ucn.cl",
+    "rolType": "USER"
   }
 ]
