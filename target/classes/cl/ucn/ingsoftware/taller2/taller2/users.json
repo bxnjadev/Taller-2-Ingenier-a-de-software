@@ -12,5 +12,12 @@
     "age": 50,
     "mail": "byron.letelier@alumnos.ucn.cl",
     "rolType": "USER"
+  },
+  {
+    "username": "ycastillov",
+    "password": "901567",
+    "age": 21,
+    "mail": "yamir.castillo@alumnos.ucn.cl",
+    "rolType": "ADMINISTRATOR"
   }
 ]
