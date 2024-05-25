@@ -1,4 +1,4 @@
-package cl.ucn.ingsoftware.taller2.taller2.gson.adapter;
+package cl.ucn.ingsoftware.taller2.taller2.adapter;
 
 import cl.ucn.ingsoftware.taller2.taller2.model.CreditCard;
 import com.google.gson.JsonElement;

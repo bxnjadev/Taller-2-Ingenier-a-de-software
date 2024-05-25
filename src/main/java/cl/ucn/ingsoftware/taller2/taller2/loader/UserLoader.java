@@ -1,6 +1,6 @@
 package cl.ucn.ingsoftware.taller2.taller2.loader;
 
-import cl.ucn.ingsoftware.taller2.taller2.gson.adapter.UserDeserializer;
+import cl.ucn.ingsoftware.taller2.taller2.adapter.UserDeserializer;
 import cl.ucn.ingsoftware.taller2.taller2.model.User;
 import cl.ucn.ingsoftware.taller2.taller2.service.UserService;
 import cl.ucn.ingsoftware.taller2.taller2.util.Reader;

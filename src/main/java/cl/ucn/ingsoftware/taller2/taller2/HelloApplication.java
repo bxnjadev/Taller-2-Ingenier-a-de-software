@@ -1,11 +1,10 @@
 package cl.ucn.ingsoftware.taller2.taller2;
 
 import cl.ucn.ingsoftware.taller2.taller2.authenticate.Credentials;
-import cl.ucn.ingsoftware.taller2.taller2.gson.adapter.CredentialsAdapter;
-import cl.ucn.ingsoftware.taller2.taller2.gson.adapter.CreditCardAdapter;
-import cl.ucn.ingsoftware.taller2.taller2.gson.adapter.PaymentAdapter;
-import cl.ucn.ingsoftware.taller2.taller2.gson.adapter.TokenAdapter;
-import cl.ucn.ingsoftware.taller2.taller2.http.HttpWrapperBuilder;
+import cl.ucn.ingsoftware.taller2.taller2.adapter.CredentialsAdapter;
+import cl.ucn.ingsoftware.taller2.taller2.adapter.CreditCardAdapter;
+import cl.ucn.ingsoftware.taller2.taller2.adapter.PaymentAdapter;
+import cl.ucn.ingsoftware.taller2.taller2.adapter.TokenAdapter;
 import cl.ucn.ingsoftware.taller2.taller2.loader.Loader;
 import cl.ucn.ingsoftware.taller2.taller2.loader.UserLoader;
 import cl.ucn.ingsoftware.taller2.taller2.model.CreditCard;
@@ -17,7 +16,6 @@ import cl.ucn.ingsoftware.taller2.taller2.service.UserService;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -25,7 +23,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.http.HttpClient;
-import java.time.Year;
 
 public class HelloApplication extends Application {
 

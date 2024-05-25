@@ -1,12 +1,9 @@
-package cl.ucn.ingsoftware.taller2.taller2.gson.adapter;
+package cl.ucn.ingsoftware.taller2.taller2.adapter;
 
 import cl.ucn.ingsoftware.taller2.taller2.model.RolType;
 import cl.ucn.ingsoftware.taller2.taller2.model.User;
 import com.google.gson.*;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
 
-import java.io.IOException;
 import java.lang.reflect.Type;
 
 public class UserDeserializer implements JsonDeserializer<User> {
