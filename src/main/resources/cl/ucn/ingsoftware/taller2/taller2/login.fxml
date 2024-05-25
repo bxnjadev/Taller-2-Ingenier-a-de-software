@@ -22,7 +22,7 @@
             <Font name="Verdana" size="15.0" />
          </font>
       </Label>
-      <Button contentDisplay="CENTER" layoutX="151.0" layoutY="234.0" mnemonicParsing="false" onAction="#handleLogin" text="Iniciar Sesión" />
+      <Button contentDisplay="CENTER" fx:id="button" layoutX="151.0" layoutY="234.0" mnemonicParsing="false" onAction="#handleLogin" text="Iniciar Sesión" />
       <PasswordField fx:id="password" layoutX="51.0" layoutY="175.0" prefHeight="26.0" prefWidth="327.0" promptText="contraseña" />
    </children>
 </Pane>

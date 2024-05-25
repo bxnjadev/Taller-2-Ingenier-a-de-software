@@ -5,10 +5,13 @@ import cl.ucn.ingsoftware.taller2.taller2.service.UserService;
 import cl.ucn.ingsoftware.taller2.taller2.util.AlertMessage;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class AuthenticationController {
 
+    public Button button;
     @FXML
     private TextField mail;
 
@@ -27,6 +30,10 @@ public class AuthenticationController {
     }
 
     public void handleLogin() {
+
+        Stage stage = (Stage) button.getScene().getWindow();
+        stage.close();
+
         Credentials credentials = new Credentials(mail.getText(),
                 password.getText());
 

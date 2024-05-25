@@ -38,12 +38,13 @@ public class HelloApplication extends Application {
     private static final String PASSWORD = "678234";
 
     @Override
-    public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("login.fxml"));
+    public void start(Stage stage) throws IOException, InterruptedException {
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("handle_services.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 320, 240);
         stage.setTitle("Hello!");
         stage.setScene(scene);
         stage.show();
+
     }
 
     public static void main(String[] args) throws IOException, InterruptedException {
@@ -58,7 +59,7 @@ public class HelloApplication extends Application {
                 new Credentials(USERNAME, PASSWORD);
 
         CreditCard creditCard = new CreditCard(
-               NUMERO, Integer.parseInt(MES), Integer.parseInt(ANIO), CODIGO
+                NUMERO, Integer.parseInt(MES), Integer.parseInt(ANIO), CODIGO
         );
 
         Gson gson = new GsonBuilder()
