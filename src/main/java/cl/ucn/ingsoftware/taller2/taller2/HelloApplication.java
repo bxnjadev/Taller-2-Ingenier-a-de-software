@@ -48,6 +48,10 @@ public class HelloApplication extends Application {
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
+        String value = "09788417537401";
+
+        System.out.println(Long.parseLong(value));
+
         HttpClient httpClient = HttpClient.newHttpClient();
 
         Credentials userCredentials =

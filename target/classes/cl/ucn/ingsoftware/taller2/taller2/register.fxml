@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-
-<Pane fx:controller="cl.ucn.ingsoftware.taller2.taller2.controllers.RegisterSessionController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="393.0" prefWidth="239.0" xmlns="http://javafx.com/javafx/20.0.2" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="393.0" prefWidth="239.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cl.ucn.ingsoftware.taller2.taller2.controllers.RegisterSessionController">
     <children>
-        <TextField fx:id = "name" layoutX="40.0" layoutY="70.0" />
+        <TextField fx:id="name" layoutX="40.0" layoutY="70.0" />
         <Text layoutX="40.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Registrarse " wrappingWidth="118.21630859375">
             <font>
                 <Font name="Verdana" size="20.0" />
@@ -20,30 +17,30 @@
                 <Font name="Verdana" size="12.0" />
             </font>
         </Text>
-        <TextField  fx:id = "age" layoutX="40.0" layoutY="128.0" />
+        <TextField fx:id="age" layoutX="40.0" layoutY="128.0" />
         <Text layoutX="40.0" layoutY="123.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Edad:" wrappingWidth="118.21630859375">
             <font>
                 <Font name="Verdana" size="12.0" />
             </font>
         </Text>
-        <TextField fx:id = "mail" layoutX="40.0" layoutY="185.0" />
+        <TextField fx:id="mail" layoutX="40.0" layoutY="185.0" />
         <Text layoutX="40.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Correo electronico:" wrappingWidth="118.21630859375">
             <font>
                 <Font name="Verdana" size="12.0" />
             </font>
         </Text>
-        <TextField fx:id = "password" layoutX="40.0" layoutY="244.0" />
+        <TextField fx:id="password" layoutX="40.0" layoutY="244.0" />
         <Text layoutX="40.0" layoutY="239.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Contraseña:" wrappingWidth="118.21630859375">
             <font>
                 <Font name="Verdana" size="12.0" />
             </font>
         </Text>
-        <TextField fx:id = "repeatPassword" layoutX="40.0" layoutY="301.0" />
+        <TextField fx:id="repeatPassword" layoutX="40.0" layoutY="301.0" />
         <Text layoutX="40.0" layoutY="298.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Repetir Contraseña:" wrappingWidth="138.21630859375">
             <font>
                 <Font name="Verdana" size="12.0" />
             </font>
         </Text>
-        <Button layoutX="61.0" fx:id = "button" onAction="handleRegister" layoutY="341.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="97.0" text="Registrarse" />
+        <Button fx:id="button" layoutX="61.0" layoutY="341.0" mnemonicParsing="false" onAction="handleRegister" prefHeight="26.0" prefWidth="97.0" text="Registrarse" />
     </children>
 </Pane>
