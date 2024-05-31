@@ -1,11 +1,13 @@
 package cl.ucn.ingsoftware.taller2.taller2.service;
 
-import java.util.HashSet;
-import java.util.Set;
+import cl.ucn.ingsoftware.taller2.taller2.model.Service;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ServiceRegistryImpl implements ServicesRegistry {
 
-    private final Set<String> services = new HashSet<>();
+    private final Map<String, Service> services = new HashMap<>();
     private static ServicesRegistry SERVICES_REGISTRY;
 
     private ServiceRegistryImpl() {
@@ -13,8 +15,8 @@ public class ServiceRegistryImpl implements ServicesRegistry {
     }
 
     @Override
-    public void add(String service) {
-        services.add(service);
+    public void add(Service service) {
+        services.put(service.getName(), service);
     }
 
     @Override
@@ -24,7 +26,12 @@ public class ServiceRegistryImpl implements ServicesRegistry {
 
     @Override
     public boolean exists(String service) {
-        return services.contains(service);
+        return find(service) != null;
+    }
+
+    @Override
+    public Service find(String service) {
+        return services.get(service);
     }
 
     public static ServicesRegistry getInstance() {
