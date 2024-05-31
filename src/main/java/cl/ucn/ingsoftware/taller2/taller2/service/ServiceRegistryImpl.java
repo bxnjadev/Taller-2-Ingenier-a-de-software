@@ -2,6 +2,7 @@ package cl.ucn.ingsoftware.taller2.taller2.service;
 
 import cl.ucn.ingsoftware.taller2.taller2.model.Service;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,6 +33,11 @@ public class ServiceRegistryImpl implements ServicesRegistry {
     @Override
     public Service find(String service) {
         return services.get(service);
+    }
+
+    @Override
+    public Collection<Service> all() {
+        return services.values();
     }
 
     public static ServicesRegistry getInstance() {

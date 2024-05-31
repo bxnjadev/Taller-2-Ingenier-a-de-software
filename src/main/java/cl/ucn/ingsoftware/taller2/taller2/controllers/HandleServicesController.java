@@ -93,6 +93,11 @@ public class HandleServicesController implements Initializable {
                 new PropertyValueFactory<>("price")
         );
 
+        for (Service service : servicesRegistry.all()) {
+            table.getItems()
+                    .add(service);
+        }
+
     }
 
     private void clear(TextField... textFields) {

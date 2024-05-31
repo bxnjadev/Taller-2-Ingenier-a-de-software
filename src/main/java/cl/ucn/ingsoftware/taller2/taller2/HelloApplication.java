@@ -6,13 +6,10 @@ import cl.ucn.ingsoftware.taller2.taller2.adapter.CreditCardAdapter;
 import cl.ucn.ingsoftware.taller2.taller2.adapter.PaymentAdapter;
 import cl.ucn.ingsoftware.taller2.taller2.adapter.TokenAdapter;
 import cl.ucn.ingsoftware.taller2.taller2.loader.Loader;
+import cl.ucn.ingsoftware.taller2.taller2.loader.ServiceLoader;
 import cl.ucn.ingsoftware.taller2.taller2.loader.UserLoader;
-import cl.ucn.ingsoftware.taller2.taller2.model.CreditCard;
-import cl.ucn.ingsoftware.taller2.taller2.model.ObjectToken;
-import cl.ucn.ingsoftware.taller2.taller2.model.Payment;
-import cl.ucn.ingsoftware.taller2.taller2.service.CreditCardService;
-import cl.ucn.ingsoftware.taller2.taller2.service.HttpCreditCardService;
-import cl.ucn.ingsoftware.taller2.taller2.service.UserService;
+import cl.ucn.ingsoftware.taller2.taller2.model.*;
+import cl.ucn.ingsoftware.taller2.taller2.service.*;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -40,7 +37,7 @@ public class HelloApplication extends Application {
 
     @Override
     public void start(Stage stage) throws IOException, InterruptedException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("login.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("buy_gift_card.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 400, 300);
         stage.setTitle("Hello!");
         stage.setScene(scene);
@@ -79,10 +76,27 @@ public class HelloApplication extends Application {
 
         //creditCardService.pay(creditCard, "Prueba desde Java [6]", 500);
 
+        SessionService.getInstance()
+                        .newSession(
+                                new User(
+                                        "Juan",
+                                        20,
+                                        "sjid",
+                                        "wdjsd",
+                                        RolType.USER,
+                                        3000
+                                )
+                        );
+
         System.out.println(creditCardService.getBalance(creditCard));
 
         Loader userLoader = new UserLoader(UserService.getInstance());
         userLoader.load();
+
+        Loader serviceLoader = new ServiceLoader(
+                ServicesRegistry.getServicesRegistry()
+        );
+        serviceLoader.load();
 
         launch();
     }

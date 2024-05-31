@@ -22,7 +22,7 @@ public class BasicRegisterService implements RegisterService {
                                    String repeatPassword, RolType rolType) {
 
         User user = new User(
-                name, age, mail, password, rolType
+                name, age, mail, password, rolType, 0
         );
 
         userService.register(user);

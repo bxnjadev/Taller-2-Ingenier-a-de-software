@@ -21,7 +21,8 @@ public class UserDeserializer implements JsonDeserializer<User> {
                 jsonObject.get("age").getAsInt(),
                 jsonObject.get("mail").getAsString(),
                 jsonObject.get("password").getAsString(),
-                RolType.valueOf(jsonObject.get("rolType").getAsString())
+                RolType.valueOf(jsonObject.get("rolType").getAsString()),
+                jsonObject.get("points").getAsInt()
         );
     }
 }

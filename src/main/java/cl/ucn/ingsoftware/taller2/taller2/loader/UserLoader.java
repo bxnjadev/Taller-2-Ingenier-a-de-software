@@ -4,6 +4,7 @@ import cl.ucn.ingsoftware.taller2.taller2.adapter.UserDeserializer;
 import cl.ucn.ingsoftware.taller2.taller2.model.User;
 import cl.ucn.ingsoftware.taller2.taller2.service.UserService;
 import cl.ucn.ingsoftware.taller2.taller2.util.Reader;
+import cl.ucn.ingsoftware.taller2.taller2.util.ReaderUtil;
 import cl.ucn.ingsoftware.taller2.taller2.util.StringReaderAdapter;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
@@ -31,9 +32,7 @@ public class UserLoader implements Loader {
         Reader reader = new
                 StringReaderAdapter(FILE_NAME);
 
-        String jsonBody = read(reader);
-
-        System.out.println(jsonBody);
+        String jsonBody = ReaderUtil.readAllAsString(reader);
 
         User[] users = GSON.fromJson(jsonBody, User[].class);
         addUsers(users, userService);
@@ -44,21 +43,6 @@ public class UserLoader implements Loader {
         for (User user : users) {
             service.register(user);
         }
-    }
-
-    private String read(Reader reader) {
-        StringBuilder stringBuilder = new StringBuilder();
-        String line;
-
-        try {
-            while ((line = reader.readLine()) != null) {
-                stringBuilder.append(line);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return stringBuilder.toString();
     }
 
 }
