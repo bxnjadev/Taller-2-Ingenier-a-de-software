@@ -3,6 +3,7 @@ package cl.ucn.ingsoftware.taller2.taller2.service;
 import cl.ucn.ingsoftware.taller2.taller2.authenticate.Authenticator;
 import cl.ucn.ingsoftware.taller2.taller2.authenticate.Credentials;
 import cl.ucn.ingsoftware.taller2.taller2.model.CreditCard;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 
@@ -17,7 +18,11 @@ public interface CreditCardService {
     boolean isAuthenticated();
 
     boolean pay(CreditCard creditCard,
-             String description,
-             int amount) throws IOException, InterruptedException;
+                String description,
+                int amount) throws IOException, InterruptedException;
+
+    static CreditCardService http() {
+        return HttpCreditCardService.getInstance();
+    }
 
 }

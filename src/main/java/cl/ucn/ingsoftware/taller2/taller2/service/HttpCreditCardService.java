@@ -1,10 +1,17 @@
 package cl.ucn.ingsoftware.taller2.taller2.service;
 
+import cl.ucn.ingsoftware.taller2.taller2.adapter.CredentialsAdapter;
+import cl.ucn.ingsoftware.taller2.taller2.adapter.CreditCardAdapter;
+import cl.ucn.ingsoftware.taller2.taller2.adapter.PaymentAdapter;
+import cl.ucn.ingsoftware.taller2.taller2.adapter.TokenAdapter;
 import cl.ucn.ingsoftware.taller2.taller2.authenticate.Credentials;
 import cl.ucn.ingsoftware.taller2.taller2.http.HttpWrapperBuilder;
 import cl.ucn.ingsoftware.taller2.taller2.model.CreditCard;
+import cl.ucn.ingsoftware.taller2.taller2.model.ObjectToken;
 import cl.ucn.ingsoftware.taller2.taller2.model.Payment;
+import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
 import java.io.IOException;
@@ -14,18 +21,29 @@ import java.util.Map;
 
 public class HttpCreditCardService implements CreditCardService {
 
-    private static final Map<String, Boolean> CREDIT_CARD_VALIDATE = new HashMap<>();
-    private static final Map<String, Boolean> UPDATE_MONEY = new HashMap<>();
+    private static CreditCardService HTTP_CREDIT_CARD_SERVICE = new HttpCreditCardService();
+
+    Gson gson = new GsonBuilder()
+            .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+            .registerTypeAdapter(ObjectToken.class, new TokenAdapter())
+            .registerTypeAdapter(Credentials.class, new CredentialsAdapter())
+            .registerTypeAdapter(CreditCard.class, new CreditCardAdapter())
+            .registerTypeAdapter(Payment.class, new PaymentAdapter(new CreditCardAdapter()))
+            .create();
+
+    private final Map<String, Boolean> CREDIT_CARD_VALIDATE;
+    private final Map<String, Boolean> UPDATE_MONEY;
 
     private static final String BASE_URL = "https://idonosob.pythonanywhere.com/";
     private final HttpClient httpClient;
-    private final Gson gson;
 
     private String token = null;
 
-    public HttpCreditCardService(Gson gson) {
+    private HttpCreditCardService() {
         httpClient = HttpClient.newHttpClient();
-        this.gson = gson;
+
+        CREDIT_CARD_VALIDATE = new HashMap<>();
+        UPDATE_MONEY = new HashMap<>();
 
         CREDIT_CARD_VALIDATE.put("Tarjeta válida", Boolean.TRUE);
         CREDIT_CARD_VALIDATE.put("Tarjeta inválida", Boolean.FALSE);
@@ -102,7 +120,7 @@ public class HttpCreditCardService implements CreditCardService {
     public boolean pay(CreditCard creditCard, String description, int amount) throws IOException, InterruptedException {
         Payment payment = new Payment(creditCard, description, amount);
 
-        if(!isAuthenticated()){
+        if (!isAuthenticated()) {
             return false;
         }
 
@@ -117,6 +135,14 @@ public class HttpCreditCardService implements CreditCardService {
 
         String message = object.get("msg").getAsString();
         return UPDATE_MONEY.get(message);
+    }
+
+    public static CreditCardService getInstance() {
+        if (HTTP_CREDIT_CARD_SERVICE == null) {
+            HTTP_CREDIT_CARD_SERVICE = new HttpCreditCardService();
+        }
+
+        return HTTP_CREDIT_CARD_SERVICE;
     }
 
 }

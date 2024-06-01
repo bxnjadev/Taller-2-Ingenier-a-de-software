@@ -37,7 +37,7 @@ public class HelloApplication extends Application {
 
     @Override
     public void start(Stage stage) throws IOException, InterruptedException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("buy_gift_card.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("credit_card.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 400, 300);
         stage.setTitle("Hello!");
         stage.setScene(scene);
@@ -47,11 +47,6 @@ public class HelloApplication extends Application {
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
-        String value = "09788417537401";
-
-        System.out.println(Long.parseLong(value));
-
-        HttpClient httpClient = HttpClient.newHttpClient();
 
         Credentials userCredentials =
                 new Credentials(USERNAME, PASSWORD);
@@ -60,31 +55,12 @@ public class HelloApplication extends Application {
                 NUMERO, Integer.parseInt(MES), Integer.parseInt(ANIO), CODIGO
         );
 
-        Gson gson = new GsonBuilder()
-                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-                .registerTypeAdapter(ObjectToken.class, new TokenAdapter())
-                .registerTypeAdapter(Credentials.class, new CredentialsAdapter())
-                .registerTypeAdapter(CreditCard.class, new CreditCardAdapter())
-                .registerTypeAdapter(Payment.class, new PaymentAdapter(new CreditCardAdapter()))
-                .create();
-
-        CreditCardService creditCardService = new HttpCreditCardService(
-                gson
-        );
-
+        CreditCardService creditCardService = CreditCardService.http();
         creditCardService.authenticate(userCredentials);
-
-        //creditCardService.pay(creditCard, "Prueba desde Java [6]", 500);
 
         SessionService.getInstance()
                         .newSession(
-                                new User(
-                                        "Juan",
-                                        20,
-                                        "sjid",
-                                        "wdjsd",
-                                        RolType.USER,
-                                        3000
+                                new User("Juan", 20, "sjid", "wdjsd", RolType.USER, 3000
                                 )
                         );
 
