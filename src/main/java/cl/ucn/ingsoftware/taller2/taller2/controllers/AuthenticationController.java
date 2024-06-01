@@ -1,6 +1,7 @@
 package cl.ucn.ingsoftware.taller2.taller2.controllers;
 
 import cl.ucn.ingsoftware.taller2.taller2.authenticate.*;
+import cl.ucn.ingsoftware.taller2.taller2.screen.ScreenHandler;
 import cl.ucn.ingsoftware.taller2.taller2.service.UserService;
 import cl.ucn.ingsoftware.taller2.taller2.util.AlertMessage;
 import javafx.fxml.FXML;
@@ -20,6 +21,9 @@ public class AuthenticationController {
 
     private final Authenticator authenticator;
 
+    private ScreenHandler screenHandler = ScreenHandler.
+            getInstance();
+
     public AuthenticationController() {
         UserService userService = UserService.getInstance();
 
@@ -27,6 +31,10 @@ public class AuthenticationController {
                 new DefaultAuthenticatorFactory(userService);
 
         authenticator = authenticatorFactory.get(AuthenticatorType.BASIC);
+    }
+
+    public void clickHyperlink() {
+        screenHandler.show("register");
     }
 
     public void handleLogin() {

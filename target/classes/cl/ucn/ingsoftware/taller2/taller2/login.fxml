@@ -1,28 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="349.0" prefWidth="426.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cl.ucn.ingsoftware.taller2.taller2.controllers.AuthenticationController">
-   <children>
-      <Label layoutX="131.0" layoutY="38.0" text="Iniciar Sesión">
-         <font>
-            <Font name="Verdana" size="24.0" />
-         </font>
-      </Label>
-      <TextField fx:id="mail" layoutX="50.0" layoutY="105.0" prefHeight="26.0" prefWidth="327.0" promptText="correo" />
-      <Label layoutX="50.0" layoutY="86.0" prefHeight="17.0" prefWidth="69.0" text="Correo:">
-         <font>
-            <Font name="Verdana" size="15.0" />
-         </font>
-      </Label>
-      <Label layoutX="50.0" layoutY="155.0" prefHeight="19.0" prefWidth="145.0" text="Contraseña:">
-         <font>
-            <Font name="Verdana" size="15.0" />
-         </font>
-      </Label>
-      <Button contentDisplay="CENTER" fx:id="button" layoutX="151.0" layoutY="234.0" mnemonicParsing="false" onAction="#handleLogin" text="Iniciar Sesión" />
-      <PasswordField fx:id="password" layoutX="51.0" layoutY="175.0" prefHeight="26.0" prefWidth="327.0" promptText="contraseña" />
-   </children>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="349.0" prefWidth="426.0" xmlns="http://javafx.com/javafx/20.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cl.ucn.ingsoftware.taller2.taller2.controllers.AuthenticationController">
+    <children>
+        <Label layoutX="131.0" layoutY="38.0" text="Iniciar Sesión">
+            <font>
+                <Font name="Verdana" size="24.0" />
+            </font>
+        </Label>
+        <TextField fx:id="mail" layoutX="50.0" layoutY="105.0" prefHeight="26.0" prefWidth="327.0" promptText="correo" />
+        <Label layoutX="50.0" layoutY="86.0" prefHeight="17.0" prefWidth="69.0" text="Correo:">
+            <font>
+                <Font name="Verdana" size="15.0" />
+            </font>
+        </Label>
+        <Label layoutX="50.0" layoutY="155.0" prefHeight="19.0" prefWidth="145.0" text="Contraseña:">
+            <font>
+                <Font name="Verdana" size="15.0" />
+            </font>
+        </Label>
+        <Button fx:id="button" contentDisplay="CENTER" layoutX="151.0" layoutY="254.0" mnemonicParsing="false" onAction="#handleLogin" text="Iniciar Sesión">
+            <font>
+                <Font name="Verdana" size="13.0" />
+            </font>
+        </Button>
+        <PasswordField fx:id="password" layoutX="51.0" layoutY="175.0" prefHeight="26.0" prefWidth="327.0" promptText="contraseña" />
+        <Hyperlink alignment="CENTER" layoutX="117.0" layoutY="221.0" onAction="#clickHyperlink" prefHeight="23.0" prefWidth="191.0" text="¿Eres nuevo? Registrate aquí " />
+    </children>
 </Pane>

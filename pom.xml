@@ -68,7 +68,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                cl.ucn.ingsoftware.taller2.taller2/cl.ucn.ingsoftware.taller2.taller2.HelloApplication
+                                cl.ucn.ingsoftware.taller2.taller2/cl.ucn.ingsoftware.taller2.taller2.MainApplication
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>

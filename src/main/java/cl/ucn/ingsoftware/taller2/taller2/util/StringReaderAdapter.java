@@ -1,6 +1,6 @@
 package cl.ucn.ingsoftware.taller2.taller2.util;
 
-import cl.ucn.ingsoftware.taller2.taller2.HelloApplication;
+import cl.ucn.ingsoftware.taller2.taller2.MainApplication;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,7 +10,7 @@ public class StringReaderAdapter implements Reader {
     private final Reader reader;
 
     public StringReaderAdapter(String fileName) {
-        InputStream inputStream = HelloApplication
+        InputStream inputStream = MainApplication
                 .class.getResourceAsStream(
                         fileName
         );
