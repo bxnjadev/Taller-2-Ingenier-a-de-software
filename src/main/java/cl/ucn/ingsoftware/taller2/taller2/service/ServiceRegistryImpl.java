@@ -4,6 +4,7 @@ import cl.ucn.ingsoftware.taller2.taller2.model.Service;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class ServiceRegistryImpl implements ServicesRegistry {
@@ -32,7 +33,7 @@ public class ServiceRegistryImpl implements ServicesRegistry {
 
     @Override
     public Service find(String service) {
-        return services.get(service);
+        return services.get(service.toLowerCase(Locale.ROOT));
     }
 
     @Override

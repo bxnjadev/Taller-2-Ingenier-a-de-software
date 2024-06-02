@@ -1,13 +1,15 @@
 package cl.ucn.ingsoftware.taller2.taller2.model;
 
+import java.util.Locale;
+
 public class Service {
 
-    private String name;
-    private int price;
+    private final String name;
+    private final int price;
 
     public Service(String name,
                    int price) {
-        this.name = name;
+        this.name = name.toLowerCase(Locale.ROOT);
         this.price = price;
     }
 
