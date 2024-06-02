@@ -24,11 +24,15 @@ public class SceneLoader implements Loader {
         ));
 
         screenHandler.register("register", buildScene(
-                "register.fxml", 500, 500
+                "register.fxml", 500, 300
         ));
 
         screenHandler.register("handle_services", buildScene(
                 "handle_services.fxml", 500, 400
+        ));
+
+        screenHandler.register("buy_gift_card", buildScene(
+                "buy_gift_card.fxml", 500, 500
         ));
 
     }

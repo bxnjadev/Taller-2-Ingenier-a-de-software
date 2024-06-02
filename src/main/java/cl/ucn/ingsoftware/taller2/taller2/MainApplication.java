@@ -25,11 +25,9 @@ public class MainApplication extends Application {
         );
 
         mainLoader.load();
-        screenHandler.show("login");
+        screenHandler.show("buy_gift_card");
 
     }
-
-
 
     public static void main(String[] args) {
         launch();
