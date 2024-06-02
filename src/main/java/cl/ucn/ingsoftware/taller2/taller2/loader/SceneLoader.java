@@ -24,7 +24,7 @@ public class SceneLoader implements Loader {
         ));
 
         screenHandler.register("register", buildScene(
-                "register.fxml", 500, 300
+                "register.fxml", 150, 300
         ));
 
         screenHandler.register("handle_services", buildScene(
@@ -33,6 +33,10 @@ public class SceneLoader implements Loader {
 
         screenHandler.register("buy_gift_card", buildScene(
                 "buy_gift_card.fxml", 500, 500
+        ));
+
+        screenHandler.register("credit_card", buildScene(
+                "credit_card.fxml", 300, 300
         ));
 
     }

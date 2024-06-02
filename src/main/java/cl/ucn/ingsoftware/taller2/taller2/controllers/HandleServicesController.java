@@ -1,5 +1,6 @@
 package cl.ucn.ingsoftware.taller2.taller2.controllers;
 
+import cl.ucn.ingsoftware.taller2.taller2.confirmation.AlertConfirmation;
 import cl.ucn.ingsoftware.taller2.taller2.model.Service;
 import cl.ucn.ingsoftware.taller2.taller2.service.ServicesRegistry;
 import cl.ucn.ingsoftware.taller2.taller2.util.AlertMessage;
@@ -46,16 +47,22 @@ public class HandleServicesController implements Initializable {
             return;
         }
 
-        Service service = new Service(
-                serviceName,
-                Integer.parseInt(priceField.getText())
+        AlertConfirmation.createAndShow(
+                () -> {
+                    Service service = new Service(
+                            serviceName,
+                            Integer.parseInt(priceField.getText())
+                    );
+
+                    table.getItems()
+                            .add(service);
+
+                    servicesRegistry.add(service);
+                    clear(serviceField, priceField);
+                }
         );
 
-        table.getItems()
-                .add(service);
 
-        servicesRegistry.add(service);
-        clear(serviceField, priceField);
     }
 
     @FXML
@@ -72,14 +79,18 @@ public class HandleServicesController implements Initializable {
             return;
         }
 
+        AlertConfirmation.createAndShow(
+                () -> {
+                    table.getItems().remove(service);
 
-        table.getItems().remove(service);
+                    servicesRegistry.delete(
+                            serviceName
+                    );
 
-        servicesRegistry.delete(
-                serviceName
+                    clear(serviceField, priceField);
+                }
         );
 
-        clear(serviceField, priceField);
     }
 
 

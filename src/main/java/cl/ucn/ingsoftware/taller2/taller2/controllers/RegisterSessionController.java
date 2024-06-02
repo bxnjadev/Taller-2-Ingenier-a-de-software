@@ -3,11 +3,14 @@ package cl.ucn.ingsoftware.taller2.taller2.controllers;
 import cl.ucn.ingsoftware.taller2.taller2.model.RolType;
 import cl.ucn.ingsoftware.taller2.taller2.register.RegisterService;
 import cl.ucn.ingsoftware.taller2.taller2.register.StatusRegister;
+import cl.ucn.ingsoftware.taller2.taller2.screen.ScreenHandler;
 import cl.ucn.ingsoftware.taller2.taller2.service.UserService;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
 public class RegisterSessionController {
+
+    private ScreenHandler screenHandler = ScreenHandler.getInstance();
 
     private static final RolType DEFAULT_ROL = RolType.USER;
 
@@ -41,6 +44,8 @@ public class RegisterSessionController {
                 passwordRepeatValue,
                 DEFAULT_ROL
         );
+
+        screenHandler.show("login");
 
 
     }

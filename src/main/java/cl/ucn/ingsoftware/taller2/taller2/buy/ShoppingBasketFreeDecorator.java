@@ -12,4 +12,5 @@ public class ShoppingBasketFreeDecorator extends ShoppingBasket {
     public double calculatePrice() {
         return 0;
     }
+
 }

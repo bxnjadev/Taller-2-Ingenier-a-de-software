@@ -4,6 +4,7 @@ import cl.ucn.ingsoftware.taller2.taller2.authenticate.*;
 import cl.ucn.ingsoftware.taller2.taller2.screen.ScreenHandler;
 import cl.ucn.ingsoftware.taller2.taller2.service.UserService;
 import cl.ucn.ingsoftware.taller2.taller2.util.AlertMessage;
+import cl.ucn.ingsoftware.taller2.taller2.util.ConditionalsAlert;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -39,8 +40,7 @@ public class AuthenticationController {
 
     public void handleLogin() {
 
-        Stage stage = (Stage) button.getScene().getWindow();
-        stage.close();
+
 
         Credentials credentials = new Credentials(mail.getText(),
                 password.getText());
@@ -48,6 +48,12 @@ public class AuthenticationController {
         AuthenticationResponse response = authenticator.authenticate(
                 credentials
         );
+
+        if(ConditionalsAlert.checkIfEmptyAndShow(
+                "debe ingresar su <%field%> para iniciar sesion", password,mail
+        )) {
+            return;
+        }
 
         if (response.isFailed()) {
             AlertMessage.show(Alert.AlertType.ERROR, "Iniciar sesión", "Usuario o contraseña incorrecta :(");
