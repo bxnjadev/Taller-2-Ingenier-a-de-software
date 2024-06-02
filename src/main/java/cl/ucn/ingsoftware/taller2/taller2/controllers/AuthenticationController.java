@@ -1,7 +1,10 @@
 package cl.ucn.ingsoftware.taller2.taller2.controllers;
 
 import cl.ucn.ingsoftware.taller2.taller2.authenticate.*;
+import cl.ucn.ingsoftware.taller2.taller2.model.RolType;
+import cl.ucn.ingsoftware.taller2.taller2.model.User;
 import cl.ucn.ingsoftware.taller2.taller2.screen.ScreenHandler;
+import cl.ucn.ingsoftware.taller2.taller2.service.SessionService;
 import cl.ucn.ingsoftware.taller2.taller2.service.UserService;
 import cl.ucn.ingsoftware.taller2.taller2.util.AlertMessage;
 import cl.ucn.ingsoftware.taller2.taller2.util.ConditionalsAlert;
@@ -22,7 +25,10 @@ public class AuthenticationController {
 
     private final Authenticator authenticator;
 
-    private ScreenHandler screenHandler = ScreenHandler.
+    private final ScreenHandler screenHandler = ScreenHandler.
+            getInstance();
+
+    private final SessionService sessionService = SessionService.
             getInstance();
 
     public AuthenticationController() {
@@ -39,9 +45,6 @@ public class AuthenticationController {
     }
 
     public void handleLogin() {
-
-
-
         Credentials credentials = new Credentials(mail.getText(),
                 password.getText());
 
@@ -49,8 +52,8 @@ public class AuthenticationController {
                 credentials
         );
 
-        if(ConditionalsAlert.checkIfEmptyAndShow(
-                "debe ingresar su <%field%> para iniciar sesion", password,mail
+        if (ConditionalsAlert.checkIfEmptyAndShow(
+                "debe ingresar su <%field%> para iniciar sesion", password, mail
         )) {
             return;
         }
@@ -60,8 +63,14 @@ public class AuthenticationController {
             return;
         }
 
-        AlertMessage.show(Alert.AlertType.INFORMATION, "Iniciar sesión", "Inicio de sesión existoso!");
+        User userAuthenticated = response.getUser();
+        sessionService.newSession(userAuthenticated);
 
+        if (userAuthenticated.getRolType() == RolType.ADMINISTRATOR) {
+            screenHandler.show("handle_services");
+            return;
+        }
+        screenHandler.show("buy_gift_card");
     }
 
 }
