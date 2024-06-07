@@ -38,6 +38,7 @@ public class ServiceLoader implements Loader {
 
     private void fill(Service[] services) {
         for (Service service : services) {
+            System.out.println("Loading service: " + service.getName());
             servicesRegistry.add(service);
         }
     }

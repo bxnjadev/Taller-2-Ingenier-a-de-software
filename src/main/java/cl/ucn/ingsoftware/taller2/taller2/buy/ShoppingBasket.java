@@ -4,6 +4,7 @@ import cl.ucn.ingsoftware.taller2.taller2.model.Service;
 import cl.ucn.ingsoftware.taller2.taller2.model.User;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class ShoppingBasket {
@@ -11,7 +12,7 @@ public class ShoppingBasket {
     private final Set<Service> services;
     private final User user;
 
-    public ShoppingBasket(User user) {
+    public ShoppingBasket( User user) {
         services = new HashSet<>();
         this.user = user;
     }

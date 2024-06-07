@@ -1,12 +1,10 @@
 package cl.ucn.ingsoftware.taller2.taller2.loader;
 
 import cl.ucn.ingsoftware.taller2.taller2.MainApplication;
+import cl.ucn.ingsoftware.taller2.taller2.screen.ScreenModel;
 import cl.ucn.ingsoftware.taller2.taller2.screen.ScreenHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 
 public class SceneLoader implements Loader {
 
@@ -19,37 +17,35 @@ public class SceneLoader implements Loader {
     @Override
     public void load() {
 
-        screenHandler.register("login", buildScene(
+        screenHandler.register("login", buildModelScreen(
                 "login.fxml", 400, 300
         ));
 
-        screenHandler.register("register", buildScene(
+        screenHandler.register("register", buildModelScreen(
                 "register.fxml", 150, 300
         ));
 
-        screenHandler.register("handle_services", buildScene(
+        screenHandler.register("handle_services", buildModelScreen(
                 "handle_services.fxml", 500, 400
         ));
 
-        screenHandler.register("buy_gift_card", buildScene(
+        screenHandler.register("buy_gift_card", buildModelScreen(
                 "buy_gift_card.fxml", 500, 500
         ));
 
-        screenHandler.register("credit_card", buildScene(
+        screenHandler.register("credit_card", buildModelScreen(
                 "credit_card.fxml", 300, 300
         ));
 
     }
 
-    private Scene buildScene(String fileName,
-                             int v, int v1) {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource(fileName));
-        try {
-            return new Scene(fxmlLoader.load(), v, v1);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+    private ScreenModel buildModelScreen(String fileName,
+                                         int v, int v1) {
+        return new ScreenModel(
+                new FXMLLoader(MainApplication.class.getResource(fileName)),
+                v,
+                v1
+        );
     }
 
 }
