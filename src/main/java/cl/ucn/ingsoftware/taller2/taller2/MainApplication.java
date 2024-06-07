@@ -1,10 +1,8 @@
 package cl.ucn.ingsoftware.taller2.taller2;
 
-import cl.ucn.ingsoftware.taller2.taller2.confirmation.AlertConfirmation;
 import cl.ucn.ingsoftware.taller2.taller2.loader.*;
 import cl.ucn.ingsoftware.taller2.taller2.screen.ScreenHandler;
 import cl.ucn.ingsoftware.taller2.taller2.service.*;
-import cl.ucn.ingsoftware.taller2.taller2.util.Identifiers;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -27,7 +25,7 @@ public class MainApplication extends Application {
         );
 
         mainLoader.load();
-        screenHandler.show("login");
+        screenHandler.show("voucher");
 
     }
 

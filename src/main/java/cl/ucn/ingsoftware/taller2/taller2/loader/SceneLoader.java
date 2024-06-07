@@ -37,6 +37,10 @@ public class SceneLoader implements Loader {
                 "credit_card.fxml", 300, 300
         ));
 
+        screenHandler.register("voucher", buildModelScreen(
+                "voucher.fxml", 300, 300
+        ));
+
     }
 
     private ScreenModel buildModelScreen(String fileName,
