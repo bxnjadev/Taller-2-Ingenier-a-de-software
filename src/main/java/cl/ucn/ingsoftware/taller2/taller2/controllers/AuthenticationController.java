@@ -8,21 +8,26 @@ import cl.ucn.ingsoftware.taller2.taller2.service.SessionService;
 import cl.ucn.ingsoftware.taller2.taller2.service.UserService;
 import cl.ucn.ingsoftware.taller2.taller2.util.AlertMessage;
 import cl.ucn.ingsoftware.taller2.taller2.util.ConditionalsAlert;
+import cl.ucn.ingsoftware.taller2.taller2.validate.BasicFormFieldValidator;
+import cl.ucn.ingsoftware.taller2.taller2.validate.FormFieldValidator;
+import cl.ucn.ingsoftware.taller2.taller2.validate.decorators.MailFieldValidatorDecorator;
+import cl.ucn.ingsoftware.taller2.taller2.validate.decorators.MailIncorrectFieldValidatorDecorator;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class AuthenticationController {
 
-    public Button button;
-    @FXML
-    private TextField mail;
+    @FXML private Button button;
+    @FXML private TextField mail;
+    @FXML private TextField password;
 
-    @FXML
-    private TextField password;
-
+    private FormFieldValidator formFieldValidator;
     private final Authenticator authenticator;
 
     private final ScreenHandler screenHandler = ScreenHandler.
@@ -38,6 +43,10 @@ public class AuthenticationController {
                 new DefaultAuthenticatorFactory(userService);
 
         authenticator = authenticatorFactory.get(AuthenticatorType.BASIC);
+
+        formFieldValidator = new BasicFormFieldValidator();
+        formFieldValidator = new MailIncorrectFieldValidatorDecorator(formFieldValidator,
+                userService);
     }
 
     public void clickHyperlink() {
@@ -45,6 +54,15 @@ public class AuthenticationController {
     }
 
     public void handleLogin() {
+
+        Map<String, TextField> fields = new HashMap<>();
+        fields.put("mail", mail);
+        fields.put("password", password);
+
+        if (!formFieldValidator.validate(fields)) {
+            return;
+        }
+
         Credentials credentials = new Credentials(mail.getText(),
                 password.getText());
 
@@ -52,14 +70,8 @@ public class AuthenticationController {
                 credentials
         );
 
-        if (ConditionalsAlert.checkIfEmptyAndShow(
-                "debe ingresar su <%field%> para iniciar sesion", password, mail
-        )) {
-            return;
-        }
-
         if (response.isFailed()) {
-            AlertMessage.show(Alert.AlertType.ERROR, "Iniciar sesión", "Usuario o contraseña incorrecta :(");
+            AlertMessage.show(Alert.AlertType.ERROR, "Error", "usuario no registrado o contraseña incorrecta");
             return;
         }
 

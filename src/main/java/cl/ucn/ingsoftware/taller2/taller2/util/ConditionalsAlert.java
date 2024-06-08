@@ -5,6 +5,8 @@ import javafx.scene.control.TextField;
 
 public class ConditionalsAlert {
 
+    private static final Alert.AlertType ALERT_ERROR = Alert.AlertType.ERROR;
+
     private ConditionalsAlert() {
 
     }
@@ -29,15 +31,44 @@ public class ConditionalsAlert {
 
         }
 
-        if(isEmpty){
+        if (isEmpty) {
             AlertMessage.show(
-                    Alert.AlertType.ERROR,
+                    ALERT_ERROR,
                     "Error",
                     stringBuilder.toString()
             );
         }
 
         return isEmpty;
+    }
+
+    public static boolean executeAndShowIfThrow(Runnable runnable,
+                                                String errorMessage) {
+
+        try {
+            runnable.run();
+            return true;
+        } catch (Exception e) {
+            AlertMessage.show(
+                    ALERT_ERROR,
+                    "Error",
+                    errorMessage
+            );
+            return false;
+        }
+
+    }
+
+    public static boolean checkAndShow(boolean condition,
+                                       String errorMessage) {
+        if (!condition) {
+            AlertMessage.show(
+                    ALERT_ERROR,
+                    "Error",
+                    errorMessage
+            );
+        }
+        return condition;
     }
 
 }

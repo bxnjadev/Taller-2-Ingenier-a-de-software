@@ -5,49 +5,76 @@ import cl.ucn.ingsoftware.taller2.taller2.register.RegisterService;
 import cl.ucn.ingsoftware.taller2.taller2.register.StatusRegister;
 import cl.ucn.ingsoftware.taller2.taller2.screen.ScreenHandler;
 import cl.ucn.ingsoftware.taller2.taller2.service.UserService;
+import cl.ucn.ingsoftware.taller2.taller2.validate.BasicFormFieldValidator;
+import cl.ucn.ingsoftware.taller2.taller2.validate.FormFieldValidator;
+import cl.ucn.ingsoftware.taller2.taller2.validate.decorators.EqualsPasswordFieldValidatorDecorator;
+import cl.ucn.ingsoftware.taller2.taller2.validate.decorators.MailFieldValidatorDecorator;
+import cl.ucn.ingsoftware.taller2.taller2.validate.decorators.RangeFormFieldValidatorDecorator;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class RegisterSessionController {
 
-    private ScreenHandler screenHandler = ScreenHandler.getInstance();
-
     private static final RolType DEFAULT_ROL = RolType.USER;
+
+    private Hyperlink loginHyperlink;
+
+    private final UserService userService;
+    private final ScreenHandler screenHandler = ScreenHandler.getInstance();
+
+    FormFieldValidator formFieldValidator = new BasicFormFieldValidator();
 
     public TextField name;
     public TextField age;
     public TextField mail;
-    public TextField password;
-    public TextField repeatPassword;
+    public PasswordField passwordField;
+    public PasswordField passwordRepeatField;
     public Button button;
+
+    public RegisterSessionController() {
+        userService = UserService.getInstance();
+
+        formFieldValidator = new RangeFormFieldValidatorDecorator(formFieldValidator);
+        formFieldValidator = new MailFieldValidatorDecorator(formFieldValidator, userService);
+        formFieldValidator = new EqualsPasswordFieldValidatorDecorator(formFieldValidator);
+    }
 
     public void handleRegister() {
 
-        UserService userService = UserService
-                .getInstance();
 
         RegisterService registerService = RegisterService
                 .getInstance(userService);
 
-        int ageAsInt = Integer.parseInt(age.getText());
-        String passwordValue = password.getText();
-        String passwordRepeatValue = repeatPassword.getText();
+        Map<String, TextField> fields = new HashMap<>();
+        fields.put("name", name);
+        fields.put("age", age);
+        fields.put("mail", mail);
+        fields.put("password", passwordField);
+        fields.put("passwordRepeat", passwordRepeatField);
 
-        if (!passwordValue.equals(passwordRepeatValue)) {
-            //  Inform password are not equals
+        if (!formFieldValidator.validate(fields)) {
             return;
         }
 
         StatusRegister statusRegister = registerService.register(
-                name.getText(), ageAsInt,
-                mail.getText(), passwordValue,
-                passwordRepeatValue,
+                name.getText(), Integer.parseInt(age.getText()),
+                mail.getText(), passwordField.getText(),
+                passwordRepeatField.getText(),
                 DEFAULT_ROL
         );
 
         screenHandler.show("login");
+    }
 
-
+    public void loginHyperlink() {
+        screenHandler.show(
+                "login"
+        );
     }
 
 }

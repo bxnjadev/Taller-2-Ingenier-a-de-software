@@ -18,11 +18,11 @@ public class SceneLoader implements Loader {
     public void load() {
 
         screenHandler.register("login", buildModelScreen(
-                "login.fxml", 400, 300
+                "login.fxml", 350, 300
         ));
 
         screenHandler.register("register", buildModelScreen(
-                "register.fxml", 150, 300
+                "register.fxml", 430, 330
         ));
 
         screenHandler.register("handle_services", buildModelScreen(

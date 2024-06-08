@@ -25,7 +25,7 @@ public class MainApplication extends Application {
         );
 
         mainLoader.load();
-        screenHandler.show("voucher");
+        screenHandler.show("login");
 
     }
 
