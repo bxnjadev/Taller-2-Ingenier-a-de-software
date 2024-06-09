@@ -2,6 +2,8 @@ package cl.ucn.ingsoftware.taller2.taller2.service;
 
 import cl.ucn.ingsoftware.taller2.taller2.model.User;
 
+import java.util.Collection;
+
 /**
  * Manage all users
  */
@@ -40,6 +42,8 @@ public interface UserService {
     default boolean exists(String name) {
         return find(name) != null;
     }
+
+    Collection<User> all();
 
     static UserService getInstance() {
         return UserServiceImpl.getService();

@@ -2,6 +2,7 @@ package cl.ucn.ingsoftware.taller2.taller2.service;
 
 import cl.ucn.ingsoftware.taller2.taller2.model.User;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,6 +30,11 @@ public class UserServiceImpl implements UserService {
     public void register(User user) {
         users.put(user.getName(), user);
         usersMail.put(user.getMail(), user);
+    }
+
+    @Override
+    public Collection<User> all() {
+        return users.values();
     }
 
     public static UserService getService() {

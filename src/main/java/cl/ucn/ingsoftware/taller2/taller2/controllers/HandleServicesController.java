@@ -152,12 +152,14 @@ public class HandleServicesController implements Initializable {
                     table.getItems()
                             .remove(service);
 
-                    table.getItems()
-                            .add(service);
-
                     service.setPrice(
                             Integer.parseInt(priceField.getText())
                     );
+
+                    table.getItems()
+                            .add(service);
+
+
 
                     clear(serviceField, priceField);
                 }

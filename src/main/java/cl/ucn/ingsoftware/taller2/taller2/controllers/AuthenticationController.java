@@ -38,9 +38,7 @@ public class AuthenticationController {
 
     public AuthenticationController() {
         UserService userService = UserService.getInstance();
-
-        AuthenticatorFactory authenticatorFactory =
-                new DefaultAuthenticatorFactory(userService);
+        AuthenticatorFactory authenticatorFactory = new DefaultAuthenticatorFactory(userService);
 
         authenticator = authenticatorFactory.get(AuthenticatorType.BASIC);
 
@@ -64,12 +62,8 @@ public class AuthenticationController {
             return;
         }
 
-        Credentials credentials = new Credentials(mail.getText(),
-                password.getText());
-
-        AuthenticationResponse response = authenticator.authenticate(
-                credentials
-        );
+        Credentials credentials = new Credentials(mail.getText(), password.getText());
+        AuthenticationResponse response = authenticator.authenticate(credentials);
 
         if (response.isFailed()) {
             AlertMessage.show(Alert.AlertType.ERROR, "Error", "usuario no registrado o contraseña incorrecta");
@@ -87,6 +81,9 @@ public class AuthenticationController {
 
 
         screenHandler.show("buy_gift_card", "Comprar una GiftCard");
+    }
+
+    public void onExit(ActionEvent event) {
     }
 
 }
