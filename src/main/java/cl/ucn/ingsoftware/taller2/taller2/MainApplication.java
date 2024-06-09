@@ -4,13 +4,7 @@ import cl.ucn.ingsoftware.taller2.taller2.loader.*;
 import cl.ucn.ingsoftware.taller2.taller2.screen.ScreenHandler;
 import cl.ucn.ingsoftware.taller2.taller2.service.*;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 
 public class MainApplication extends Application {
 

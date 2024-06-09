@@ -146,7 +146,7 @@ public class BuyGiftCardController implements Initializable {
         }
 
         ((Node) (event.getSource())).getScene().getWindow().hide();
-        //screenHandler.show("", "Pagar por puntos");
+        screenHandler.show("pay_points", "Pagar por puntos");
     }
 
 }
