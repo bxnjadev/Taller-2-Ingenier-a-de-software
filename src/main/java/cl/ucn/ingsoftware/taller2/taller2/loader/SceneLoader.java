@@ -11,13 +11,13 @@ public class SceneLoader implements Loader {
     private final ScreenHandler screenHandler;
 
     public SceneLoader(Stage stage) {
-        screenHandler = ScreenHandler.buildByScene(stage);
+        screenHandler = ScreenHandler.getInstance();
     }
 
     @Override
     public void load() {
 
-        screenHandler.register("login", buildModelScreen(
+        /*screenHandler.register("login", buildModelScreen(
                 "login.fxml", 350, 300
         ));
 
@@ -39,7 +39,7 @@ public class SceneLoader implements Loader {
 
         screenHandler.register("voucher", buildModelScreen(
                 "voucher.fxml", 300, 300
-        ));
+        ));*/
 
     }
 

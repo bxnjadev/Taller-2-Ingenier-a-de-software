@@ -5,7 +5,7 @@ import java.util.Locale;
 public class Service {
 
     private final String name;
-    private final int price;
+    private int price;
 
     public Service(String name,
                    int price) {
@@ -19,6 +19,10 @@ public class Service {
 
     public int getPrice() {
         return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 
 }

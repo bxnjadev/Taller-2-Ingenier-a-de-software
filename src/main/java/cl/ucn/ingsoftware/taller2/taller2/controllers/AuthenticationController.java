@@ -7,17 +7,17 @@ import cl.ucn.ingsoftware.taller2.taller2.screen.ScreenHandler;
 import cl.ucn.ingsoftware.taller2.taller2.service.SessionService;
 import cl.ucn.ingsoftware.taller2.taller2.service.UserService;
 import cl.ucn.ingsoftware.taller2.taller2.util.AlertMessage;
-import cl.ucn.ingsoftware.taller2.taller2.util.ConditionalsAlert;
 import cl.ucn.ingsoftware.taller2.taller2.validate.BasicFormFieldValidator;
 import cl.ucn.ingsoftware.taller2.taller2.validate.FormFieldValidator;
-import cl.ucn.ingsoftware.taller2.taller2.validate.decorators.MailFieldValidatorDecorator;
 import cl.ucn.ingsoftware.taller2.taller2.validate.decorators.MailIncorrectFieldValidatorDecorator;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,11 +49,12 @@ public class AuthenticationController {
                 userService);
     }
 
-    public void clickHyperlink() {
-        screenHandler.show("register");
+    public void clickHyperlink(ActionEvent event) throws IOException {
+        screenHandler.show("register", "Registrar");
+        ((Node)(event.getSource())).getScene().getWindow().hide();
     }
 
-    public void handleLogin() {
+    public void handleLogin(ActionEvent event) throws IOException {
 
         Map<String, TextField> fields = new HashMap<>();
         fields.put("mail", mail);
@@ -77,12 +78,15 @@ public class AuthenticationController {
 
         User userAuthenticated = response.getUser();
         sessionService.newSession(userAuthenticated);
+        ((Node)(event.getSource())).getScene().getWindow().hide();
 
         if (userAuthenticated.getRolType() == RolType.ADMINISTRATOR) {
-            screenHandler.show("handle_services");
+            screenHandler.show("handle_services", "Administración de servicios");
             return;
         }
-        screenHandler.show("buy_gift_card");
+
+
+        screenHandler.show("buy_gift_card", "Comprar una GiftCard");
     }
 
 }

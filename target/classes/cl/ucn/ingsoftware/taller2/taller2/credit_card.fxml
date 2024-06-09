@@ -6,14 +6,14 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:controller="cl.ucn.ingsoftware.taller2.taller2.controllers.CreditCardController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="279.0" prefWidth="406.0" xmlns="http://javafx.com/javafx/20.0.2" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="279.0" prefWidth="406.0" xmlns="http://javafx.com/javafx/20.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cl.ucn.ingsoftware.taller2.taller2.controllers.CreditCardController">
     <children>
         <Label layoutX="69.0" layoutY="31.0" text="Ingresar Tarjeta de Debito">
             <font>
                 <Font name="Verdana" size="20.0" />
             </font>
         </Label>
-        <TextField fx:id="creditCardNumber" layoutX="69.0" layoutY="95.0" prefHeight="26.0" prefWidth="267.0" promptText="4125 2918 1202" />
+        <TextField fx:id="creditCardNumber" layoutX="69.0" layoutY="95.0" prefHeight="26.0" prefWidth="267.0" promptText="Números de tarjeta" style="-fx-border-color: #D6C1DE; -fx-border-radius: 2;" />
         <Label layoutX="69.0" layoutY="70.0" prefHeight="25.0" prefWidth="167.0" text="Números de la tarjeta">
             <font>
                 <Font name="Verdana" size="13.0" />
@@ -29,9 +29,12 @@
                 <Font name="Verdana" size="13.0" />
             </font>
         </Label>
-        <TextField fx:id = "dateExpireMoth" layoutX="69.0" layoutY="160.0" prefHeight="26.0" prefWidth="54.0" promptText="mm" />
-        <TextField fx:id = "dateExpireYear" layoutX="140.0" layoutY="160.0" prefHeight="26.0" prefWidth="54.0" promptText="yyy" />
-        <TextField fx:id = "cvc" layoutX="236.0" layoutY="160.0" prefHeight="26.0" prefWidth="54.0" />
-        <Button onAction="#pay" layoutX="125.0" layoutY="209.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="128.0" text="Pagar" />
+        <TextField fx:id="dateExpireMoth" layoutX="69.0" layoutY="160.0" prefHeight="26.0" prefWidth="54.0" promptText="mes" style="-fx-border-color: #D6C1DE; -fx-border-radius: 2;" />
+        <TextField fx:id="dateExpireYear" layoutX="140.0" layoutY="160.0" prefHeight="26.0" prefWidth="54.0" promptText="año" style="-fx-border-color: #D6C1DE; -fx-background-radius: 2;" />
+        <TextField fx:id="cvc" layoutX="236.0" layoutY="160.0" prefHeight="26.0" prefWidth="54.0" promptText="cvv" style="-fx-border-color: #D6C1DE; -fx-border-radius: 2;" />
+        <Button layoutX="125.0" layoutY="209.0" mnemonicParsing="false" onAction="#pay" prefHeight="26.0" prefWidth="128.0" style="-fx-background-color: #C9E8B8;" text="Pagar">
+         <font>
+            <Font name="Verdana Bold" size="12.0" />
+         </font></Button>
     </children>
 </Pane>

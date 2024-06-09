@@ -1,6 +1,8 @@
 package cl.ucn.ingsoftware.taller2.taller2.screen;
 
+import cl.ucn.ingsoftware.taller2.taller2.MainApplication;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -12,50 +14,35 @@ public class ScreenHandler {
 
     private static ScreenHandler SCREEN_HANDLER;
 
-    private final Map<String, ScreenModel> screens =
-            new HashMap<>();
-
-    private final Stage stage;
-
-    private ScreenHandler(Stage stage) {
-        this.stage = stage;
+    private ScreenHandler() {
     }
 
-    public void register(String name,  ScreenModel modelScreen) {
-        screens.put(name, modelScreen);
-    }
+    public void show(String name, String title) {
 
-    public void show(String name) {
-        ScreenModel modelScreen = screens.get(name);
+        FXMLLoader loader = new FXMLLoader(MainApplication.class.getResource(
+                name + ".fxml"
+        ));
 
-        if (modelScreen == null) {
-            throw new IllegalArgumentException("The scene is null");
-        }
-
-        FXMLLoader loader = modelScreen.getLoader();
-
-        Scene scene = null;
+        Parent root = null;
         try {
-            scene = new Scene(loader.load(),
-                    modelScreen.getV1(),
-                    modelScreen.getV2());
+            root = loader.load();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        stage.setScene(scene);
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setTitle(title);
         stage.show();
-    }
 
-    public static ScreenHandler buildByScene(Stage stage) {
-        if (SCREEN_HANDLER == null) {
-            SCREEN_HANDLER = new ScreenHandler(stage);
-        }
-
-        return SCREEN_HANDLER;
     }
 
     public static ScreenHandler getInstance() {
+
+        if (SCREEN_HANDLER == null) {
+            SCREEN_HANDLER = new ScreenHandler();
+        }
+
         return SCREEN_HANDLER;
     }
 

@@ -2,10 +2,14 @@ package cl.ucn.ingsoftware.taller2.taller2.controllers;
 
 import cl.ucn.ingsoftware.taller2.taller2.confirmation.AlertConfirmation;
 import cl.ucn.ingsoftware.taller2.taller2.model.Service;
+import cl.ucn.ingsoftware.taller2.taller2.screen.ScreenHandler;
 import cl.ucn.ingsoftware.taller2.taller2.service.ServicesRegistry;
+import cl.ucn.ingsoftware.taller2.taller2.service.SessionService;
 import cl.ucn.ingsoftware.taller2.taller2.util.AlertMessage;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
@@ -20,16 +24,19 @@ public class HandleServicesController implements Initializable {
     public TextField priceField;
 
     @FXML
-    public TableColumn<Service, String> columnName;
-
+    private TableColumn<Service, String> columnName;
     @FXML
-    public TableColumn<Service, String> columnPrice;
-
+    private TableColumn<Service, String> columnPrice;
     @FXML
-    public TableView<Service> table;
+    private TableView<Service> table;
 
     private final ServicesRegistry servicesRegistry
             = ServicesRegistry.getServicesRegistry();
+
+    private final SessionService sessionService = SessionService.getInstance();
+
+    private final ScreenHandler screenHandler = ScreenHandler.
+            getInstance();
 
 
     @FXML
@@ -115,6 +122,47 @@ public class HandleServicesController implements Initializable {
         for (TextField textField : textFields) {
             textField.clear();
         }
+    }
+
+    public void onExit(ActionEvent event) {
+        sessionService.close();
+
+        ((Node) (event.getSource())).getScene().getWindow().hide();
+        screenHandler.show("login", "Iniciar sesión");
+    }
+
+    public void onEdit() {
+        String serviceName = serviceField.getText()
+                .trim();
+
+        Service service = servicesRegistry.find(serviceName);
+
+        if (service == null) {
+            AlertMessage.show(
+                    Alert.AlertType.ERROR,
+                    "Error",
+                    "No hay un registro llamado así"
+            );
+            return;
+        }
+
+        AlertConfirmation.createAndShow(
+                () -> {
+
+                    table.getItems()
+                            .remove(service);
+
+                    table.getItems()
+                            .add(service);
+
+                    service.setPrice(
+                            Integer.parseInt(priceField.getText())
+                    );
+
+                    clear(serviceField, priceField);
+                }
+        );
+
     }
 
 }

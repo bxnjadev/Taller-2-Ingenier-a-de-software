@@ -1,5 +1,6 @@
 package cl.ucn.ingsoftware.taller2.taller2.controllers;
 
+import cl.ucn.ingsoftware.taller2.taller2.MainApplication;
 import cl.ucn.ingsoftware.taller2.taller2.model.RolType;
 import cl.ucn.ingsoftware.taller2.taller2.register.RegisterService;
 import cl.ucn.ingsoftware.taller2.taller2.register.StatusRegister;
@@ -10,11 +11,18 @@ import cl.ucn.ingsoftware.taller2.taller2.validate.FormFieldValidator;
 import cl.ucn.ingsoftware.taller2.taller2.validate.decorators.EqualsPasswordFieldValidatorDecorator;
 import cl.ucn.ingsoftware.taller2.taller2.validate.decorators.MailFieldValidatorDecorator;
 import cl.ucn.ingsoftware.taller2.taller2.validate.decorators.RangeFormFieldValidatorDecorator;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,7 +52,7 @@ public class RegisterSessionController {
         formFieldValidator = new EqualsPasswordFieldValidatorDecorator(formFieldValidator);
     }
 
-    public void handleRegister() {
+    public void handleRegister(ActionEvent event) throws IOException {
 
 
         RegisterService registerService = RegisterService
@@ -68,13 +76,22 @@ public class RegisterSessionController {
                 DEFAULT_ROL
         );
 
-        screenHandler.show("login");
+        screenHandler.show("register", "Registrarse");
+
+        ((Node)(event.getSource())).getScene().getWindow().hide();
+
+        //screenHandler.show("login");
     }
 
-    public void loginHyperlink() {
+    public void loginHyperlink(ActionEvent event) throws IOException {
         screenHandler.show(
-                "login"
+                "login", "Iniciar Sesión"
         );
+
+
+        ((Node)(event.getSource())).getScene().getWindow().hide();
+
+
     }
 
 }
