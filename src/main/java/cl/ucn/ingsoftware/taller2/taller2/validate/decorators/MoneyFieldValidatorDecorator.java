@@ -20,7 +20,7 @@ public class MoneyFieldValidatorDecorator extends AbstractFormFieldValidatorDeco
             return false;
         }
 
-        String price = fields.get("price").getText();
+        String price = fields.get("priceField").getText();
 
         int priceInt = Integer.parseInt(price);
 

@@ -124,7 +124,7 @@ public class HttpCreditCardService implements CreditCardService {
             return false;
         }
 
-        JsonObject object = new HttpWrapperBuilder<JsonObject>(JsonObject.class,
+        JsonObject object = new HttpWrapperBuilder<>(JsonObject.class,
                 httpClient,
                 gson).url(BASE_URL + "realizar_cargo")
                 .body(payment)
