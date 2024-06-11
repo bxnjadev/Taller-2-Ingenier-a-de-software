@@ -6,6 +6,9 @@ import cl.ucn.ingsoftware.taller2.taller2.screen.ScreenHandler;
 import cl.ucn.ingsoftware.taller2.taller2.service.ServicesRegistry;
 import cl.ucn.ingsoftware.taller2.taller2.service.SessionService;
 import cl.ucn.ingsoftware.taller2.taller2.util.AlertMessage;
+import cl.ucn.ingsoftware.taller2.taller2.validate.BasicFormFieldValidator;
+import cl.ucn.ingsoftware.taller2.taller2.validate.FormFieldValidator;
+import cl.ucn.ingsoftware.taller2.taller2.validate.decorators.MoneyFieldValidatorDecorator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -13,7 +16,10 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class HandleServicesController implements Initializable {
@@ -30,6 +36,8 @@ public class HandleServicesController implements Initializable {
     @FXML
     private TableView<Service> table;
 
+    private FormFieldValidator formFieldValidator;
+
     private final ServicesRegistry servicesRegistry
             = ServicesRegistry.getServicesRegistry();
 
@@ -38,9 +46,21 @@ public class HandleServicesController implements Initializable {
     private final ScreenHandler screenHandler = ScreenHandler.
             getInstance();
 
+    public HandleServicesController() {
+        formFieldValidator = new BasicFormFieldValidator();
+        formFieldValidator = new MoneyFieldValidatorDecorator(formFieldValidator);
+    }
 
     @FXML
     public void onAdd() {
+
+        Map<String, TextField> fields = new HashMap<>();
+        fields.put("serviceField", serviceField);
+        fields.put("priceField", priceField);
+
+        if (!formFieldValidator.validate(fields)) {
+            return;
+        }
 
         String serviceName = serviceField.getText()
                 .trim();

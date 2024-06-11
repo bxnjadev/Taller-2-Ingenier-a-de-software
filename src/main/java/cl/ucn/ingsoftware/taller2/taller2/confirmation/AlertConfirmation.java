@@ -21,7 +21,7 @@ public class AlertConfirmation {
     public void configure() {
         alert.setHeaderText(null);
         alert.setTitle("Confirmación");
-        alert.setContentText("¿Estas seguro de confirmar la acción?");
+        alert.setContentText("¿Estás seguro de confirmar la acción?");
     }
 
     public void showAndWait() {
