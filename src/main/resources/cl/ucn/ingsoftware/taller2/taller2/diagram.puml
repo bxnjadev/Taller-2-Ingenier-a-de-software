@@ -3,43 +3,117 @@ skin rose
 
 package cl.ucn.ingsoftware.taller2.taller2 {
     class MainApplication {
-      + start(Stage stage): void
-      + static main(String[] args): void
+      +start(Stage stage): void
+      +{static} main(String[] args): void
     }
     MainApplication ..> cl.ucn.ingsoftware.taller2.taller2.loader
     MainApplication ..> cl.ucn.ingsoftware.taller2.taller2.service
     MainApplication ..> cl.ucn.ingsoftware.taller2.taller2.screen.ScreenHandler
-
-    interface Application {}
+    class Application
+    MainApplication --|> Application
 }
 
 package cl.ucn.ingsoftware.taller2.taller2.adapter {
+    interface JsonSerializer
+
     class CredentialsAdapter {
         +serialize(Credentials credentials, Type type, JsonSerializationContext jsonSerializationContext): JsonElement
     }
     CredentialsAdapter ..> cl.ucn.ingsoftware.taller2.taller2.authenticate.Credentials
+    CredentialsAdapter ..|> JsonSerializer
+
     class CreditCardAdapter {
         +serialize(CreditCard creditCard, Type type, JsonSerializationContext jsonSerializationContext): JsonElement
     }
     CreditCardAdapter ..> cl.ucn.ingsoftware.taller2.taller2.model.CreditCard
+    CreditCardAdapter ..|> JsonSerializer
+
     class PaymentAdapter {
-        <<final>> -creditCardJsonSerializer: JsonSerializer<CreditCard>
+        -creditCardJsonSerializer: JsonSerializer<CreditCard>
         +PaymentAdapter(JsonSerializer<CreditCard> creditCardJsonSerializer)
+        +serialize(Payment payment, Type, type, JsonSerializationContext jsonSerializationContext): JsonElement
     }
-    class ServiceDeserializer {}
-    class TokenAdapter{}
-    class UserDeserializer{}
+    PaymentAdapter ..> cl.ucn.ingsoftware.taller2.taller2.model.CreditCard
+    PaymentAdapter ..> cl.ucn.ingsoftware.taller2.taller2.model.Payment
+    PaymentAdapter..|> JsonSerializer
+
+    interface JsonDeserializer
+
+    class ServiceDeserializer {
+        +deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext): Service
+    }
+    ServiceDeserializer ..> cl.ucn.ingsoftware.taller2.taller2.model.Service
+    ServiceDeserializer ..|> JsonDeserializer
+
+    class TokenAdapter{
+        +deserialize(JsonElement jsonElement, Type type,JsonDeserializationContext jsonDeserializationContext): ObjectToken
+    }
+    TokenAdapter ..> cl.ucn.ingsoftware.taller2.taller2.model.ObjectToken
+    TokenAdapter ..|> JsonDeserializer
+
+    class UserDeserializer{
+        +deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext): User
+    }
+    UserDeserializer ..> cl.ucn.ingsoftware.taller2.taller2.model.RolType
+    UserDeserializer ..> cl.ucn.ingsoftware.taller2.taller2.model.User
+    UserDeserializer ..|> JsonDeserializer
 }
 
 package cl.ucn.ingsoftware.taller2.taller2.authenticate {
-    class AuthenticationResponse {}
-    interface Authenticator {}
-    interface AuthenticatorFactory {}
-    class AuthenticatorType {}
-    class BasicAuthenticator {}
-    class Credentials {}
-    class DefaultAuthenticatorFactory {}
-    class StatusAuthenticationResponse {}
+    class AuthenticationResponse {
+        -user: User
+        -response: StatusAuthenticationResponse
+        -AuthenticationResponse(User user, StatusAuthenticationResponse response)
+        +getUser(): User
+        +getResponse(): StatusAuthenticationResponse
+        +isFailed(): boolean
+        +{static} failed(): AuthenticationResponse
+        +{static} successful(User user): AuthenticationResponse
+    }
+    AuthenticationResponse ..> cl.ucn.ingsoftware.taller2.taller2.model.User
+
+    interface Authenticator {
+        +AuthenticationResponse authenticate(Credentials credentials);
+    }
+
+    interface AuthenticatorFactory {
+        +Authenticator get(AuthenticatorType type);
+    }
+
+    enum AuthenticatorType {
+        BASIC
+        DATABASE
+    }
+
+    class BasicAuthenticator {
+        -userService: UserService
+        +BasicAuthenticator(UserService userService)
+        +authenticate(Credentials credentials): AuthenticationResponse
+    }
+    BasicAuthenticator ..> cl.ucn.ingsoftware.taller2.taller2.model.User
+    BasicAuthenticator ..> cl.ucn.ingsoftware.taller2.taller2.service.UserService
+    BasicAuthenticator ..|> Authenticator
+
+    class Credentials {
+        -identifier: String
+        -password: String
+        +Credentials(String identifier, String password)
+        +getIdentifier(): String
+        +GetPassword(): String
+    }
+
+    class DefaultAuthenticatorFactory {
+        -userService: UserService
+        +DefaultAuthenticatorFactory(UserService userService)
+        +get(AuthenticatorType type): Authenticator
+    }
+    DefaultAuthenticatorFactory ..> cl.ucn.ingsoftware.taller2.taller2.service.UserService
+    DefaultAuthenticatorFactory ..|> AuthenticatorFactory
+
+    enum StatusAuthenticationResponse {
+        FAILED
+        SUCCESSFUL
+    }
 }
 
 package cl.ucn.ingsoftware.taller2.taller2.buy {
