@@ -1,0 +1,154 @@
+@startuml
+skin rose
+
+package cl.ucn.ingsoftware.taller2.taller2 {
+    class MainApplication {
+      + start(Stage stage): void
+      + static main(String[] args): void
+    }
+    MainApplication ..> cl.ucn.ingsoftware.taller2.taller2.loader
+    MainApplication ..> cl.ucn.ingsoftware.taller2.taller2.service
+    MainApplication ..> cl.ucn.ingsoftware.taller2.taller2.screen.ScreenHandler
+
+    interface Application {}
+}
+
+package cl.ucn.ingsoftware.taller2.taller2.adapter {
+    class CredentialsAdapter {
+        +serialize(Credentials credentials, Type type, JsonSerializationContext jsonSerializationContext): JsonElement
+    }
+    CredentialsAdapter ..> cl.ucn.ingsoftware.taller2.taller2.authenticate.Credentials
+    class CreditCardAdapter {
+        +serialize(CreditCard creditCard, Type type, JsonSerializationContext jsonSerializationContext): JsonElement
+    }
+    CreditCardAdapter ..> cl.ucn.ingsoftware.taller2.taller2.model.CreditCard
+    class PaymentAdapter {
+        <<final>> -creditCardJsonSerializer: JsonSerializer<CreditCard>
+        +PaymentAdapter(JsonSerializer<CreditCard> creditCardJsonSerializer)
+    }
+    class ServiceDeserializer {}
+    class TokenAdapter{}
+    class UserDeserializer{}
+}
+
+package cl.ucn.ingsoftware.taller2.taller2.authenticate {
+    class AuthenticationResponse {}
+    interface Authenticator {}
+    interface AuthenticatorFactory {}
+    class AuthenticatorType {}
+    class BasicAuthenticator {}
+    class Credentials {}
+    class DefaultAuthenticatorFactory {}
+    class StatusAuthenticationResponse {}
+}
+
+package cl.ucn.ingsoftware.taller2.taller2.buy {
+    interface ServicesBuyObserver {}
+    class ShoppingBasket {}
+}
+
+package cl.ucn.ingsoftware.taller2.taller2.buy.observers {
+    class AccumulatePointServiceBuyObserver {}
+    class CreatePurchaseBuyObserver {}
+}
+
+package cl.ucn.ingsoftware.taller2.taller2.confirmation {
+    interface ActionConfirmationExecutor {}
+    class AlertConfirmation {}
+}
+
+package cl.ucn.ingsoftware.taller2.taller2.controllers {
+    class AuthenticationController {}
+    class BuyGiftCardController {}
+    class CreditCardController {}
+    class HandleServicesController {}
+    class HelloController {}
+    class PayPointsController {}
+    class RegisterSessionController {}
+    class VoucherController {}
+}
+
+package cl.ucn.ingsoftware.taller2.taller2.http {
+    class HttpWrapperBuilder {}
+}
+
+package cl.ucn.ingsoftware.taller2.taller2.loader {
+    class CreditCardServiceLoader {}
+    interface Loader {}
+    class MainLoader {}
+    class SceneLoader {}
+    class ServiceLoader {}
+    class UserLoader {}
+}
+
+package cl.ucn.ingsoftware.taller2.taller2.model {
+    class CreditCard {}
+    class ObjectToken {}
+    class Payment {}
+    class Purchase {}
+    class RolType {}
+    class Service {}
+    class User {}
+    class Voucher {}
+}
+
+package cl.ucn.ingsoftware.taller2.taller2.register {
+    class BasicRegisterService {}
+    interface RegisterService {}
+    class StatusRegister {}
+}
+
+package cl.ucn.ingsoftware.taller2.taller2.screen {
+    class ScreenHandler {}
+    class ScreenModel {}
+}
+
+package cl.ucn.ingsoftware.taller2.taller2.service {
+    interface CreditCardService {}
+    class HttpCreditCardService {}
+    interface RecentPurchaseService {}
+    class RecentPurchaseServiceImpl {}
+    class ServiceRegistryImpl {}
+    interface ServicesRegistry {}
+    interface SessionService {}
+    class SessionServiceImpl {}
+    interface ShoppingBasketService {}
+    class ShoppingBasketServiceImpl {}
+    interface UserService {}
+    class UserServiceImpl {}
+}
+
+package cl.ucn.ingsoftware.taller2.taller2.shutdown {
+    class MainShutdown {}
+    class ServiceShutdown {}
+    interface Shutdown {}
+    class UserShutdown {}
+}
+
+package cl.ucn.ingsoftware.taller2.taller2.util {
+    class AlertMessage {}
+    class ConditionalsAlert {}
+    class DateConversionApplier {}
+    class DateProvider {}
+    class DefaultReader {}
+    class Identifiers {}
+    interface Reader {}
+    class ReaderUtil {}
+    class StringReaderAdapter{}
+    enum UnitTime {}
+}
+
+package cl.ucn.ingsoftware.taller2.taller2.validate {
+    class AbstractFormFieldValidatorDecorator
+    class BasicFormFieldValidator
+    interface FormFieldValidator
+}
+
+package cl.ucn.ingsoftware.taller2.taller2.validate.decorators {
+    class EqualsPasswordFieldValidatorDecorator {}
+    class MailFieldValidatorDecorator {}
+    class MailIncorrectFieldValidatorDecorator {}
+    class MoneyFieldValidatorDecorator {}
+    class RangeFormFieldValidatorDecorator {}
+}
+@enduml

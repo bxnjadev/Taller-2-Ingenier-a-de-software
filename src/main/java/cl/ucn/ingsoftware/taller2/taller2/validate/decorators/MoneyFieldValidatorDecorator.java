@@ -1,6 +1,5 @@
 package cl.ucn.ingsoftware.taller2.taller2.validate.decorators;
 
-import cl.ucn.ingsoftware.taller2.taller2.service.UserService;
 import cl.ucn.ingsoftware.taller2.taller2.util.ConditionalsAlert;
 import cl.ucn.ingsoftware.taller2.taller2.validate.AbstractFormFieldValidatorDecorator;
 import cl.ucn.ingsoftware.taller2.taller2.validate.FormFieldValidator;

@@ -2,12 +2,16 @@ package cl.ucn.ingsoftware.taller2.taller2.controllers;
 
 import cl.ucn.ingsoftware.taller2.taller2.buy.ShoppingBasket;
 import cl.ucn.ingsoftware.taller2.taller2.model.User;
+import cl.ucn.ingsoftware.taller2.taller2.screen.ScreenHandler;
 import cl.ucn.ingsoftware.taller2.taller2.service.SessionService;
 import cl.ucn.ingsoftware.taller2.taller2.service.ShoppingBasketService;
+import cl.ucn.ingsoftware.taller2.taller2.service.UserService;
 import cl.ucn.ingsoftware.taller2.taller2.validate.BasicFormFieldValidator;
 import cl.ucn.ingsoftware.taller2.taller2.validate.FormFieldValidator;
+import cl.ucn.ingsoftware.taller2.taller2.validate.decorators.PointsValidatorDecorator;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
@@ -24,15 +28,18 @@ public class PayPointsController implements Initializable {
     private final ShoppingBasketService shoppingBasketService =
             ShoppingBasketService.getInstance();
 
-    private final FormFieldValidator formFieldValidator;
+    private final ScreenHandler screenHandler = ScreenHandler.getInstance();
+
+    private FormFieldValidator formFieldValidator;
 
     public TextField pointField;
 
     public PayPointsController() {
         formFieldValidator = new BasicFormFieldValidator();
+        formFieldValidator = new PointsValidatorDecorator(formFieldValidator, sessionService.getSession(), shoppingBasketService.find(sessionService.getSession().getName()));
     }
 
-    public void pay() {
+    public void pay(ActionEvent event) throws IOException {
         Map<String, TextField> fields = new HashMap<>();
         fields.put("pointField", pointField);
 
@@ -49,6 +56,13 @@ public class PayPointsController implements Initializable {
 
         int cost = (int) shoppingBasket.calculatePrice();
 
+        user.removePoints(cost);
+
+        shoppingBasket.notifyBought();
+        shoppingBasket.clear();
+
+        ((Node) (event.getSource())).getScene().getWindow().hide();
+        screenHandler.show("voucher", "Boleta");
     }
 
     @Override
