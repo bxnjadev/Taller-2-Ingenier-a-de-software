@@ -40,7 +40,7 @@ public class CreditCardController {
             .create();
 
     public TextField creditCardNumber;
-    public TextField dateExpireMoth;
+    public TextField dateExpireMonth;
     public TextField dateExpireYear;
     public TextField cvc;
 
@@ -65,7 +65,7 @@ public class CreditCardController {
         Map<String, TextField> fields = new HashMap<>();
         fields.put("cvc", cvc);
         fields.put("creditCardNumber", creditCardNumber);
-        fields.put("dateExpireMoth", dateExpireMoth);
+        fields.put("dateExpireMoth", dateExpireMonth);
         fields.put("dateExpireYear", dateExpireYear);
 
         if (!formFieldValidator.validate(
@@ -81,7 +81,7 @@ public class CreditCardController {
 
 
         CreditCard creditCard = new CreditCard(creditCardNumber.getText(),
-                Integer.parseInt(dateExpireMoth.getText()),
+                Integer.parseInt(dateExpireMonth.getText()),
                 Integer.parseInt(dateExpireYear.getText()),
                 cvc.getText()
         );

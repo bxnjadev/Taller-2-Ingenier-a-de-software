@@ -117,79 +117,606 @@ package cl.ucn.ingsoftware.taller2.taller2.authenticate {
 }
 
 package cl.ucn.ingsoftware.taller2.taller2.buy {
-    interface ServicesBuyObserver {}
-    class ShoppingBasket {}
+    interface ServicesBuyObserver {
+        +buy(ShoppingBasket shoppingBasket): void
+    }
+    class ShoppingBasket {
+        -observers Set<ServicesBuyObserver>
+        -services Set<Service>
+        -user User
+        +ShoppingBasket(User user)
+        +addService(Service service): void
+        +removeService(Service service): void
+        +clear(): void
+        +getServices(): Set<Service>
+        +getUser(): User
+        +calculatePrice(): double
+        +notifyBought(): void
+    }
+    ShoppingBasket ..> cl.ucn.ingsoftware.taller2.taller2.buy.observers.AccumulatePointServiceBuyObserver
+    ShoppingBasket ..> cl.ucn.ingsoftware.taller2.taller2.buy.observers.CreatePurchaseBuyObserver
+    ShoppingBasket ..> cl.ucn.ingsoftware.taller2.taller2.model.Service
+    ShoppingBasket ..> cl.ucn.ingsoftware.taller2.taller2.model.User
 }
 
 package cl.ucn.ingsoftware.taller2.taller2.buy.observers {
-    class AccumulatePointServiceBuyObserver {}
-    class CreatePurchaseBuyObserver {}
+    class AccumulatePointServiceBuyObserver {
+        -{static} PERCENTAGE: double
+        +buy(ShoppingBasket shoppingBasket): void
+    }
+    AccumulatePointServiceBuyObserver ..> cl.ucn.ingsoftware.taller2.taller2.buy.ServicesBuyObserver
+    AccumulatePointServiceBuyObserver ..> cl.ucn.ingsoftware.taller2.taller2.buy.ShoppingBasket
+    AccumulatePointServiceBuyObserver ..> cl.ucn.ingsoftware.taller2.taller2.model.User
+    AccumulatePointServiceBuyObserver ..|> ServicesBuyObserver
+
+    class CreatePurchaseBuyObserver {
+        -{static} FORMAT_TIME: String
+        -{static} NEW_LINE: String
+        -dateProvider: DateProvider
+        -recentPurchaseService: RecentPurchaseService
+        +CreatePurchaseBuyObserver()
+        +buy(ShoppingBasket shoppingBasket): void
+        -convertServicesToListString(Collection<Service> services): Set<String>
+    }
+    CreatePurchaseBuyObserver ..> cl.ucn.ingsoftware.taller2.taller2.buy.ServicesBuyObserver
+    CreatePurchaseBuyObserver ..> cl.ucn.ingsoftware.taller2.taller2.buy.ShoppingBasket
+    CreatePurchaseBuyObserver ..> cl.ucn.ingsoftware.taller2.taller2.model.Purchase
+    CreatePurchaseBuyObserver ..> cl.ucn.ingsoftware.taller2.taller2.model.Service
+    CreatePurchaseBuyObserver ..> cl.ucn.ingsoftware.taller2.taller2.service.RecentPurchaseService
+    CreatePurchaseBuyObserver ..> cl.ucn.ingsoftware.taller2.taller2.util.DateConversionApplier
+    CreatePurchaseBuyObserver ..> cl.ucn.ingsoftware.taller2.taller2.util.DateProvider
+    CreatePurchaseBuyObserver ..> cl.ucn.ingsoftware.taller2.taller2.util.Identifiers
+    CreatePurchaseBuyObserver ..|> ServicesBuyObserver
 }
 
 package cl.ucn.ingsoftware.taller2.taller2.confirmation {
-    interface ActionConfirmationExecutor {}
-    class AlertConfirmation {}
+    interface ActionConfirmationExecutor {
+        +execute(): void
+    }
+    class AlertConfirmation {
+        -alert: Alert
+        -actionConfirmationExecutor: ActionConfirmationExecutor
+        +AlertConfirmation(ActionConfirmationExecutor actionConfirmationExecutor)
+        +configure(): void
+        +showAndWait(): void
+        +{static} createAndShow(ActionConfirmationExecutor actionConfirmationExecutor): AlertConfirmation
+    }
 }
 
 package cl.ucn.ingsoftware.taller2.taller2.controllers {
-    class AuthenticationController {}
-    class BuyGiftCardController {}
-    class CreditCardController {}
-    class HandleServicesController {}
-    class HelloController {}
-    class PayPointsController {}
-    class RegisterSessionController {}
-    class VoucherController {}
+    class AuthenticationController {
+        -button: Button
+        -mail: TextField
+        -password: TextField
+        -formFieldValidator: FormFieldValidator
+        -authenticator: Authenticator
+        -screenHandler: ScreenHandler
+        -sessionService: SessionService
+        +AuthenticationController()
+        +clickHyperLink(ActionEvent event): void
+        +handleLogin(ActionEvent event): void
+        +onExit(ActionEvent event): void
+    }
+    AuthenticationController ..> cl.ucn.ingsoftware.taller2.taller2.authenticate
+    AuthenticationController ..> cl.ucn.ingsoftware.taller2.taller2.model.RolType
+    AuthenticationController ..> cl.ucn.ingsoftware.taller2.taller2.model.User
+    AuthenticationController ..> cl.ucn.ingsoftware.taller2.taller2.screen.ScreenHandler
+    AuthenticationController ..> cl.ucn.ingsoftware.taller2.taller2.service.SessionService
+    AuthenticationController ..> cl.ucn.ingsoftware.taller2.taller2.service.UserService
+    AuthenticationController ..> cl.ucn.ingsoftware.taller2.taller2.util.AlertMessage
+    AuthenticationController ..> cl.ucn.ingsoftware.taller2.taller2.validate.BasicFormFieldValidator
+    AuthenticationController ..> cl.ucn.ingsoftware.taller2.taller2.validate.FormFieldValidator
+    AuthenticationController ..> cl.ucn.ingsoftware.taller2.taller2.validate.decorators.MailIncorrectFieldValidatorDecorator
+
+    interface Initializable
+
+    class BuyGiftCardController {
+        -{static} MIN_VALUE: double
+        -servicesRegistry: ServicesRegistry
+        -shoppingBasketService: ShoppingBasketService
+        -screenHandler: ScreenHandler
+        +listview: ListView<String>
+        +priceField: TextField
+        -shoppingBasket: ShoppingBasket
+        +initialize(URL url, ResourceBundle resourceBundle): void
+        +onExit(ActionEvent event): void
+        +checkAmountAndShow(): boolean
+        +payCreditCard(ActionEvent event): void
+        +payPoints(ActionEvent event): void
+    }
+    BuyGiftCardController ..> cl.ucn.ingsoftware.taller2.taller2.buy.ShoppingBasket
+    BuyGiftCardController ..> cl.ucn.ingsoftware.taller2.taller2.model.Service
+    BuyGiftCardController ..> cl.ucn.ingsoftware.taller2.taller2.model.User
+    BuyGiftCardController ..> cl.ucn.ingsoftware.taller2.taller2.screen.ScreenHandler
+    BuyGiftCardController ..> cl.ucn.ingsoftware.taller2.taller2.service.ServicesRegistry
+    BuyGiftCardController ..> cl.ucn.ingsoftware.taller2.taller2.service.SessionService
+    BuyGiftCardController ..> cl.ucn.ingsoftware.taller2.taller2.service.ShoppingBasketService
+    BuyGiftCardController ..> cl.ucn.ingsoftware.taller2.taller2.util.AlertMessage
+    BuyGiftCardController ..|> Initializable
+
+    class CreditCardController {
+        -creditCardService: CreditCardService
+        -shoppingBasketService: ShoppingBasketService
+        -sessionService: SessionService
+        -screenHandler: ScreenHandler
+        -formFieldValidator: FormFieldValidator
+        +creditCardNumber: TextField
+        +dateExpireMonth: TextField
+        +dateExpireYear: TextField
+        +cvc:TextField
+        +CreditCardController()
+        +pay(ActionEvent event): void
+    }
+    CreditCardController ..> cl.ucn.ingsoftware.taller2.taller2.adapter.CredentialsAdapter
+    CreditCardController ..> cl.ucn.ingsoftware.taller2.taller2.adapter.CreditCardAdapter
+    CreditCardController ..> cl.ucn.ingsoftware.taller2.taller2.adapter.PaymentAdapter
+    CreditCardController ..> cl.ucn.ingsoftware.taller2.taller2.adapter.TokenAdapter
+    CreditCardController ..> cl.ucn.ingsoftware.taller2.taller2.authenticate.Credentials
+    CreditCardController ..> cl.ucn.ingsoftware.taller2.taller2.buy.ShoppingBasket
+    CreditCardController ..> cl.ucn.ingsoftware.taller2.taller2.model.CreditCard
+    CreditCardController ..> cl.ucn.ingsoftware.taller2.taller2.model.ObjectToken
+    CreditCardController ..> cl.ucn.ingsoftware.taller2.taller2.model.Payment
+    CreditCardController ..> cl.ucn.ingsoftware.taller2.taller2.model.User
+    CreditCardController ..> cl.ucn.ingsoftware.taller2.taller2.screen.ScreenHandler
+    CreditCardController ..> cl.ucn.ingsoftware.taller2.taller2.service.CreditCardService
+    CreditCardController ..> cl.ucn.ingsoftware.taller2.taller2.service.SessionService
+    CreditCardController ..> cl.ucn.ingsoftware.taller2.taller2.service.ShoppingBasketService
+    CreditCardController ..> cl.ucn.ingsoftware.taller2.taller2.util.AlertMessage
+    CreditCardController ..> cl.ucn.ingsoftware.taller2.taller2.validate.BasicFormFieldValidator
+    CreditCardController ..> cl.ucn.ingsoftware.taller2.taller2.validate.FormFieldValidator
+
+    class HandleServicesController {
+        -columnName: TableColumn<Service, String>
+        -columnPrice:TableColumn<Service, String>
+        -table: TableView<Service>
+        -formFieldValidator: FormFieldValidator
+        -servicesRegistry: ServicesRegistry
+        -sessionService: SessionService
+        -screenHandler: ScreenHandler
+        +serviceField: TextField
+        +priceField: TextField
+        +HandleServicesController()
+        +onAdd(): void
+        +onRemove(): void
+        +initialize(URL url, ResourceBundle resourceBundle): void
+        -clear(TextField... textFields): void
+        +onExit(ActionEvent event):void
+        +onEdit(): void
+    }
+    HandleServicesController ..> cl.ucn.ingsoftware.taller2.taller2.confirmation.AlertConfirmation
+    HandleServicesController ..> cl.ucn.ingsoftware.taller2.taller2.model.Service
+    HandleServicesController ..> cl.ucn.ingsoftware.taller2.taller2.screen.ScreenHandler
+    HandleServicesController ..> cl.ucn.ingsoftware.taller2.taller2.service.ServicesRegistry
+    HandleServicesController ..> cl.ucn.ingsoftware.taller2.taller2.service.SessionService
+    HandleServicesController ..> cl.ucn.ingsoftware.taller2.taller2.util.AlertMessage
+    HandleServicesController ..> cl.ucn.ingsoftware.taller2.taller2.validate.BasicFormFieldValidator
+    HandleServicesController ..> cl.ucn.ingsoftware.taller2.taller2.validate.FormFieldValidator
+    HandleServicesController ..> cl.ucn.ingsoftware.taller2.taller2.validate.decorators.MoneyFieldValidatorDecorator
+    HandleServicesController ..|> Initializable
+
+    class PayPointsController {
+        -sessionService: SessionService
+        -shoppingBasketService: ShoppingBasketService
+        -screenHandler: ScreenHandler
+        -formFieldValidator: FormFieldValidator
+        +pointField: TextField
+        +PayPointsController()
+        +pay(ActionEvent event): void
+        +initialize(URL url, ResourceBundle resourceBundle): void
+    }
+    PayPointsController ..> cl.ucn.ingsoftware.taller2.taller2.buy.ShoppingBasket
+    PayPointsController ..> cl.ucn.ingsoftware.taller2.taller2.model.User
+    PayPointsController ..> cl.ucn.ingsoftware.taller2.taller2.screen.ScreenHandler
+    PayPointsController ..> cl.ucn.ingsoftware.taller2.taller2.service.SessionService
+    PayPointsController ..> cl.ucn.ingsoftware.taller2.taller2.service.ShoppingBasketService
+    PayPointsController ..> cl.ucn.ingsoftware.taller2.taller2.validate.BasicFormFieldValidator
+    PayPointsController ..> cl.ucn.ingsoftware.taller2.taller2.validate.FormFieldValidator
+    PayPointsController ..> cl.ucn.ingsoftware.taller2.taller2.validate.decorators.PointsValidatorDecorator
+    PayPointsController ..|> Initializable
+
+    class RegisterSessionController {
+        -{static} DEFAULT_ROL: RolType
+        -userService: UserService
+        -screenHandler: ScreenHandler
+        +name: TextField
+        +age: TextField
+        +mail: TextField
+        +passwordField: TextField
+        +passwordRepeatField: TextField
+        +button: Button
+        +RegisterSessionController()
+        +handleRegister(ActionEvent event): void
+        +loginHyperLink(ActionEvent event): void
+    }
+    RegisterSessionController ..> cl.ucn.ingsoftware.taller2.taller2.model.RolType
+    RegisterSessionController ..> cl.ucn.ingsoftware.taller2.taller2.register.RegisterService
+    RegisterSessionController ..> cl.ucn.ingsoftware.taller2.taller2.register.StatusRegister
+    RegisterSessionController ..> cl.ucn.ingsoftware.taller2.taller2.screen.ScreenHandler
+    RegisterSessionController ..> cl.ucn.ingsoftware.taller2.taller2.service.UserService
+    RegisterSessionController ..> cl.ucn.ingsoftware.taller2.taller2.validate.BasicFormFieldValidator
+    RegisterSessionController ..> cl.ucn.ingsoftware.taller2.taller2.validate.FormFieldValidator
+    RegisterSessionController ..> cl.ucn.ingsoftware.taller2.taller2.validate.decorators.EqualsPasswordFieldValidatorDecorator
+    RegisterSessionController ..> cl.ucn.ingsoftware.taller2.taller2.validate.decorators.MailFieldDecoratorValidator
+    RegisterSessionController ..> cl.ucn.ingsoftware.taller2.taller2.validate.decorators.RangeFormValidatorDecorator
+
+    class VoucherController {
+        -recentPurchaseService: RecentPurchaseService
+        -screenHandler: ScreenHandler
+        +date: Label
+        +dateExpiration: Label
+        +code: Label
+        +services: ListView<String>
+        +initialize(URL url, ResourceBundle resourceBundle): void
+        +retry(ActionEvent event): void
+    }
+    VoucherController ..> cl.ucn.ingsoftware.taller2.taller2.model.Purchase
+    VoucherController ..> cl.ucn.ingsoftware.taller2.taller2.model.User
+    VoucherController ..> cl.ucn.ingsoftware.taller2.taller2.screen.ScreenHandler
+    VoucherController ..> cl.ucn.ingsoftware.taller2.taller2.service.RecentPurchaseService
+    VoucherController ..> cl.ucn.ingsoftware.taller2.taller2.service.SessionService
+    VoucherController ..|> Initializable
 }
 
 package cl.ucn.ingsoftware.taller2.taller2.http {
-    class HttpWrapperBuilder {}
+    class HttpWrapperBuilder {
+        -httpRequestBuilder: HttpRequest.Builder
+        -client: HttpClient
+        -clazz: Class<T>
+        -gson: Gson
+        -body: String
+        +HttpWrapperBuilder(Class<T> clazz, HttpClient client, Gson gson)
+        +url(String url): HttpWrapperBuilder<T>
+        +authenticationBearerToken(String token): HttpWrapperBuilder<T>
+        +applicationJson(): HttpWrapperBuilder<T>
+        +body(V v): <V> HttpWrapperBuilder<T>
+        +post(): HttpWrapperBuilder<T>
+        +get(): HttpWrapperBuilder<T>
+        +build(): T
+    }
+
 }
 
 package cl.ucn.ingsoftware.taller2.taller2.loader {
-    class CreditCardServiceLoader {}
-    interface Loader {}
-    class MainLoader {}
-    class SceneLoader {}
-    class ServiceLoader {}
-    class UserLoader {}
+    class CreditCardServiceLoader {
+        -{static} USERNAME: String
+        -{static} PASSWORD: String
+        -creditCardService: creditCardService
+        +CreditCardServiceLoader(CreditCardService creditCardService)
+        +load(): void
+    }
+    CreditCardServiceLoader ..> cl.ucn.ingsoftware.taller2.taller2.authenticate.Credentials
+    CreditCardServiceLoader ..> cl.ucn.ingsoftware.taller2.taller2.service.CreditCardService
+    CreditCardServiceLoader ..|> Loader
+
+    interface Loader {
+        +load(): void
+    }
+    class MainLoader {
+        -loaders: Set<Loader>
+        +MainLoader()
+        +addAll(Loader... loadersCollection): void
+        +load(): void
+    }
+    MainLoader ..|> Loader
+
+    class SceneLoader {
+        +SceneLoader(Stage stage)
+    }
+    SceneLoader ..> cl.ucn.ingsoftware.taller2.taller2.MainApplication
+    SceneLoader ..> cl.ucn.ingsoftware.taller2.taller2.screen.ScreenModel
+    SceneLoader ..> cl.ucn.ingsoftware.taller2.taller2.screen.ScreenHandler
+    SceneLoader ..|> Loader
+
+    class ServiceLoader {
+        -servicesRegistry: ServicesRegistry
+        -{static} FILE_NAME: String
+        -{static} GSON: Gson
+        +ServiceLoader(ServicesRegistry servicesRegistry)
+        +load(): void
+        -fill(Service[] services): void
+    }
+    ServiceLoader ..> cl.ucn.ingsoftware.taller2.taller2.adapter.ServiceDeserializer
+    ServiceLoader ..> cl.ucn.ingsoftware.taller2.taller2.model.Service
+    ServiceLoader ..> cl.ucn.ingsoftware.taller2.taller2.service.ServicesRegistry
+    ServiceLoader ..> cl.ucn.ingsoftware.taller2.taller2.util.Reader
+    ServiceLoader ..> cl.ucn.ingsoftware.taller2.taller2.util.ReaderUtil
+    ServiceLoader ..> cl.ucn.ingsoftware.taller2.taller2.util.StringReaderAdapter
+    ServiceLoader ..|> Loader
+
+    class UserLoader {
+        -{static} FILE_NAME: String
+        -{static} GSON: Gson
+        -userService: UserService
+        +public UserLoader(UserService userService)
+        +load(): void
+        -addUsers(User[] users, UserService userService): void
+    }
+    UserLoader ..> cl.ucn.ingsoftware.taller2.taller2.adapter.UserDeserializer
+    UserLoader ..> cl.ucn.ingsoftware.taller2.taller2.model.User
+    UserLoader ..> cl.ucn.ingsoftware.taller2.taller2.service.UserService
+    UserLoader ..> cl.ucn.ingsoftware.taller2.taller2.util.Reader
+    UserLoader ..> cl.ucn.ingsoftware.taller2.taller2.util.ReaderUtil
+    UserLoader ..> cl.ucn.ingsoftware.taller2.taller2.util.StringReaderAdapter
+    UserLoader ..|> Loader
 }
 
 package cl.ucn.ingsoftware.taller2.taller2.model {
-    class CreditCard {}
-    class ObjectToken {}
-    class Payment {}
-    class Purchase {}
-    class RolType {}
-    class Service {}
-    class User {}
-    class Voucher {}
+    class CreditCard {
+        -number: String
+        -month: int
+        -year: int
+        -code: String
+        +CreditCard(String number, int month, int year, String code)
+        +getNumber(): String
+        +getMonth(): int
+        +getCode(): String
+        +getYear(): int
+    }
+
+    class ObjectToken {
+        -token: String
+        +ObjectToken(String token)
+        +getToken(): String
+    }
+
+    class Payment {
+        -creditCard: CreditCard
+        -description: String
+        -amount: int
+        +Payment(CreditCard creditCard, String description, int amount)
+        +getCreditCard(): CreditCard
+        +getDescription(): String
+        +getAmount(): int
+    }
+
+    class Purchase {
+        -code: int
+        -date: String
+        -expireDate: String
+        -servicesName: Set<String>
+        +Purchase(int code, String date, String expireDate, Set<String> servicesName)
+        +getCode(): int
+        +getDate(): String
+        +getExpireDate(): String
+        +servicesName(): Set<String>
+    }
+
+    enum RolType {
+        USER
+        ADMINISTRATOR
+    }
+
+    class Service {
+        -name: String
+        -price: int
+        +Service(String name, int price)
+        +getName(): String
+        +getPrice(): int
+        +setPrice(int price): void
+    }
+
+    class User {
+        -name: String
+        -age: int
+        -mail: String
+        -password: String
+        -rolType: RolType
+        -points: int
+        +User(String name, int age, String mail, String password, RolType rolType, int points)
+        +getName(): String
+        +getAge(): int
+        +getMail(): String
+        +getPassword(): String
+        +getRolType(): RolType
+        +getPoints(): int
+        +addPoints(int points): void
+        +removePoints(int points): void
+        +setPoints(int points): void
+    }
+
+    class Voucher {
+        -id: String
+        -date: String
+        -expiredDate: String
+        -services: List<String>
+        +Voucher(String id, String date, String expireDate, List<String> services)
+        +getId(): String
+        +getDate(): String
+        +getExpireDate(): String
+        +getServices(): List<String>
+    }
 }
 
 package cl.ucn.ingsoftware.taller2.taller2.register {
-    class BasicRegisterService {}
-    interface RegisterService {}
-    class StatusRegister {}
+    class BasicRegisterService {
+        -{static}REGISTER_SERVICE: RegisterService
+        -userService: UserService
+        +BasicRegisterService(UserService userService)
+        +register(String name, int age, String mail, String password, String repeatPassword, RolType rolType): StatusRegister
+        +{static}getInstance(UserService userService): RegisterService
+    }
+    BasicRegisterService ..> cl.ucn.ingsoftware.taller2.taller2.model.RolType
+    BasicRegisterService ..> cl.ucn.ingsoftware.taller2.taller2.model.User
+    BasicRegisterService ..> cl.ucn.ingsoftware.taller2.taller2.service.UserService
+    BasicRegisterService ..|> RegisterService
+
+    interface RegisterService {
+        +register(String name, int age, String mail, String password, String repeatPassword, RolType rolType): StatusRegister
+        +{static}getInstance(UserService userService):RegisterService
+    }
+    RegisterService ..> cl.ucn.ingsoftware.taller2.taller2.model.RolType
+    RegisterService ..> cl.ucn.ingsoftware.taller2.taller2.service.UserService
+
+    enum StatusRegister {
+        OK
+        ERROR
+    }
 }
 
 package cl.ucn.ingsoftware.taller2.taller2.screen {
-    class ScreenHandler {}
-    class ScreenModel {}
+    class ScreenHandler {
+        -{static}SCREEN_HANDLER: ScreenHandler
+        -ScreenHandler()
+        +show(String name, String title): void
+        +{static}getInstance(): ScreenHandler
+    }
+    ScreenHandler ..> cl.ucn.ingsoftware.taller2.taller2.MainApplication
+
+    class ScreenModel {
+        -loader: FXMLLoader
+        -v1: int
+        -v2: int
+        +ScreenModel(FXMLLoader loader, int v1, int v2)
+        +getLoader(): FXMLLoader
+        +getV1(): int
+        +getV2(): int
+    }
 }
 
 package cl.ucn.ingsoftware.taller2.taller2.service {
-    interface CreditCardService {}
-    class HttpCreditCardService {}
-    interface RecentPurchaseService {}
-    class RecentPurchaseServiceImpl {}
-    class ServiceRegistryImpl {}
-    interface ServicesRegistry {}
-    interface SessionService {}
-    class SessionServiceImpl {}
-    interface ShoppingBasketService {}
-    class ShoppingBasketServiceImpl {}
-    interface UserService {}
-    class UserServiceImpl {}
+    interface CreditCardService {
+        +authenticate(Credentials credentials): void
+        +validate(CreditCard creditCard): boolean
+        +getBalance(CreditCard creditCard): double
+        +isAuthenticated(): boolean
+        +pay(CreditCard creditCard, String description, int amount): boolean
+        +{static}http(): CreditCardService
+    }
+    CreditCardService ..> cl.ucn.ingsoftware.taller2.taller2.authenticate.Credentials
+    CreditCardService ..> cl.ucn.ingsoftware.taller2.taller2.model.CreditCard
+
+    class HttpCreditCardService {
+        -{static}HTTP_CREDIT_CARD_SERVICE: CreditCardService
+        -CREDIT_CARD_VALIDATE: Map<String, Boolean>
+        -UPDATE_MONEY: Map<String, Boolean>
+        -{static} BASE_URL: String
+        -httpClient: HttpClient
+        -token: String
+        -HttpCreditCardService()
+        +authenticate(Credentials credentials): void
+        +validate(CreditCard creditCard): boolean
+        +getBalance(CreditCard creditCard): double
+        +isAuthenticated(): boolean
+        +pay(CreditCard creditCard, String description, int amount): boolean
+        +{static}getInstance(): CreditCardService
+    }
+    HttpCreditCardService ..> cl.ucn.ingsoftware.taller2.taller2.adapter.CredentialsAdapter
+    HttpCreditCardService ..> cl.ucn.ingsoftware.taller2.taller2.adapter.CreditCardAdapter
+    HttpCreditCardService ..> cl.ucn.ingsoftware.taller2.taller2.adapter.PaymentAdapter
+    HttpCreditCardService ..> cl.ucn.ingsoftware.taller2.taller2.adapter.TokenAdapter
+    HttpCreditCardService ..> cl.ucn.ingsoftware.taller2.taller2.authenticate.Credentials
+    HttpCreditCardService ..> cl.ucn.ingsoftware.taller2.taller2.http.HttpWrapperBuilder
+    HttpCreditCardService ..> cl.ucn.ingsoftware.taller2.taller2.model.CreditCard
+    HttpCreditCardService ..> cl.ucn.ingsoftware.taller2.taller2.model.ObjectToken
+    HttpCreditCardService ..> cl.ucn.ingsoftware.taller2.taller2.model.Payment
+    HttpCreditCardService ..|> CreditCardService
+
+    interface RecentPurchaseService {
+        +register(User user, Purchase purchase): void
+        +find(User user): Purchase
+        +delete(User user): void
+        +{static}getInstance(): RecentPurchaseService
+    }
+    RecentPurchaseService ..> cl.ucn.ingsoftware.taller2.taller2.model.Purchase
+    RecentPurchaseService ..> cl.ucn.ingsoftware.taller2.taller2.model.User
+
+    class RecentPurchaseServiceImpl {
+        -{static}RECENT_PURCHASE_SERVICE: RecentPurchaseService
+        -purchasesRecent: Map<String, Purchase>
+        +register(User user, Purchase purchase): void
+        +find(User user): Purchase
+        +delete(User user): void
+        +{static}getInstance():RecentPurchaseService
+    }
+    RecentPurchaseServiceImpl ..> cl.ucn.ingsoftware.taller2.taller2.model.Purchase
+    RecentPurchaseServiceImpl ..> cl.ucn.ingsoftware.taller2.taller2.model.User
+    RecentPurchaseServiceImpl ..|> RecentPurchaseService
+
+    class ServiceRegistryImpl {
+        -services: Map<String, Service>
+        -{static}SERVICES_REGISTRY: ServicesRegistry
+        -ServiceRegistryImpl()
+        +add(Service service): void
+        +delete(String service): void
+        +exists(String service): boolean
+        +find(String service): Service
+        +all(): Collection<Service>
+        +{static}getInstance(): ServicesRegistry
+    }
+    ServiceRegistryImpl ..> cl.ucn.ingsoftware.taller2.taller2.model.Service
+    ServiceRegistryImpl ..|> ServicesRegistry
+
+    interface ServicesRegistry {
+        +add(Service service): void
+        +delete(String service): void
+        +exists(String service): boolean
+        +find(String service): Service
+        +all(): Collection<Service>
+        +{static}getServicesRegistry(): ServicesRegistry
+    }
+    ServicesRegistry ..> cl.ucn.ingsoftware.taller2.taller2.model.Service
+
+    interface SessionService {
+        +newSession(user user): void
+        +getSession(): User
+        +close(): void
+        +{static}getInstance(): SessionService
+    }
+    SessionService ..> cl.ucn.ingsoftware.taller2.taller2.model.User
+
+    class SessionServiceImpl {
+        -{static}SESSION_SERVICE: SessionService
+        -userLogger: User
+        +newSession(User user): void
+        +getSession(): User
+        +close(): void
+        +{static}getInstance(): SessionService
+    }
+    ServiceRegistryImpl ..> cl.ucn.ingsoftware.taller2.taller2.model.User
+    ServiceRegistryImpl ..|> SessionService
+
+    interface ShoppingBasketService {
+        +add(String username, ShoppingBasket shoppingBasket): void
+        +remove(String username): void
+        +find(String username): ShoppingBasket
+        +{static}getInstance(): ShoppingBasketService
+    }
+    ShoppingBasketService ..> cl.ucn.ingsoftware.taller2.taller2.buy.ShoppingBasket
+
+    class ShoppingBasketServiceImpl {
+        -{static}SHOPPING_BASKET_SERVICE: ShoppingBasketService
+        -baskets: Map<String, ShoppingBasket>
+        +add(String username, ShoppingBasket shoppingBasket): void
+        +remove(String username): void
+        +find(String username): ShoppingBasket
+        +{static}getInstance(): ShoppingBasketService
+    }
+    ShoppingBasketServiceImpl ..> cl.ucn.ingsoftware.taller2.taller2.buy.ShoppingBasket
+    ShoppingBasketServiceImpl ..|> ShoppingBasketService
+
+    interface UserService {
+        +find(String name): User
+        +findByMail(String mail): User
+        +register(User user): void
+        +exists(String name): boolean
+        +all(): Collection<User>
+        +{static}getInstance(): UserService
+    }
+    UserService ..> cl.ucn.ingsoftware.taller2.taller2.model.User
+
+    class UserServiceImpl {
+        -{static}USER_SERVICE: UserService
+        -users: Map<String, User>
+        -usersMail: Map<String, User>
+        -UserServiceImpl()
+        +find(String name): User
+        +findByMail(String mail): User
+        +register(User user): void
+        +all(): Collection<User>
+        +{static}getService(): UserService
+    }
+    UserServiceImpl ..> cl.ucn.ingsoftware.taller2.taller2.model.User
+    UserServiceImpl ..|> UserService
 }
 
 package cl.ucn.ingsoftware.taller2.taller2.shutdown {
