@@ -720,36 +720,178 @@ package cl.ucn.ingsoftware.taller2.taller2.service {
 }
 
 package cl.ucn.ingsoftware.taller2.taller2.shutdown {
-    class MainShutdown {}
-    class ServiceShutdown {}
-    interface Shutdown {}
-    class UserShutdown {}
+    class MainShutdown {
+        -shutdowns: Set<Shutdown>
+        +MainShutdown
+        +add(Shutdown shutdown): void
+        +shutdown(): void
+    }
+
+    class ServiceShutdown {
+        -userService: UserService
+        +ServiceShutdown()
+        +shutdown(): void
+    }
+    ServiceShutdown ..> cl.ucn.ingsoftware.taller2.taller2.service.UserService
+    ServiceShutdown ..|> Shutdown
+
+    interface Shutdown {
+        +shutdown(): void
+    }
+    class UserShutdown
 }
 
 package cl.ucn.ingsoftware.taller2.taller2.util {
-    class AlertMessage {}
-    class ConditionalsAlert {}
-    class DateConversionApplier {}
-    class DateProvider {}
-    class DefaultReader {}
-    class Identifiers {}
-    interface Reader {}
-    class ReaderUtil {}
-    class StringReaderAdapter{}
-    enum UnitTime {}
+    class AlertMessage {
+        +{static}show(Alert.AlertType alertType, String title, String message): void
+    }
+
+    class ConditionalsAlert {
+        -{static}ALERT_ERROR: Alert.AlertType
+        -ConditionalsAlert()
+        +{static}checkIfEmptyAndShow(String errorMessage, TextField... fields): boolean
+        +{static}executeAndShowIfThrow(Runnable runnable, String errorMessage): boolean
+        +{static}checkAndShow(boolean condition, String errorMessage): boolean
+    }
+
+    class DateConversionApplier {
+        -{static}MONTH_TO_MILLISECONDS: long
+        -DateConversionApplier()
+        +{static}monthToMilliseconds(int months): long
+    }
+
+    class DateProvider {
+        -simpleDateFormat: SimpleDateFormat
+        +DateProvider(String format)
+        +provide(): String
+        +provide(long time): String
+        +{static}format(String format): DateProvider
+    }
+
+    class DefaultReader {
+        -bufferedReader: BufferedReader
+        +DefaultReader(InputStream inputStream)
+        +readLine(): String
+        +close(): void
+    }
+    DefaultReader ..|> Reader
+
+    class Identifiers {
+        -{static}DEFAULT_LENGTH: int
+        -{static}RANDOM: Random
+        -Identifiers()
+        +{static}newId(int length): int
+        +{static}newId(): int
+    }
+
+    interface Reader {
+        +readLine(): String
+        +close(): void
+    }
+    class AutoCloseable
+    Reader --|> AutoCloseable
+
+    class ReaderUtil {
+        -ReaderUtil()
+        +{static}readAllAsString(Reader reader): String
+    }
+
+    class StringReaderAdapter{
+        -reader: Reader
+        +StringReaderAdapter(String fileName)
+        +readLine(): String
+        +close(): void
+    }
+    StringReaderAdapter ..> cl.ucn.ingsoftware.taller2.taller2.MainApplication
+    StringReaderAdapter ..|> Reader
+
+    enum UnitTime {
+        SECONDS
+        TO_MILLIS
+        HOURS
+        DAYS
+        MONTHS
+    }
 }
 
 package cl.ucn.ingsoftware.taller2.taller2.validate {
-    class AbstractFormFieldValidatorDecorator
-    class BasicFormFieldValidator
-    interface FormFieldValidator
+    abstract class AbstractFormFieldValidatorDecorator {
+        #formFieldValidator: FormFieldValidator
+        +AbstractFormFieldValidatorDecorator(FormFieldValidator formFieldValidator)
+    }
+    AbstractFormFieldValidatorDecorator ..|> FormFieldValidator
+
+    class BasicFormFieldValidator {
+        -{static}TEXT_FIELDS: TextField[]
+        +validate(Map<String, TextField> fields): boolean
+    }
+    BasicFormFieldValidator ..> cl.ucn.ingsoftware.taller2.taller2.util.ConditionalsAlert
+    BasicFormFieldValidator ..|> FormFieldValidator
+
+    interface FormFieldValidator {
+        +validate(Map<String, TextField> fields): boolean
+    }
 }
 
 package cl.ucn.ingsoftware.taller2.taller2.validate.decorators {
-    class EqualsPasswordFieldValidatorDecorator {}
-    class MailFieldValidatorDecorator {}
-    class MailIncorrectFieldValidatorDecorator {}
-    class MoneyFieldValidatorDecorator {}
-    class RangeFormFieldValidatorDecorator {}
+    class EqualsPasswordFieldValidatorDecorator {
+        +EqualsPasswordFieldValidatorDecorator(FormFieldValidator formFieldValidator)
+        +validate(Map<String, TextField> fields): boolean
+    }
+    EqualsPasswordFieldValidatorDecorator ..> cl.ucn.ingsoftware.taller2.taller2.util.ConditionalsAlert
+    EqualsPasswordFieldValidatorDecorator ..> cl.ucn.ingsoftware.taller2.taller2.validate.AbstractFormFieldValidatorDecorator
+    EqualsPasswordFieldValidatorDecorator ..> cl.ucn.ingsoftware.taller2.taller2.validate.FormFieldValidator
+    EqualsPasswordFieldValidatorDecorator --|> AbstractFormFieldValidatorDecorator
+
+    class MailFieldValidatorDecorator {
+        -userService: UserService
+        +MailFieldValidatorDecorator(FormFieldValidator formFieldValidator, UserService userService)
+        +validate(Map<String, TextField> fields): boolean
+    }
+    MailFieldValidatorDecorator --|> AbstractFormFieldValidatorDecorator
+
+    class MailIncorrectFieldValidatorDecorator {
+        -userService: UserService
+        +MailIncorrectFieldValidatorDecorator(FormFieldValidator formFieldValidator, UserService userService)
+        +validate(Map<String, TextField> fields): boolean
+    }
+    MailIncorrectFieldValidatorDecorator ..> cl.ucn.ingsoftware.taller2.taller2.service.UserService
+    MailIncorrectFieldValidatorDecorator ..> cl.ucn.ingsoftware.taller2.taller2.util.ConditionalsAlert
+    MailIncorrectFieldValidatorDecorator ..> cl.ucn.ingsoftware.taller2.taller2.validate.AbstractFormFieldValidatorDecorator
+    MailIncorrectFieldValidatorDecorator ..> cl.ucn.ingsoftware.taller2.taller2.validate.FormFieldValidator
+    MailIncorrectFieldValidatorDecorator --|> AbstractFormFieldValidatorDecorator
+
+    class MoneyFieldValidatorDecorator {
+        +MoneyFieldValidatorDecorator(FormFieldValidator formFieldValidator)
+        +validate(Map<String, TextField> fields): boolean
+    }
+    MoneyFieldValidatorDecorator ..> cl.ucn.ingsoftware.taller2.taller2.util.ConditionalsAlert
+    MoneyFieldValidatorDecorator ..> cl.ucn.ingsoftware.taller2.taller2.validate.AbstractFormFieldValidatorDecorator
+    MoneyFieldValidatorDecorator ..> cl.ucn.ingsoftware.taller2.taller2.validate.FormFieldValidator
+    MoneyFieldValidatorDecorator --|> AbstractFormFieldValidatorDecorator
+
+    class PointsValidatorDecorator {
+        -shoppingBasket: ShoppingBasket
+        -user: User
+        +PointsValidatorDecorator(FormFieldValidator formFieldValidator, ShoppingBasket shoppingBasket, User user)
+        +validate(Map<String, TextField> fields): boolean
+    }
+    PointsValidatorDecorator ..> cl.ucn.ingsoftware.taller2.taller2.buy.ShoppingBasket
+    PointsValidatorDecorator ..> cl.ucn.ingsoftware.taller2.taller2.model.User
+    PointsValidatorDecorator ..> cl.ucn.ingsoftware.taller2.taller2.util.ConditionalsAlert
+    PointsValidatorDecorator ..> cl.ucn.ingsoftware.taller2.taller2.validate.AbstractFormFieldValidatorDecorator
+    PointsValidatorDecorator ..> cl.ucn.ingsoftware.taller2.taller2.validate.FormFieldValidator
+    PointsValidatorDecorator ..|> AbstractFormFieldValidatorDecorator
+
+    class RangeFormFieldValidatorDecorator {
+        -{static}MIN_AGE: int
+        -{static}MAX_AGE: int
+        +RangeFormFieldValidatorDecorator(FormFieldValidator formFieldValidator)
+        +validate(Map<String, TextField> fields): boolean
+    }
+    RangeFormFieldValidatorDecorator ..> cl.ucn.ingsoftware.taller2.taller2.util.ConditionalsAlert
+    RangeFormFieldValidatorDecorator ..> cl.ucn.ingsoftware.taller2.taller2.validate.AbstractFormFieldValidatorDecorator
+    RangeFormFieldValidatorDecorator ..> cl.ucn.ingsoftware.taller2.taller2.validate.FormFieldValidator
+    RangeFormFieldValidatorDecorator --|> AbstractFormFieldValidatorDecorator
 }
 @enduml
