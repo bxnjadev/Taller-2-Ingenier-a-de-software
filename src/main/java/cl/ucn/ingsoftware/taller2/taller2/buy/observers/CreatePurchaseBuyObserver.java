@@ -1,5 +1,6 @@
 package cl.ucn.ingsoftware.taller2.taller2.buy.observers;
 
+import cl.ucn.ingsoftware.taller2.taller2.buy.MethodPay;
 import cl.ucn.ingsoftware.taller2.taller2.buy.ServicesBuyObserver;
 import cl.ucn.ingsoftware.taller2.taller2.buy.ShoppingBasket;
 import cl.ucn.ingsoftware.taller2.taller2.model.Purchase;
@@ -25,7 +26,9 @@ public class CreatePurchaseBuyObserver implements ServicesBuyObserver {
     }
 
     @Override
-    public void buy(ShoppingBasket shoppingBasket) {
+    public void buy(ShoppingBasket shoppingBasket,
+                    MethodPay methodPay) {
+
         int code = Identifiers.newId();
         String actualDateAsString = dateProvider.provide();
         String dateSixMonthAsString = dateProvider.provide(

@@ -1,5 +1,6 @@
 package cl.ucn.ingsoftware.taller2.taller2.controllers;
 
+import cl.ucn.ingsoftware.taller2.taller2.buy.MethodPay;
 import cl.ucn.ingsoftware.taller2.taller2.buy.ShoppingBasket;
 import cl.ucn.ingsoftware.taller2.taller2.model.User;
 import cl.ucn.ingsoftware.taller2.taller2.screen.ScreenHandler;
@@ -58,7 +59,7 @@ public class PayPointsController implements Initializable {
 
         user.removePoints(cost);
 
-        shoppingBasket.notifyBought();
+        shoppingBasket.notifyBought(MethodPay.POINTS);
         shoppingBasket.clear();
 
         ((Node) (event.getSource())).getScene().getWindow().hide();

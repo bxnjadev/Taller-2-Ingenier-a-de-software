@@ -5,6 +5,7 @@ import cl.ucn.ingsoftware.taller2.taller2.adapter.CreditCardAdapter;
 import cl.ucn.ingsoftware.taller2.taller2.adapter.PaymentAdapter;
 import cl.ucn.ingsoftware.taller2.taller2.adapter.TokenAdapter;
 import cl.ucn.ingsoftware.taller2.taller2.authenticate.Credentials;
+import cl.ucn.ingsoftware.taller2.taller2.buy.MethodPay;
 import cl.ucn.ingsoftware.taller2.taller2.buy.ShoppingBasket;
 import cl.ucn.ingsoftware.taller2.taller2.model.CreditCard;
 import cl.ucn.ingsoftware.taller2.taller2.model.ObjectToken;
@@ -104,7 +105,7 @@ public class CreditCardController {
                 cost
         );
 
-        shoppingBasket.notifyBought();
+        shoppingBasket.notifyBought(MethodPay.CREDIT_CARD);
         shoppingBasket.clear();
 
         ((Node) (event.getSource())).getScene().getWindow().hide();

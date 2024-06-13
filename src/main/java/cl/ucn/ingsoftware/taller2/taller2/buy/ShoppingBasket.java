@@ -60,9 +60,9 @@ public class ShoppingBasket {
         return price;
     }
 
-    public void notifyBought() {
+    public void notifyBought(MethodPay methodPay) {
         for (ServicesBuyObserver servicesBuyObserver : observers) {
-            servicesBuyObserver.buy(this);
+            servicesBuyObserver.buy(this, methodPay);
         }
     }
 
