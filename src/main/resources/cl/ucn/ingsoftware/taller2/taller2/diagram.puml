@@ -1,4 +1,6 @@
 @startuml
+!pragma layout smetana
+left to right direction
 skin rose
 
 package cl.ucn.ingsoftware.taller2.taller2 {

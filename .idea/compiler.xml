@@ -9,5 +9,8 @@
         <module name="Taller2" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="test" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>
