@@ -7,15 +7,15 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="374.0" prefWidth="305.0" xmlns="http://javafx.com/javafx/20.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cl.ucn.ingsoftware.taller2.taller2.controllers.VoucherController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="374.0" prefWidth="332.0" xmlns="http://javafx.com/javafx/20.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cl.ucn.ingsoftware.taller2.taller2.controllers.VoucherController">
    <children>
       <Label layoutX="62.0" layoutY="26.0" text="Comprobante de pago" textAlignment="CENTER">
          <font>
             <Font name="Verdana" size="15.0" />
          </font>
       </Label>
-      <ListView fx:id="services" layoutX="62.0" layoutY="85.0" prefHeight="134.0" prefWidth="167.0" style="-fx-border-color: #D6C1DE;" />
-      <Separator layoutY="54.0" prefHeight="3.0" prefWidth="305.0" style="-fx-background-color: #D6C1DE; -fx-border-color: #D6C1DE;" />
+      <ListView fx:id="services" layoutX="62.0" layoutY="85.0" prefHeight="134.0" prefWidth="231.0" style="-fx-border-color: #D6C1DE;" />
+      <Separator layoutY="54.0" prefHeight="5.0" prefWidth="332.0" style="-fx-background-color: #D6C1DE; -fx-border-color: #D6C1DE;" />
       <Label layoutX="62.0" layoutY="66.0" text="Servicios" textAlignment="CENTER">
          <font>
             <Font name="Verdana" size="12.0" />
@@ -26,7 +26,7 @@
             <Font name="Verdana" size="12.0" />
          </font>
       </Label>
-      <Label fx:id="date" layoutX="122.0" layoutY="250.0" prefHeight="15.0" prefWidth="146.0" text="{fecha}" textAlignment="CENTER">
+      <Label fx:id="date" layoutX="122.0" layoutY="250.0" prefHeight="15.0" prefWidth="201.0" text="{fecha}" textAlignment="CENTER">
          <font>
             <Font name="Verdana" size="12.0" />
          </font>
@@ -36,7 +36,7 @@
             <Font name="Verdana" size="12.0" />
          </font>
       </Label>
-      <Label fx:id="dateExpiration" layoutX="179.0" layoutY="273.0" prefHeight="15.0" prefWidth="112.0" text="{fecha}" textAlignment="CENTER">
+      <Label fx:id="dateExpiration" layoutX="179.0" layoutY="273.0" prefHeight="15.0" prefWidth="143.0" text="{fecha}" textAlignment="CENTER">
          <font>
             <Font name="Verdana" size="12.0" />
          </font>
@@ -46,12 +46,12 @@
             <Font name="Verdana" size="12.0" />
          </font>
       </Label>
-      <Label fx:id="code" layoutX="118.0" layoutY="229.0" prefHeight="15.0" prefWidth="155.0" text="{codigo}" textAlignment="CENTER">
+      <Label fx:id="code" layoutX="118.0" layoutY="229.0" prefHeight="15.0" prefWidth="209.0" text="{codigo}" textAlignment="CENTER">
          <font>
             <Font name="Verdana" size="12.0" />
          </font>
       </Label>
-      <Separator layoutY="321.0" prefHeight="3.0" prefWidth="305.0" style="-fx-background-color: #D6C1DE; -fx-border-color: #D6C1DE;" />
+      <Separator layoutY="321.0" prefHeight="5.0" prefWidth="332.0" style="-fx-background-color: #D6C1DE; -fx-border-color: #D6C1DE;" />
       <Button layoutX="77.0" layoutY="338.0" mnemonicParsing="false" onAction="#retry" prefHeight="26.0" prefWidth="137.0" style="-fx-background-color: #C9E8B8;" text="Volver a comprar" />
    </children>
 </Pane>

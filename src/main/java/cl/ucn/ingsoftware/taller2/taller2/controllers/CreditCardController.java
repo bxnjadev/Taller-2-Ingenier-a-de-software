@@ -113,4 +113,14 @@ public class CreditCardController {
 
     }
 
+    public void exit(ActionEvent event) {
+        ((Node)(event.getSource())).getScene().getWindow().hide();
+        User user = sessionService.getSession();
+
+        ShoppingBasket shoppingBasket = shoppingBasketService.find(user.getName());
+        shoppingBasket.clear();
+
+        screenHandler.show("buy_gift_card", "Comprar una GiftCard");
+    }
+
 }

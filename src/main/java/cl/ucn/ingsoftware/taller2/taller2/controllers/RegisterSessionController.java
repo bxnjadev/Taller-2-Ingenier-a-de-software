@@ -76,8 +76,6 @@ public class RegisterSessionController {
                 DEFAULT_ROL
         );
 
-        screenHandler.show("register", "Registrarse");
-
         ((Node)(event.getSource())).getScene().getWindow().hide();
         screenHandler.show("login", "Iniciar Sesión");
     }

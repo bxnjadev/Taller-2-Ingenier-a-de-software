@@ -32,9 +32,14 @@
         <TextField fx:id="dateExpireMonth" layoutX="69.0" layoutY="160.0" prefHeight="26.0" prefWidth="54.0" promptText="mes" style="-fx-border-color: #D6C1DE; -fx-border-radius: 2;" />
         <TextField fx:id="dateExpireYear" layoutX="140.0" layoutY="160.0" prefHeight="26.0" prefWidth="54.0" promptText="año" style="-fx-border-color: #D6C1DE; -fx-background-radius: 2;" />
         <TextField fx:id="cvc" layoutX="236.0" layoutY="160.0" prefHeight="26.0" prefWidth="54.0" promptText="cvv" style="-fx-border-color: #D6C1DE; -fx-border-radius: 2;" />
-        <Button layoutX="125.0" layoutY="209.0" mnemonicParsing="false" onAction="#pay" prefHeight="26.0" prefWidth="128.0" style="-fx-background-color: #C9E8B8;" text="Pagar">
+        <Button layoutX="51.0" layoutY="211.0" mnemonicParsing="false" onAction="#pay" prefHeight="26.0" prefWidth="128.0" style="-fx-background-color: #C9E8B8;" text="Pagar">
          <font>
             <Font name="Verdana Bold" size="12.0" />
          </font></Button>
+      <Button layoutX="194.0" layoutY="211.0" mnemonicParsing="false" onAction="#exit" prefHeight="26.0" prefWidth="128.0" style="-fx-background-color: #C9E8B8;" text="Salir">
+         <font>
+            <Font name="Verdana Bold" size="12.0" />
+         </font>
+      </Button>
     </children>
 </Pane>
