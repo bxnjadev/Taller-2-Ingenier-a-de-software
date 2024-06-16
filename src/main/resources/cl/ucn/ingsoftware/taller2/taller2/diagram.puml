@@ -1,5 +1,4 @@
 @startuml
-!pragma layout smetana
 left to right direction
 skin rose
 
@@ -8,9 +7,9 @@ package cl.ucn.ingsoftware.taller2.taller2 {
       +start(Stage stage): void
       +{static} main(String[] args): void
     }
-    MainApplication ..> cl.ucn.ingsoftware.taller2.taller2.loader
-    MainApplication ..> cl.ucn.ingsoftware.taller2.taller2.service
-    MainApplication ..> cl.ucn.ingsoftware.taller2.taller2.screen.ScreenHandler
+    MainApplication "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.loader
+    MainApplication "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.service
+    MainApplication "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.screen.ScreenHandler
     class Application
     MainApplication --|> Application
 }
@@ -21,13 +20,13 @@ package cl.ucn.ingsoftware.taller2.taller2.adapter {
     class CredentialsAdapter {
         +serialize(Credentials credentials, Type type, JsonSerializationContext jsonSerializationContext): JsonElement
     }
-    CredentialsAdapter ..> cl.ucn.ingsoftware.taller2.taller2.authenticate.Credentials
+    CredentialsAdapter "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.authenticate.Credentials
     CredentialsAdapter ..|> JsonSerializer
 
     class CreditCardAdapter {
         +serialize(CreditCard creditCard, Type type, JsonSerializationContext jsonSerializationContext): JsonElement
     }
-    CreditCardAdapter ..> cl.ucn.ingsoftware.taller2.taller2.model.CreditCard
+    CreditCardAdapter "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.model.CreditCard
     CreditCardAdapter ..|> JsonSerializer
 
     class PaymentAdapter {
@@ -35,8 +34,8 @@ package cl.ucn.ingsoftware.taller2.taller2.adapter {
         +PaymentAdapter(JsonSerializer<CreditCard> creditCardJsonSerializer)
         +serialize(Payment payment, Type, type, JsonSerializationContext jsonSerializationContext): JsonElement
     }
-    PaymentAdapter ..> cl.ucn.ingsoftware.taller2.taller2.model.CreditCard
-    PaymentAdapter ..> cl.ucn.ingsoftware.taller2.taller2.model.Payment
+    PaymentAdapter "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.model.CreditCard
+    PaymentAdapter "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.model.Payment
     PaymentAdapter..|> JsonSerializer
 
     interface JsonDeserializer
@@ -44,20 +43,20 @@ package cl.ucn.ingsoftware.taller2.taller2.adapter {
     class ServiceDeserializer {
         +deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext): Service
     }
-    ServiceDeserializer ..> cl.ucn.ingsoftware.taller2.taller2.model.Service
+    ServiceDeserializer "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.model.Service
     ServiceDeserializer ..|> JsonDeserializer
 
     class TokenAdapter{
         +deserialize(JsonElement jsonElement, Type type,JsonDeserializationContext jsonDeserializationContext): ObjectToken
     }
-    TokenAdapter ..> cl.ucn.ingsoftware.taller2.taller2.model.ObjectToken
+    TokenAdapter "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.model.ObjectToken
     TokenAdapter ..|> JsonDeserializer
 
     class UserDeserializer{
         +deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext): User
     }
-    UserDeserializer ..> cl.ucn.ingsoftware.taller2.taller2.model.RolType
-    UserDeserializer ..> cl.ucn.ingsoftware.taller2.taller2.model.User
+    UserDeserializer "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.model.RolType
+    UserDeserializer "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.model.User
     UserDeserializer ..|> JsonDeserializer
 }
 
@@ -72,7 +71,7 @@ package cl.ucn.ingsoftware.taller2.taller2.authenticate {
         +{static} failed(): AuthenticationResponse
         +{static} successful(User user): AuthenticationResponse
     }
-    AuthenticationResponse ..> cl.ucn.ingsoftware.taller2.taller2.model.User
+    AuthenticationResponse "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.model.User
 
     interface Authenticator {
         +AuthenticationResponse authenticate(Credentials credentials);
@@ -86,14 +85,15 @@ package cl.ucn.ingsoftware.taller2.taller2.authenticate {
         BASIC
         DATABASE
     }
+    AuthenticatorType "1" --> "1" AuthenticatorFactory
 
     class BasicAuthenticator {
         -userService: UserService
         +BasicAuthenticator(UserService userService)
         +authenticate(Credentials credentials): AuthenticationResponse
     }
-    BasicAuthenticator ..> cl.ucn.ingsoftware.taller2.taller2.model.User
-    BasicAuthenticator ..> cl.ucn.ingsoftware.taller2.taller2.service.UserService
+    BasicAuthenticator "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.model.User
+    BasicAuthenticator "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.service.UserService
     BasicAuthenticator ..|> Authenticator
 
     class Credentials {
@@ -109,19 +109,21 @@ package cl.ucn.ingsoftware.taller2.taller2.authenticate {
         +DefaultAuthenticatorFactory(UserService userService)
         +get(AuthenticatorType type): Authenticator
     }
-    DefaultAuthenticatorFactory ..> cl.ucn.ingsoftware.taller2.taller2.service.UserService
+    DefaultAuthenticatorFactory "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.service.UserService
     DefaultAuthenticatorFactory ..|> AuthenticatorFactory
 
     enum StatusAuthenticationResponse {
         FAILED
         SUCCESSFUL
     }
+    StatusAuthenticationResponse "1" --> "1" AuthenticationResponse
 }
 
 package cl.ucn.ingsoftware.taller2.taller2.buy {
     interface ServicesBuyObserver {
         +buy(ShoppingBasket shoppingBasket): void
     }
+
     class ShoppingBasket {
         -observers Set<ServicesBuyObserver>
         -services Set<Service>
@@ -135,10 +137,9 @@ package cl.ucn.ingsoftware.taller2.taller2.buy {
         +calculatePrice(): double
         +notifyBought(): void
     }
-    ShoppingBasket ..> cl.ucn.ingsoftware.taller2.taller2.buy.observers.AccumulatePointServiceBuyObserver
-    ShoppingBasket ..> cl.ucn.ingsoftware.taller2.taller2.buy.observers.CreatePurchaseBuyObserver
-    ShoppingBasket ..> cl.ucn.ingsoftware.taller2.taller2.model.Service
-    ShoppingBasket ..> cl.ucn.ingsoftware.taller2.taller2.model.User
+    ShoppingBasket "1" --> "1..*" cl.ucn.ingsoftware.taller2.taller2.buy.observers.CreatePurchaseBuyObserver
+    ShoppingBasket "1" --> "0..*" cl.ucn.ingsoftware.taller2.taller2.model.Service
+    ShoppingBasket "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.model.User
 }
 
 package cl.ucn.ingsoftware.taller2.taller2.buy.observers {
@@ -146,9 +147,9 @@ package cl.ucn.ingsoftware.taller2.taller2.buy.observers {
         -{static} PERCENTAGE: double
         +buy(ShoppingBasket shoppingBasket): void
     }
-    AccumulatePointServiceBuyObserver ..> cl.ucn.ingsoftware.taller2.taller2.buy.ServicesBuyObserver
-    AccumulatePointServiceBuyObserver ..> cl.ucn.ingsoftware.taller2.taller2.buy.ShoppingBasket
-    AccumulatePointServiceBuyObserver ..> cl.ucn.ingsoftware.taller2.taller2.model.User
+    AccumulatePointServiceBuyObserver "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.buy.ServicesBuyObserver
+    AccumulatePointServiceBuyObserver "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.buy.ShoppingBasket
+    AccumulatePointServiceBuyObserver "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.model.User
     AccumulatePointServiceBuyObserver ..|> ServicesBuyObserver
 
     class CreatePurchaseBuyObserver {
@@ -160,14 +161,14 @@ package cl.ucn.ingsoftware.taller2.taller2.buy.observers {
         +buy(ShoppingBasket shoppingBasket): void
         -convertServicesToListString(Collection<Service> services): Set<String>
     }
-    CreatePurchaseBuyObserver ..> cl.ucn.ingsoftware.taller2.taller2.buy.ServicesBuyObserver
-    CreatePurchaseBuyObserver ..> cl.ucn.ingsoftware.taller2.taller2.buy.ShoppingBasket
-    CreatePurchaseBuyObserver ..> cl.ucn.ingsoftware.taller2.taller2.model.Purchase
-    CreatePurchaseBuyObserver ..> cl.ucn.ingsoftware.taller2.taller2.model.Service
-    CreatePurchaseBuyObserver ..> cl.ucn.ingsoftware.taller2.taller2.service.RecentPurchaseService
-    CreatePurchaseBuyObserver ..> cl.ucn.ingsoftware.taller2.taller2.util.DateConversionApplier
-    CreatePurchaseBuyObserver ..> cl.ucn.ingsoftware.taller2.taller2.util.DateProvider
-    CreatePurchaseBuyObserver ..> cl.ucn.ingsoftware.taller2.taller2.util.Identifiers
+    CreatePurchaseBuyObserver "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.buy.ServicesBuyObserver
+    CreatePurchaseBuyObserver "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.buy.ShoppingBasket
+    CreatePurchaseBuyObserver "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.model.Purchase
+    CreatePurchaseBuyObserver "1" --> "1..*" cl.ucn.ingsoftware.taller2.taller2.model.Service
+    CreatePurchaseBuyObserver "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.service.RecentPurchaseService
+    CreatePurchaseBuyObserver "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.util.DateConversionApplier
+    CreatePurchaseBuyObserver "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.util.DateProvider
+    CreatePurchaseBuyObserver "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.util.Identifiers
     CreatePurchaseBuyObserver ..|> ServicesBuyObserver
 }
 
@@ -183,6 +184,7 @@ package cl.ucn.ingsoftware.taller2.taller2.confirmation {
         +showAndWait(): void
         +{static} createAndShow(ActionConfirmationExecutor actionConfirmationExecutor): AlertConfirmation
     }
+    AlertConfirmation "1" ..> "1" ActionConfirmationExecutor : uses
 }
 
 package cl.ucn.ingsoftware.taller2.taller2.controllers {
@@ -199,16 +201,16 @@ package cl.ucn.ingsoftware.taller2.taller2.controllers {
         +handleLogin(ActionEvent event): void
         +onExit(ActionEvent event): void
     }
-    AuthenticationController ..> cl.ucn.ingsoftware.taller2.taller2.authenticate
-    AuthenticationController ..> cl.ucn.ingsoftware.taller2.taller2.model.RolType
-    AuthenticationController ..> cl.ucn.ingsoftware.taller2.taller2.model.User
-    AuthenticationController ..> cl.ucn.ingsoftware.taller2.taller2.screen.ScreenHandler
-    AuthenticationController ..> cl.ucn.ingsoftware.taller2.taller2.service.SessionService
-    AuthenticationController ..> cl.ucn.ingsoftware.taller2.taller2.service.UserService
-    AuthenticationController ..> cl.ucn.ingsoftware.taller2.taller2.util.AlertMessage
-    AuthenticationController ..> cl.ucn.ingsoftware.taller2.taller2.validate.BasicFormFieldValidator
-    AuthenticationController ..> cl.ucn.ingsoftware.taller2.taller2.validate.FormFieldValidator
-    AuthenticationController ..> cl.ucn.ingsoftware.taller2.taller2.validate.decorators.MailIncorrectFieldValidatorDecorator
+    AuthenticationController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.authenticate
+    AuthenticationController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.model.RolType
+    AuthenticationController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.model.User
+    AuthenticationController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.screen.ScreenHandler
+    AuthenticationController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.service.SessionService
+    AuthenticationController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.service.UserService
+    AuthenticationController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.util.AlertMessage
+    AuthenticationController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.validate.BasicFormFieldValidator
+    AuthenticationController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.validate.FormFieldValidator
+    AuthenticationController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.validate.decorators.MailIncorrectFieldValidatorDecorator
 
     interface Initializable
 
@@ -217,8 +219,8 @@ package cl.ucn.ingsoftware.taller2.taller2.controllers {
         -servicesRegistry: ServicesRegistry
         -shoppingBasketService: ShoppingBasketService
         -screenHandler: ScreenHandler
-        +listview: ListView<String>
-        +priceField: TextField
+        -listview: ListView<String>
+        -priceField: TextField
         -shoppingBasket: ShoppingBasket
         +initialize(URL url, ResourceBundle resourceBundle): void
         +onExit(ActionEvent event): void
@@ -226,14 +228,14 @@ package cl.ucn.ingsoftware.taller2.taller2.controllers {
         +payCreditCard(ActionEvent event): void
         +payPoints(ActionEvent event): void
     }
-    BuyGiftCardController ..> cl.ucn.ingsoftware.taller2.taller2.buy.ShoppingBasket
-    BuyGiftCardController ..> cl.ucn.ingsoftware.taller2.taller2.model.Service
-    BuyGiftCardController ..> cl.ucn.ingsoftware.taller2.taller2.model.User
-    BuyGiftCardController ..> cl.ucn.ingsoftware.taller2.taller2.screen.ScreenHandler
-    BuyGiftCardController ..> cl.ucn.ingsoftware.taller2.taller2.service.ServicesRegistry
-    BuyGiftCardController ..> cl.ucn.ingsoftware.taller2.taller2.service.SessionService
-    BuyGiftCardController ..> cl.ucn.ingsoftware.taller2.taller2.service.ShoppingBasketService
-    BuyGiftCardController ..> cl.ucn.ingsoftware.taller2.taller2.util.AlertMessage
+    BuyGiftCardController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.buy.ShoppingBasket
+    BuyGiftCardController "1" --> "1..*" cl.ucn.ingsoftware.taller2.taller2.model.Service
+    BuyGiftCardController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.model.User
+    BuyGiftCardController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.screen.ScreenHandler
+    BuyGiftCardController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.service.ServicesRegistry
+    BuyGiftCardController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.service.SessionService
+    BuyGiftCardController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.service.ShoppingBasketService
+    BuyGiftCardController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.util.AlertMessage
     BuyGiftCardController ..|> Initializable
 
     class CreditCardController {
@@ -242,30 +244,30 @@ package cl.ucn.ingsoftware.taller2.taller2.controllers {
         -sessionService: SessionService
         -screenHandler: ScreenHandler
         -formFieldValidator: FormFieldValidator
-        +creditCardNumber: TextField
-        +dateExpireMonth: TextField
-        +dateExpireYear: TextField
-        +cvc:TextField
+        -creditCardNumber: TextField
+        -dateExpireMonth: TextField
+        -dateExpireYear: TextField
+        -cvc:TextField
         +CreditCardController()
         +pay(ActionEvent event): void
     }
-    CreditCardController ..> cl.ucn.ingsoftware.taller2.taller2.adapter.CredentialsAdapter
-    CreditCardController ..> cl.ucn.ingsoftware.taller2.taller2.adapter.CreditCardAdapter
-    CreditCardController ..> cl.ucn.ingsoftware.taller2.taller2.adapter.PaymentAdapter
-    CreditCardController ..> cl.ucn.ingsoftware.taller2.taller2.adapter.TokenAdapter
-    CreditCardController ..> cl.ucn.ingsoftware.taller2.taller2.authenticate.Credentials
-    CreditCardController ..> cl.ucn.ingsoftware.taller2.taller2.buy.ShoppingBasket
-    CreditCardController ..> cl.ucn.ingsoftware.taller2.taller2.model.CreditCard
-    CreditCardController ..> cl.ucn.ingsoftware.taller2.taller2.model.ObjectToken
-    CreditCardController ..> cl.ucn.ingsoftware.taller2.taller2.model.Payment
-    CreditCardController ..> cl.ucn.ingsoftware.taller2.taller2.model.User
-    CreditCardController ..> cl.ucn.ingsoftware.taller2.taller2.screen.ScreenHandler
-    CreditCardController ..> cl.ucn.ingsoftware.taller2.taller2.service.CreditCardService
-    CreditCardController ..> cl.ucn.ingsoftware.taller2.taller2.service.SessionService
-    CreditCardController ..> cl.ucn.ingsoftware.taller2.taller2.service.ShoppingBasketService
-    CreditCardController ..> cl.ucn.ingsoftware.taller2.taller2.util.AlertMessage
-    CreditCardController ..> cl.ucn.ingsoftware.taller2.taller2.validate.BasicFormFieldValidator
-    CreditCardController ..> cl.ucn.ingsoftware.taller2.taller2.validate.FormFieldValidator
+    CreditCardController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.adapter.CredentialsAdapter
+    CreditCardController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.adapter.CreditCardAdapter
+    CreditCardController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.adapter.PaymentAdapter
+    CreditCardController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.adapter.TokenAdapter
+    CreditCardController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.authenticate.Credentials
+    CreditCardController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.buy.ShoppingBasket
+    CreditCardController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.model.CreditCard
+    CreditCardController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.model.ObjectToken
+    CreditCardController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.model.Payment
+    CreditCardController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.model.User
+    CreditCardController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.screen.ScreenHandler
+    CreditCardController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.service.CreditCardService
+    CreditCardController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.service.SessionService
+    CreditCardController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.service.ShoppingBasketService
+    CreditCardController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.util.AlertMessage
+    CreditCardController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.validate.BasicFormFieldValidator
+    CreditCardController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.validate.FormFieldValidator
 
     class HandleServicesController {
         -columnName: TableColumn<Service, String>
@@ -275,8 +277,8 @@ package cl.ucn.ingsoftware.taller2.taller2.controllers {
         -servicesRegistry: ServicesRegistry
         -sessionService: SessionService
         -screenHandler: ScreenHandler
-        +serviceField: TextField
-        +priceField: TextField
+        -serviceField: TextField
+        -priceField: TextField
         +HandleServicesController()
         +onAdd(): void
         +onRemove(): void
@@ -285,15 +287,15 @@ package cl.ucn.ingsoftware.taller2.taller2.controllers {
         +onExit(ActionEvent event):void
         +onEdit(): void
     }
-    HandleServicesController ..> cl.ucn.ingsoftware.taller2.taller2.confirmation.AlertConfirmation
-    HandleServicesController ..> cl.ucn.ingsoftware.taller2.taller2.model.Service
-    HandleServicesController ..> cl.ucn.ingsoftware.taller2.taller2.screen.ScreenHandler
-    HandleServicesController ..> cl.ucn.ingsoftware.taller2.taller2.service.ServicesRegistry
-    HandleServicesController ..> cl.ucn.ingsoftware.taller2.taller2.service.SessionService
-    HandleServicesController ..> cl.ucn.ingsoftware.taller2.taller2.util.AlertMessage
-    HandleServicesController ..> cl.ucn.ingsoftware.taller2.taller2.validate.BasicFormFieldValidator
-    HandleServicesController ..> cl.ucn.ingsoftware.taller2.taller2.validate.FormFieldValidator
-    HandleServicesController ..> cl.ucn.ingsoftware.taller2.taller2.validate.decorators.MoneyFieldValidatorDecorator
+    HandleServicesController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.confirmation.AlertConfirmation
+    HandleServicesController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.model.Service
+    HandleServicesController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.screen.ScreenHandler
+    HandleServicesController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.service.ServicesRegistry
+    HandleServicesController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.service.SessionService
+    HandleServicesController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.util.AlertMessage
+    HandleServicesController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.validate.BasicFormFieldValidator
+    HandleServicesController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.validate.FormFieldValidator
+    HandleServicesController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.validate.decorators.MoneyFieldValidatorDecorator
     HandleServicesController ..|> Initializable
 
     class PayPointsController {
@@ -301,61 +303,61 @@ package cl.ucn.ingsoftware.taller2.taller2.controllers {
         -shoppingBasketService: ShoppingBasketService
         -screenHandler: ScreenHandler
         -formFieldValidator: FormFieldValidator
-        +pointField: TextField
+        -pointField: TextField
         +PayPointsController()
         +pay(ActionEvent event): void
         +initialize(URL url, ResourceBundle resourceBundle): void
     }
-    PayPointsController ..> cl.ucn.ingsoftware.taller2.taller2.buy.ShoppingBasket
-    PayPointsController ..> cl.ucn.ingsoftware.taller2.taller2.model.User
-    PayPointsController ..> cl.ucn.ingsoftware.taller2.taller2.screen.ScreenHandler
-    PayPointsController ..> cl.ucn.ingsoftware.taller2.taller2.service.SessionService
-    PayPointsController ..> cl.ucn.ingsoftware.taller2.taller2.service.ShoppingBasketService
-    PayPointsController ..> cl.ucn.ingsoftware.taller2.taller2.validate.BasicFormFieldValidator
-    PayPointsController ..> cl.ucn.ingsoftware.taller2.taller2.validate.FormFieldValidator
-    PayPointsController ..> cl.ucn.ingsoftware.taller2.taller2.validate.decorators.PointsValidatorDecorator
+    PayPointsController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.buy.ShoppingBasket
+    PayPointsController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.model.User
+    PayPointsController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.screen.ScreenHandler
+    PayPointsController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.service.SessionService
+    PayPointsController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.service.ShoppingBasketService
+    PayPointsController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.validate.BasicFormFieldValidator
+    PayPointsController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.validate.FormFieldValidator
+    PayPointsController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.validate.decorators.PointsValidatorDecorator
     PayPointsController ..|> Initializable
 
     class RegisterSessionController {
         -{static} DEFAULT_ROL: RolType
         -userService: UserService
         -screenHandler: ScreenHandler
-        +name: TextField
-        +age: TextField
-        +mail: TextField
-        +passwordField: TextField
-        +passwordRepeatField: TextField
-        +button: Button
+        -name: TextField
+        -age: TextField
+        -mail: TextField
+        -passwordField: TextField
+        -passwordRepeatField: TextField
+        -button: Button
         +RegisterSessionController()
         +handleRegister(ActionEvent event): void
         +loginHyperLink(ActionEvent event): void
     }
-    RegisterSessionController ..> cl.ucn.ingsoftware.taller2.taller2.model.RolType
-    RegisterSessionController ..> cl.ucn.ingsoftware.taller2.taller2.register.RegisterService
-    RegisterSessionController ..> cl.ucn.ingsoftware.taller2.taller2.register.StatusRegister
-    RegisterSessionController ..> cl.ucn.ingsoftware.taller2.taller2.screen.ScreenHandler
-    RegisterSessionController ..> cl.ucn.ingsoftware.taller2.taller2.service.UserService
-    RegisterSessionController ..> cl.ucn.ingsoftware.taller2.taller2.validate.BasicFormFieldValidator
-    RegisterSessionController ..> cl.ucn.ingsoftware.taller2.taller2.validate.FormFieldValidator
-    RegisterSessionController ..> cl.ucn.ingsoftware.taller2.taller2.validate.decorators.EqualsPasswordFieldValidatorDecorator
-    RegisterSessionController ..> cl.ucn.ingsoftware.taller2.taller2.validate.decorators.MailFieldDecoratorValidator
-    RegisterSessionController ..> cl.ucn.ingsoftware.taller2.taller2.validate.decorators.RangeFormValidatorDecorator
+    RegisterSessionController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.model.RolType
+    RegisterSessionController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.register.RegisterService
+    RegisterSessionController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.register.StatusRegister
+    RegisterSessionController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.screen.ScreenHandler
+    RegisterSessionController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.service.UserService
+    RegisterSessionController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.validate.BasicFormFieldValidator
+    RegisterSessionController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.validate.FormFieldValidator
+    RegisterSessionController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.validate.decorators.EqualsPasswordFieldValidatorDecorator
+    RegisterSessionController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.validate.decorators.MailFieldValidatorDecorator
+    RegisterSessionController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.validate.decorators.RangeFormFieldValidatorDecorator
 
     class VoucherController {
         -recentPurchaseService: RecentPurchaseService
         -screenHandler: ScreenHandler
-        +date: Label
-        +dateExpiration: Label
-        +code: Label
-        +services: ListView<String>
+        -date: Label
+        -dateExpiration: Label
+        -code: Label
+        -services: ListView<String>
         +initialize(URL url, ResourceBundle resourceBundle): void
         +retry(ActionEvent event): void
     }
-    VoucherController ..> cl.ucn.ingsoftware.taller2.taller2.model.Purchase
-    VoucherController ..> cl.ucn.ingsoftware.taller2.taller2.model.User
-    VoucherController ..> cl.ucn.ingsoftware.taller2.taller2.screen.ScreenHandler
-    VoucherController ..> cl.ucn.ingsoftware.taller2.taller2.service.RecentPurchaseService
-    VoucherController ..> cl.ucn.ingsoftware.taller2.taller2.service.SessionService
+    VoucherController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.model.Purchase
+    VoucherController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.model.User
+    VoucherController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.screen.ScreenHandler
+    VoucherController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.service.RecentPurchaseService
+    VoucherController "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.service.SessionService
     VoucherController ..|> Initializable
 }
 
@@ -386,8 +388,8 @@ package cl.ucn.ingsoftware.taller2.taller2.loader {
         +CreditCardServiceLoader(CreditCardService creditCardService)
         +load(): void
     }
-    CreditCardServiceLoader ..> cl.ucn.ingsoftware.taller2.taller2.authenticate.Credentials
-    CreditCardServiceLoader ..> cl.ucn.ingsoftware.taller2.taller2.service.CreditCardService
+    CreditCardServiceLoader "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.authenticate.Credentials
+    CreditCardServiceLoader "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.service.CreditCardService
     CreditCardServiceLoader ..|> Loader
 
     interface Loader {
@@ -404,9 +406,8 @@ package cl.ucn.ingsoftware.taller2.taller2.loader {
     class SceneLoader {
         +SceneLoader(Stage stage)
     }
-    SceneLoader ..> cl.ucn.ingsoftware.taller2.taller2.MainApplication
-    SceneLoader ..> cl.ucn.ingsoftware.taller2.taller2.screen.ScreenModel
-    SceneLoader ..> cl.ucn.ingsoftware.taller2.taller2.screen.ScreenHandler
+    SceneLoader "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.MainApplication
+    SceneLoader "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.screen.ScreenHandler
     SceneLoader ..|> Loader
 
     class ServiceLoader {
@@ -417,28 +418,28 @@ package cl.ucn.ingsoftware.taller2.taller2.loader {
         +load(): void
         -fill(Service[] services): void
     }
-    ServiceLoader ..> cl.ucn.ingsoftware.taller2.taller2.adapter.ServiceDeserializer
-    ServiceLoader ..> cl.ucn.ingsoftware.taller2.taller2.model.Service
-    ServiceLoader ..> cl.ucn.ingsoftware.taller2.taller2.service.ServicesRegistry
-    ServiceLoader ..> cl.ucn.ingsoftware.taller2.taller2.util.Reader
-    ServiceLoader ..> cl.ucn.ingsoftware.taller2.taller2.util.ReaderUtil
-    ServiceLoader ..> cl.ucn.ingsoftware.taller2.taller2.util.StringReaderAdapter
+    ServiceLoader "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.adapter.ServiceDeserializer
+    ServiceLoader "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.model.Service
+    ServiceLoader "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.service.ServicesRegistry
+    ServiceLoader "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.util.Reader
+    ServiceLoader "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.util.ReaderUtil
+    ServiceLoader "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.util.StringReaderAdapter
     ServiceLoader ..|> Loader
 
     class UserLoader {
         -{static} FILE_NAME: String
         -{static} GSON: Gson
         -userService: UserService
-        +public UserLoader(UserService userService)
+        +UserLoader(UserService userService)
         +load(): void
         -addUsers(User[] users, UserService userService): void
     }
-    UserLoader ..> cl.ucn.ingsoftware.taller2.taller2.adapter.UserDeserializer
-    UserLoader ..> cl.ucn.ingsoftware.taller2.taller2.model.User
-    UserLoader ..> cl.ucn.ingsoftware.taller2.taller2.service.UserService
-    UserLoader ..> cl.ucn.ingsoftware.taller2.taller2.util.Reader
-    UserLoader ..> cl.ucn.ingsoftware.taller2.taller2.util.ReaderUtil
-    UserLoader ..> cl.ucn.ingsoftware.taller2.taller2.util.StringReaderAdapter
+    UserLoader "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.adapter.UserDeserializer
+    UserLoader "1" --> "1..*" cl.ucn.ingsoftware.taller2.taller2.model.User
+    UserLoader "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.service.UserService
+    UserLoader "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.util.Reader
+    UserLoader "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.util.ReaderUtil
+    UserLoader "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.util.StringReaderAdapter
     UserLoader ..|> Loader
 }
 
@@ -537,17 +538,17 @@ package cl.ucn.ingsoftware.taller2.taller2.register {
         +register(String name, int age, String mail, String password, String repeatPassword, RolType rolType): StatusRegister
         +{static}getInstance(UserService userService): RegisterService
     }
-    BasicRegisterService ..> cl.ucn.ingsoftware.taller2.taller2.model.RolType
-    BasicRegisterService ..> cl.ucn.ingsoftware.taller2.taller2.model.User
-    BasicRegisterService ..> cl.ucn.ingsoftware.taller2.taller2.service.UserService
+    BasicRegisterService "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.model.RolType
+    BasicRegisterService "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.model.User
+    BasicRegisterService "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.service.UserService
     BasicRegisterService ..|> RegisterService
 
     interface RegisterService {
         +register(String name, int age, String mail, String password, String repeatPassword, RolType rolType): StatusRegister
         +{static}getInstance(UserService userService):RegisterService
     }
-    RegisterService ..> cl.ucn.ingsoftware.taller2.taller2.model.RolType
-    RegisterService ..> cl.ucn.ingsoftware.taller2.taller2.service.UserService
+    RegisterService "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.model.RolType
+    RegisterService "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.service.UserService
 
     enum StatusRegister {
         OK
@@ -562,17 +563,7 @@ package cl.ucn.ingsoftware.taller2.taller2.screen {
         +show(String name, String title): void
         +{static}getInstance(): ScreenHandler
     }
-    ScreenHandler ..> cl.ucn.ingsoftware.taller2.taller2.MainApplication
-
-    class ScreenModel {
-        -loader: FXMLLoader
-        -v1: int
-        -v2: int
-        +ScreenModel(FXMLLoader loader, int v1, int v2)
-        +getLoader(): FXMLLoader
-        +getV1(): int
-        +getV2(): int
-    }
+    ScreenHandler "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.MainApplication
 }
 
 package cl.ucn.ingsoftware.taller2.taller2.service {
@@ -584,8 +575,8 @@ package cl.ucn.ingsoftware.taller2.taller2.service {
         +pay(CreditCard creditCard, String description, int amount): boolean
         +{static}http(): CreditCardService
     }
-    CreditCardService ..> cl.ucn.ingsoftware.taller2.taller2.authenticate.Credentials
-    CreditCardService ..> cl.ucn.ingsoftware.taller2.taller2.model.CreditCard
+    CreditCardService "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.authenticate.Credentials
+    CreditCardService "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.model.CreditCard
 
     class HttpCreditCardService {
         -{static}HTTP_CREDIT_CARD_SERVICE: CreditCardService
@@ -602,15 +593,15 @@ package cl.ucn.ingsoftware.taller2.taller2.service {
         +pay(CreditCard creditCard, String description, int amount): boolean
         +{static}getInstance(): CreditCardService
     }
-    HttpCreditCardService ..> cl.ucn.ingsoftware.taller2.taller2.adapter.CredentialsAdapter
-    HttpCreditCardService ..> cl.ucn.ingsoftware.taller2.taller2.adapter.CreditCardAdapter
-    HttpCreditCardService ..> cl.ucn.ingsoftware.taller2.taller2.adapter.PaymentAdapter
-    HttpCreditCardService ..> cl.ucn.ingsoftware.taller2.taller2.adapter.TokenAdapter
-    HttpCreditCardService ..> cl.ucn.ingsoftware.taller2.taller2.authenticate.Credentials
-    HttpCreditCardService ..> cl.ucn.ingsoftware.taller2.taller2.http.HttpWrapperBuilder
-    HttpCreditCardService ..> cl.ucn.ingsoftware.taller2.taller2.model.CreditCard
-    HttpCreditCardService ..> cl.ucn.ingsoftware.taller2.taller2.model.ObjectToken
-    HttpCreditCardService ..> cl.ucn.ingsoftware.taller2.taller2.model.Payment
+    HttpCreditCardService "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.adapter.CredentialsAdapter
+    HttpCreditCardService "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.adapter.CreditCardAdapter
+    HttpCreditCardService "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.adapter.PaymentAdapter
+    HttpCreditCardService "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.adapter.TokenAdapter
+    HttpCreditCardService "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.authenticate.Credentials
+    HttpCreditCardService "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.http.HttpWrapperBuilder
+    HttpCreditCardService "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.model.CreditCard
+    HttpCreditCardService "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.model.ObjectToken
+    HttpCreditCardService "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.model.Payment
     HttpCreditCardService ..|> CreditCardService
 
     interface RecentPurchaseService {
@@ -619,8 +610,8 @@ package cl.ucn.ingsoftware.taller2.taller2.service {
         +delete(User user): void
         +{static}getInstance(): RecentPurchaseService
     }
-    RecentPurchaseService ..> cl.ucn.ingsoftware.taller2.taller2.model.Purchase
-    RecentPurchaseService ..> cl.ucn.ingsoftware.taller2.taller2.model.User
+    RecentPurchaseService "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.model.Purchase
+    RecentPurchaseService "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.model.User
 
     class RecentPurchaseServiceImpl {
         -{static}RECENT_PURCHASE_SERVICE: RecentPurchaseService
@@ -630,8 +621,8 @@ package cl.ucn.ingsoftware.taller2.taller2.service {
         +delete(User user): void
         +{static}getInstance():RecentPurchaseService
     }
-    RecentPurchaseServiceImpl ..> cl.ucn.ingsoftware.taller2.taller2.model.Purchase
-    RecentPurchaseServiceImpl ..> cl.ucn.ingsoftware.taller2.taller2.model.User
+    RecentPurchaseServiceImpl "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.model.Purchase
+    RecentPurchaseServiceImpl "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.model.User
     RecentPurchaseServiceImpl ..|> RecentPurchaseService
 
     class ServiceRegistryImpl {
@@ -645,7 +636,7 @@ package cl.ucn.ingsoftware.taller2.taller2.service {
         +all(): Collection<Service>
         +{static}getInstance(): ServicesRegistry
     }
-    ServiceRegistryImpl ..> cl.ucn.ingsoftware.taller2.taller2.model.Service
+    ServiceRegistryImpl "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.model.Service
     ServiceRegistryImpl ..|> ServicesRegistry
 
     interface ServicesRegistry {
@@ -656,7 +647,7 @@ package cl.ucn.ingsoftware.taller2.taller2.service {
         +all(): Collection<Service>
         +{static}getServicesRegistry(): ServicesRegistry
     }
-    ServicesRegistry ..> cl.ucn.ingsoftware.taller2.taller2.model.Service
+    ServicesRegistry "1" -> "1..*" cl.ucn.ingsoftware.taller2.taller2.model.Service
 
     interface SessionService {
         +newSession(user user): void
@@ -664,7 +655,7 @@ package cl.ucn.ingsoftware.taller2.taller2.service {
         +close(): void
         +{static}getInstance(): SessionService
     }
-    SessionService ..> cl.ucn.ingsoftware.taller2.taller2.model.User
+    SessionService "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.model.User
 
     class SessionServiceImpl {
         -{static}SESSION_SERVICE: SessionService
@@ -674,7 +665,7 @@ package cl.ucn.ingsoftware.taller2.taller2.service {
         +close(): void
         +{static}getInstance(): SessionService
     }
-    ServiceRegistryImpl ..> cl.ucn.ingsoftware.taller2.taller2.model.User
+    ServiceRegistryImpl "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.model.User
     ServiceRegistryImpl ..|> SessionService
 
     interface ShoppingBasketService {
@@ -683,7 +674,7 @@ package cl.ucn.ingsoftware.taller2.taller2.service {
         +find(String username): ShoppingBasket
         +{static}getInstance(): ShoppingBasketService
     }
-    ShoppingBasketService ..> cl.ucn.ingsoftware.taller2.taller2.buy.ShoppingBasket
+    ShoppingBasketService "1" --> "1..*" cl.ucn.ingsoftware.taller2.taller2.buy.ShoppingBasket
 
     class ShoppingBasketServiceImpl {
         -{static}SHOPPING_BASKET_SERVICE: ShoppingBasketService
@@ -693,7 +684,7 @@ package cl.ucn.ingsoftware.taller2.taller2.service {
         +find(String username): ShoppingBasket
         +{static}getInstance(): ShoppingBasketService
     }
-    ShoppingBasketServiceImpl ..> cl.ucn.ingsoftware.taller2.taller2.buy.ShoppingBasket
+    ShoppingBasketServiceImpl "1" --> "1..*" cl.ucn.ingsoftware.taller2.taller2.buy.ShoppingBasket
     ShoppingBasketServiceImpl ..|> ShoppingBasketService
 
     interface UserService {
@@ -704,7 +695,7 @@ package cl.ucn.ingsoftware.taller2.taller2.service {
         +all(): Collection<User>
         +{static}getInstance(): UserService
     }
-    UserService ..> cl.ucn.ingsoftware.taller2.taller2.model.User
+    UserService "1" --> "1..*" cl.ucn.ingsoftware.taller2.taller2.model.User
 
     class UserServiceImpl {
         -{static}USER_SERVICE: UserService
@@ -717,30 +708,8 @@ package cl.ucn.ingsoftware.taller2.taller2.service {
         +all(): Collection<User>
         +{static}getService(): UserService
     }
-    UserServiceImpl ..> cl.ucn.ingsoftware.taller2.taller2.model.User
+    UserServiceImpl "1" --> "1..*" cl.ucn.ingsoftware.taller2.taller2.model.User
     UserServiceImpl ..|> UserService
-}
-
-package cl.ucn.ingsoftware.taller2.taller2.shutdown {
-    class MainShutdown {
-        -shutdowns: Set<Shutdown>
-        +MainShutdown
-        +add(Shutdown shutdown): void
-        +shutdown(): void
-    }
-
-    class ServiceShutdown {
-        -userService: UserService
-        +ServiceShutdown()
-        +shutdown(): void
-    }
-    ServiceShutdown ..> cl.ucn.ingsoftware.taller2.taller2.service.UserService
-    ServiceShutdown ..|> Shutdown
-
-    interface Shutdown {
-        +shutdown(): void
-    }
-    class UserShutdown
 }
 
 package cl.ucn.ingsoftware.taller2.taller2.util {
@@ -804,16 +773,8 @@ package cl.ucn.ingsoftware.taller2.taller2.util {
         +readLine(): String
         +close(): void
     }
-    StringReaderAdapter ..> cl.ucn.ingsoftware.taller2.taller2.MainApplication
+    StringReaderAdapter "1" ..> "1" cl.ucn.ingsoftware.taller2.taller2.MainApplication
     StringReaderAdapter ..|> Reader
-
-    enum UnitTime {
-        SECONDS
-        TO_MILLIS
-        HOURS
-        DAYS
-        MONTHS
-    }
 }
 
 package cl.ucn.ingsoftware.taller2.taller2.validate {
@@ -827,7 +788,7 @@ package cl.ucn.ingsoftware.taller2.taller2.validate {
         -{static}TEXT_FIELDS: TextField[]
         +validate(Map<String, TextField> fields): boolean
     }
-    BasicFormFieldValidator ..> cl.ucn.ingsoftware.taller2.taller2.util.ConditionalsAlert
+    BasicFormFieldValidator "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.util.ConditionalsAlert
     BasicFormFieldValidator ..|> FormFieldValidator
 
     interface FormFieldValidator {
@@ -840,9 +801,9 @@ package cl.ucn.ingsoftware.taller2.taller2.validate.decorators {
         +EqualsPasswordFieldValidatorDecorator(FormFieldValidator formFieldValidator)
         +validate(Map<String, TextField> fields): boolean
     }
-    EqualsPasswordFieldValidatorDecorator ..> cl.ucn.ingsoftware.taller2.taller2.util.ConditionalsAlert
-    EqualsPasswordFieldValidatorDecorator ..> cl.ucn.ingsoftware.taller2.taller2.validate.AbstractFormFieldValidatorDecorator
-    EqualsPasswordFieldValidatorDecorator ..> cl.ucn.ingsoftware.taller2.taller2.validate.FormFieldValidator
+    EqualsPasswordFieldValidatorDecorator "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.util.ConditionalsAlert
+    EqualsPasswordFieldValidatorDecorator "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.validate.AbstractFormFieldValidatorDecorator
+    EqualsPasswordFieldValidatorDecorator "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.validate.FormFieldValidator
     EqualsPasswordFieldValidatorDecorator --|> AbstractFormFieldValidatorDecorator
 
     class MailFieldValidatorDecorator {
@@ -857,19 +818,19 @@ package cl.ucn.ingsoftware.taller2.taller2.validate.decorators {
         +MailIncorrectFieldValidatorDecorator(FormFieldValidator formFieldValidator, UserService userService)
         +validate(Map<String, TextField> fields): boolean
     }
-    MailIncorrectFieldValidatorDecorator ..> cl.ucn.ingsoftware.taller2.taller2.service.UserService
-    MailIncorrectFieldValidatorDecorator ..> cl.ucn.ingsoftware.taller2.taller2.util.ConditionalsAlert
-    MailIncorrectFieldValidatorDecorator ..> cl.ucn.ingsoftware.taller2.taller2.validate.AbstractFormFieldValidatorDecorator
-    MailIncorrectFieldValidatorDecorator ..> cl.ucn.ingsoftware.taller2.taller2.validate.FormFieldValidator
+    MailIncorrectFieldValidatorDecorator "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.service.UserService
+    MailIncorrectFieldValidatorDecorator "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.util.ConditionalsAlert
+    MailIncorrectFieldValidatorDecorator "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.validate.AbstractFormFieldValidatorDecorator
+    MailIncorrectFieldValidatorDecorator "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.validate.FormFieldValidator
     MailIncorrectFieldValidatorDecorator --|> AbstractFormFieldValidatorDecorator
 
     class MoneyFieldValidatorDecorator {
         +MoneyFieldValidatorDecorator(FormFieldValidator formFieldValidator)
         +validate(Map<String, TextField> fields): boolean
     }
-    MoneyFieldValidatorDecorator ..> cl.ucn.ingsoftware.taller2.taller2.util.ConditionalsAlert
-    MoneyFieldValidatorDecorator ..> cl.ucn.ingsoftware.taller2.taller2.validate.AbstractFormFieldValidatorDecorator
-    MoneyFieldValidatorDecorator ..> cl.ucn.ingsoftware.taller2.taller2.validate.FormFieldValidator
+    MoneyFieldValidatorDecorator "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.util.ConditionalsAlert
+    MoneyFieldValidatorDecorator "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.validate.AbstractFormFieldValidatorDecorator
+    MoneyFieldValidatorDecorator "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.validate.FormFieldValidator
     MoneyFieldValidatorDecorator --|> AbstractFormFieldValidatorDecorator
 
     class PointsValidatorDecorator {
@@ -878,11 +839,11 @@ package cl.ucn.ingsoftware.taller2.taller2.validate.decorators {
         +PointsValidatorDecorator(FormFieldValidator formFieldValidator, ShoppingBasket shoppingBasket, User user)
         +validate(Map<String, TextField> fields): boolean
     }
-    PointsValidatorDecorator ..> cl.ucn.ingsoftware.taller2.taller2.buy.ShoppingBasket
-    PointsValidatorDecorator ..> cl.ucn.ingsoftware.taller2.taller2.model.User
-    PointsValidatorDecorator ..> cl.ucn.ingsoftware.taller2.taller2.util.ConditionalsAlert
-    PointsValidatorDecorator ..> cl.ucn.ingsoftware.taller2.taller2.validate.AbstractFormFieldValidatorDecorator
-    PointsValidatorDecorator ..> cl.ucn.ingsoftware.taller2.taller2.validate.FormFieldValidator
+    PointsValidatorDecorator "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.buy.ShoppingBasket
+    PointsValidatorDecorator "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.model.User
+    PointsValidatorDecorator "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.util.ConditionalsAlert
+    PointsValidatorDecorator "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.validate.AbstractFormFieldValidatorDecorator
+    PointsValidatorDecorator "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.validate.FormFieldValidator
     PointsValidatorDecorator ..|> AbstractFormFieldValidatorDecorator
 
     class RangeFormFieldValidatorDecorator {
@@ -891,9 +852,9 @@ package cl.ucn.ingsoftware.taller2.taller2.validate.decorators {
         +RangeFormFieldValidatorDecorator(FormFieldValidator formFieldValidator)
         +validate(Map<String, TextField> fields): boolean
     }
-    RangeFormFieldValidatorDecorator ..> cl.ucn.ingsoftware.taller2.taller2.util.ConditionalsAlert
-    RangeFormFieldValidatorDecorator ..> cl.ucn.ingsoftware.taller2.taller2.validate.AbstractFormFieldValidatorDecorator
-    RangeFormFieldValidatorDecorator ..> cl.ucn.ingsoftware.taller2.taller2.validate.FormFieldValidator
+    RangeFormFieldValidatorDecorator "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.util.ConditionalsAlert
+    RangeFormFieldValidatorDecorator "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.validate.AbstractFormFieldValidatorDecorator
+    RangeFormFieldValidatorDecorator "1" --> "1" cl.ucn.ingsoftware.taller2.taller2.validate.FormFieldValidator
     RangeFormFieldValidatorDecorator --|> AbstractFormFieldValidatorDecorator
 }
 @enduml
