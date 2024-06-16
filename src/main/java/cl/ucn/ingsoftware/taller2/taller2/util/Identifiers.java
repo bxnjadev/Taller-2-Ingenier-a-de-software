@@ -8,7 +8,15 @@ public class Identifiers {
     private static final Random RANDOM = new Random();
 
     private Identifiers() {
+        throw new IllegalArgumentException();
     }
+
+    /**
+     * Generate numerical id random based in a length
+     * This id no start with zero value
+     * @param length the length id
+     * @return the random id
+     */
 
     public static int newId(int length) {
         StringBuilder stringBuilder = new StringBuilder();
@@ -29,6 +37,12 @@ public class Identifiers {
 
         return Integer.parseInt(stringBuilder.toString());
     }
+
+    /**
+     * Generate numerical id random based
+     * This id no start with zero value
+     * @return the random id
+     */
 
     public static int newId() {
         return newId(DEFAULT_LENGTH);

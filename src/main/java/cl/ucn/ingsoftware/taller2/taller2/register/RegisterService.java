@@ -3,16 +3,20 @@ package cl.ucn.ingsoftware.taller2.taller2.register;
 import cl.ucn.ingsoftware.taller2.taller2.model.RolType;
 import cl.ucn.ingsoftware.taller2.taller2.service.UserService;
 
+/**
+ * This class manage the requets for register a new user in the service
+ */
+
 public interface RegisterService {
 
     /**
-     *
-     * @param name
-     * @param age
-     * @param mail
-     * @param password
-     * @param repeatPassword
-     * @param rolType
+     * Register a new user
+     * @param name the user name
+     * @param age the age name
+     * @param mail the mail name
+     * @param password the password
+     * @param repeatPassword the repeat passwordd name
+     * @param rolType the user rol type
      * @return
      */
 

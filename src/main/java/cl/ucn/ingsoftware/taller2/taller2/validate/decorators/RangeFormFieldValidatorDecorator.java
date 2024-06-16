@@ -7,6 +7,10 @@ import javafx.scene.control.TextField;
 
 import java.util.Map;
 
+/**
+ * This is a decorator class that check if a value is in range
+ */
+
 public class RangeFormFieldValidatorDecorator extends AbstractFormFieldValidatorDecorator {
 
     private static final int MIN_AGE = 18;
@@ -15,6 +19,12 @@ public class RangeFormFieldValidatorDecorator extends AbstractFormFieldValidator
     public RangeFormFieldValidatorDecorator(FormFieldValidator formFieldValidator) {
         super(formFieldValidator);
     }
+
+    /**
+     * Check if a number is in range 18 and 65
+     * @param fields the map fields, where String is the name field and TextField the value field
+     * @return true if a number is in range 18 and 65
+     */
 
     @Override
     public boolean validate(Map<String, TextField> fields) {

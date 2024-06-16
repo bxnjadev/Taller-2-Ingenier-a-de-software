@@ -8,6 +8,10 @@ import javafx.scene.control.TextField;
 
 import java.util.Map;
 
+/**
+ * This is a decorator class that check if a mail is valid
+ */
+
 public class MailFieldValidatorDecorator extends AbstractFormFieldValidatorDecorator {
 
     private final UserService userService;
@@ -17,6 +21,12 @@ public class MailFieldValidatorDecorator extends AbstractFormFieldValidatorDecor
         super(formFieldValidator);
         this.userService = userService;
     }
+
+    /**
+     * Check if a mail is valid
+     * @param fields the map fields, where String is the name field and TextField the value field
+     * @return true if a mail is valid
+     */
 
     @Override
     public boolean validate(Map<String, TextField> fields) {

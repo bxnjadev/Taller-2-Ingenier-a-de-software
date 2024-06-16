@@ -12,6 +12,10 @@ import cl.ucn.ingsoftware.taller2.taller2.util.Identifiers;
 
 import java.util.*;
 
+/**
+ * A observer when is executed a user bough a service
+ */
+
 public class CreatePurchaseBuyObserver implements ServicesBuyObserver {
 
     private static final String FORMAT_TIME = "dd/MM/yyyy HH:mm";
@@ -24,6 +28,12 @@ public class CreatePurchaseBuyObserver implements ServicesBuyObserver {
         recentPurchaseService = RecentPurchaseService.getInstance();
         dateProvider = DateProvider.format(FORMAT_TIME);
     }
+
+    /**
+     * Provide a percentage in points
+     * @param shoppingBasket the shoppingBasket object
+     * @param methodPay the method pay object
+     */
 
     @Override
     public void buy(ShoppingBasket shoppingBasket,

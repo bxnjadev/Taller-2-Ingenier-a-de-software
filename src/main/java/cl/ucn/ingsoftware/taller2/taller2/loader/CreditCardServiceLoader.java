@@ -6,6 +6,10 @@ import cl.ucn.ingsoftware.taller2.taller2.service.CreditCardService;
 
 import java.io.IOException;
 
+/**
+ * This class load credit card service
+ */
+
 public class CreditCardServiceLoader implements Loader {
 
     private static final String USERNAME = "bmiranda11";
@@ -16,6 +20,11 @@ public class CreditCardServiceLoader implements Loader {
     public CreditCardServiceLoader(CreditCardService creditCardService) {
         this.creditCardService = creditCardService;
     }
+
+    /**
+     * Load credit card service, make a authentication to backend
+     * and get the token authorization for make request
+     */
 
     @Override
     public void load() {

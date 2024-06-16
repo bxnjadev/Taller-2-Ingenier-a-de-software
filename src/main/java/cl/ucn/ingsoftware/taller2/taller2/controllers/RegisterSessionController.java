@@ -79,8 +79,7 @@ public class RegisterSessionController {
         screenHandler.show("register", "Registrarse");
 
         ((Node)(event.getSource())).getScene().getWindow().hide();
-
-        //screenHandler.show("login");
+        screenHandler.show("login", "Iniciar Sesión");
     }
 
     public void loginHyperlink(ActionEvent event) throws IOException {

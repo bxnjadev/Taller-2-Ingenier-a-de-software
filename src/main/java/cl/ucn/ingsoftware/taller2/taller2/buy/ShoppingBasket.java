@@ -8,6 +8,11 @@ import cl.ucn.ingsoftware.taller2.taller2.model.User;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * This class represent a Shopping Basket user, this contains all element
+ * selected for realize a bought
+ */
+
 public class ShoppingBasket {
 
     private final Set<ServicesBuyObserver> observers;
@@ -30,25 +35,54 @@ public class ShoppingBasket {
 
     }
 
+    /**
+     * Add a new service to shopping basket
+     * @param service the object service
+     */
+
     public void addService(Service service) {
         services.add(service);
     }
+
+    /**
+     * Remove a service from shopping basket
+     * @param service the object service to deleted
+     */
 
     public void removeService(Service service) {
         services.remove(service);
     }
 
+    /**
+     * Clean all shopping basket
+     */
+
     public void clear() {
         services.clear();
     }
 
+    /**
+     * Get inmutable service collection
+     * @return service collection
+     */
+
     public Set<Service> getServices() {
-        return services;
+        return new HashSet<>(services);
     }
+
+    /**
+     * Get user owner shopping basket
+     * @return the user object
+     */
 
     public User getUser() {
         return user;
     }
+
+    /**
+     * Calculate the price about all shopping basket
+     * @return a double that represent the price
+     */
 
     public double calculatePrice() {
         double price = 0;
@@ -59,6 +93,11 @@ public class ShoppingBasket {
 
         return price;
     }
+
+    /**
+     * Call all observers from this shopping basket
+     * @param methodPay the method pay applier
+     */
 
     public void notifyBought(MethodPay methodPay) {
         for (ServicesBuyObserver servicesBuyObserver : observers) {

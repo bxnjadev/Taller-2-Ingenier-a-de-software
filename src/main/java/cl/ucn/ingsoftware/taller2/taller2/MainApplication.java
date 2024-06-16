@@ -1,6 +1,7 @@
 package cl.ucn.ingsoftware.taller2.taller2;
 
 import cl.ucn.ingsoftware.taller2.taller2.loader.*;
+import cl.ucn.ingsoftware.taller2.taller2.model.CreditCard;
 import cl.ucn.ingsoftware.taller2.taller2.screen.ScreenHandler;
 import cl.ucn.ingsoftware.taller2.taller2.service.*;
 import javafx.application.Application;
@@ -18,7 +19,6 @@ public class MainApplication extends Application {
         mainLoader.addAll(
                 new UserLoader(UserService.getInstance()),
                 new ServiceLoader(ServicesRegistry.getServicesRegistry()),
-                new SceneLoader(stage),
                 new CreditCardServiceLoader(CreditCardService.http())
         );
 

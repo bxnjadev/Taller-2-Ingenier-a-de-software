@@ -2,6 +2,10 @@ package cl.ucn.ingsoftware.taller2.taller2.authenticate;
 
 import cl.ucn.ingsoftware.taller2.taller2.model.User;
 
+/**
+ * This class represent a response as authentication
+ */
+
 public class AuthenticationResponse {
 
     private final User user;
@@ -13,13 +17,28 @@ public class AuthenticationResponse {
         this.response = response;
     }
 
+    /**
+     * Get the user authenticated
+     * @return the user authenticated
+     */
+
     public User getUser() {
         return user;
     }
 
+    /**
+     * Get response authentication
+     * @return the response
+     */
+
     public StatusAuthenticationResponse getResponse() {
         return response;
     }
+
+    /**
+     * Check if authentication response is failed
+     * @return true if the authentication is successful
+     */
 
     public boolean isFailed() {
         return response == StatusAuthenticationResponse.FAILED;

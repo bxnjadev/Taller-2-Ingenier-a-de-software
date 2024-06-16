@@ -5,6 +5,10 @@ import cl.ucn.ingsoftware.taller2.taller2.MainApplication;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * Adapter between a file name and inputstream
+ */
+
 public class StringReaderAdapter implements Reader {
 
     private final Reader reader;

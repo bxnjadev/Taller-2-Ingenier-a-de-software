@@ -36,4 +36,21 @@ public class Voucher {
         return new ArrayList<>(services);
     }
 
+    /**
+     * Return a brief description of this credit card, the exact details
+     * of the representation are unspecified and subjects change,
+     * but the following be regarded as typical:
+     * "[id = a3fg, date = 15/06/2024 20:40, expire_date = 15/12/2024 20:40]"
+     */
+
+    @Override
+    public String toString() {
+        return String.format(
+                "[id = %s, date = %s, expire_date = %s]",
+                id,
+                date,
+                expiredDate
+        );
+    }
+
 }

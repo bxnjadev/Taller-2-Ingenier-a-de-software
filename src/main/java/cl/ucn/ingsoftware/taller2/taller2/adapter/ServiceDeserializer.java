@@ -7,6 +7,15 @@ import java.lang.reflect.Type;
 
 public class ServiceDeserializer implements JsonDeserializer<Service> {
 
+    /**
+     * Deserialize a Json Element in a Service Object
+     * @param jsonElement the Json Element serialized
+     * @param type the gson type
+     * @param jsonDeserializationContext the serialization context from gson
+     * @return A new service object
+     * @throws JsonParseException throw when any field not exists
+     */
+
     @Override
     public Service deserialize(JsonElement jsonElement,
                                Type type,

@@ -5,6 +5,10 @@ import javafx.scene.control.ButtonType;
 
 import java.util.Optional;
 
+/**
+ * This class manage the alert confirmation with windows
+ */
+
 public class AlertConfirmation {
 
     private final Alert alert;
@@ -18,13 +22,21 @@ public class AlertConfirmation {
         showAndWait();
     }
 
-    public void configure() {
+    /**
+     * Configure with options the windows
+     */
+
+    private void configure() {
         alert.setHeaderText(null);
         alert.setTitle("Confirmación");
         alert.setContentText("¿Estás seguro de confirmar la acción?");
     }
 
-    public void showAndWait() {
+    /**
+     * Show wait message
+     */
+
+    private void showAndWait() {
         Optional<ButtonType> action = alert.showAndWait();
 
         if (action.isPresent()) {

@@ -3,7 +3,7 @@ package cl.ucn.ingsoftware.taller2.taller2.service;
 import cl.ucn.ingsoftware.taller2.taller2.model.User;
 
 /**
- * Handle the session
+ * This class handle the actual session
  */
 
 public interface SessionService {

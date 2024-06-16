@@ -12,6 +12,10 @@ import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
 
+/**
+ * This class represent a user loader
+ */
+
 public class UserLoader implements Loader {
 
     private static final String FILE_NAME = "users.json";
@@ -25,6 +29,10 @@ public class UserLoader implements Loader {
     public UserLoader(UserService userService) {
         this.userService = userService;
     }
+
+    /**
+     * Load all user from a json file
+     */
 
     @Override
     public void load() {

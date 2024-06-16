@@ -10,6 +10,14 @@ import java.lang.reflect.Type;
 
 public class CreditCardAdapter implements JsonSerializer<CreditCard> {
 
+    /**
+     * Adapter for a credit card object
+     * @param creditCard the creditCard object
+     * @param type the gson type
+     * @param jsonSerializationContext the serialization context from gson
+     * @return A Json element that contain the object serialized
+     */
+
     @Override
     public JsonElement serialize(CreditCard creditCard,
                                  Type type,

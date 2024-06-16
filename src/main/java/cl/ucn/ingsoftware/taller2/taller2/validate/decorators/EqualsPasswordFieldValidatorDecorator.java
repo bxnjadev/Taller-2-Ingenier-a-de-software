@@ -7,11 +7,21 @@ import javafx.scene.control.TextField;
 
 import java.util.Map;
 
+/**
+ * This is a decorator class that check if two password are equals
+ */
+
 public class EqualsPasswordFieldValidatorDecorator extends AbstractFormFieldValidatorDecorator {
 
     public EqualsPasswordFieldValidatorDecorator(FormFieldValidator formFieldValidator) {
         super(formFieldValidator);
     }
+
+    /**
+     * Check if two password are equals
+     * @param fields the map fields, where String is the name field and TextField the value field
+     * @return true if the two password are equals
+     */
 
     @Override
     public boolean validate(Map<String, TextField> fields) {

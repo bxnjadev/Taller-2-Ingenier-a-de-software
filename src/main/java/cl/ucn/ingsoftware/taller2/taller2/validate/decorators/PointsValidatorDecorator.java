@@ -2,13 +2,16 @@ package cl.ucn.ingsoftware.taller2.taller2.validate.decorators;
 
 import cl.ucn.ingsoftware.taller2.taller2.buy.ShoppingBasket;
 import cl.ucn.ingsoftware.taller2.taller2.model.User;
-import cl.ucn.ingsoftware.taller2.taller2.service.ShoppingBasketService;
 import cl.ucn.ingsoftware.taller2.taller2.util.ConditionalsAlert;
 import cl.ucn.ingsoftware.taller2.taller2.validate.AbstractFormFieldValidatorDecorator;
 import cl.ucn.ingsoftware.taller2.taller2.validate.FormFieldValidator;
 import javafx.scene.control.TextField;
 
 import java.util.Map;
+
+/**
+ * This is a decorator class that check if a user has enough
+ */
 
 public class PointsValidatorDecorator extends AbstractFormFieldValidatorDecorator {
 
@@ -19,6 +22,12 @@ public class PointsValidatorDecorator extends AbstractFormFieldValidatorDecorato
         this.shoppingBasket = shoppingBasket;
         this.user = user;
     }
+
+    /**
+     * Check if a field has point enough
+     * @param fields the map fields, where String is the name field and TextField the value field
+     * @return true if a points is enough
+     */
 
     @Override
     public boolean validate(Map<String, TextField> fields) {

@@ -7,6 +7,15 @@ import java.lang.reflect.Type;
 
 public class TokenAdapter implements JsonDeserializer<ObjectToken> {
 
+    /**
+     * Deserialize a Json Element in a ObjectToken Object
+     * @param jsonElement the Json Element serialized
+     * @param type the gson type
+     * @param jsonDeserializationContext the serialization context from gson
+     * @return A new service object
+     * @throws JsonParseException throw when any field not exists
+     */
+
     @Override
     public ObjectToken deserialize(JsonElement jsonElement,
                                    Type type,

@@ -10,12 +10,22 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class manage all screen program
+ */
+
 public class ScreenHandler {
 
     private static ScreenHandler SCREEN_HANDLER;
 
     private ScreenHandler() {
     }
+
+    /**
+     * Show a new screen
+     * @param name the name screen
+     * @param title the title screen
+     */
 
     public void show(String name, String title) {
 

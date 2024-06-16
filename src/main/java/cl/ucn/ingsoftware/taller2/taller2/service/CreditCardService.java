@@ -9,7 +9,7 @@ import java.io.IOException;
 
 /**
  * This class represent the credit card service for
- * manage operations with the credit card
+ * manage operations with the credit card system
  */
 
 public interface CreditCardService {

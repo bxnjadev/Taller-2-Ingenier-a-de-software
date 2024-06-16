@@ -8,6 +8,13 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
+/**
+ * This class represent the kernel for make request http
+ * Follow the design pattern builder for make a process creating
+ * the request more easy
+ * @param <T>
+ */
+
 public class HttpWrapperBuilder<T> {
 
 
@@ -30,6 +37,12 @@ public class HttpWrapperBuilder<T> {
         this.gson = gson;
     }
 
+    /**
+     * Assign the url
+     * @param url the string url
+     * @return a builder instance
+     */
+
     public HttpWrapperBuilder<T> url(String url) {
         httpRequestBuilder.uri(
                 URI.create(url)
@@ -38,6 +51,12 @@ public class HttpWrapperBuilder<T> {
         return this;
     }
 
+    /**
+     * Assign a authorization token
+     * @param token the string token
+     * @return a builder instance
+     */
+
     public HttpWrapperBuilder<T> authenticationBearerToken(String token) {
         httpRequestBuilder.header(
                 "Authorization", "Bearer " + token
@@ -45,15 +64,32 @@ public class HttpWrapperBuilder<T> {
         return this;
     }
 
+    /**
+     * Assign that body to send will be a format json
+     * @return a builder instance
+     */
+
     public HttpWrapperBuilder<T> applicationJson() {
         httpRequestBuilder.header("Content-Type", "application/json");
         return this;
     }
 
+    /**
+     * Assign the request body
+     * @param v the request body
+     * @param <V> the type
+     * @return a builder instance
+     */
+
     public <V> HttpWrapperBuilder<T> body(V v) {
         body = gson.toJson(v);
         return this;
     }
+
+    /**
+     * Set the request type as POST method
+     * @return a builder instance
+     */
 
     public HttpWrapperBuilder<T> post() {
         httpRequestBuilder.POST(
@@ -61,6 +97,11 @@ public class HttpWrapperBuilder<T> {
         );
         return this;
     }
+
+    /**
+     * Set the request type as GET method
+     * @return a builder instance
+     */
 
     public HttpWrapperBuilder<T> get() {
         httpRequestBuilder.GET();
@@ -74,6 +115,11 @@ public class HttpWrapperBuilder<T> {
     ) {
         return new HttpWrapperBuilder<>(clazz, httpClient, gson);
     }
+
+    /**
+     * Create a new request using parameters establish
+     * @return the new object requested
+     */
 
     public T build() throws IOException, InterruptedException {
         HttpRequest httpRequest = httpRequestBuilder.build();

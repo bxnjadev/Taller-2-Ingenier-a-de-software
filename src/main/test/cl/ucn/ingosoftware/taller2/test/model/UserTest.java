@@ -50,4 +50,12 @@ public class UserTest {
         Assertions.assertEquals(user.getPoints(), 150);
     }
 
+    @Test
+    public void toStringTest() {
+        Assertions.assertEquals(
+                user.toString(),
+                "[name = Maria, age = 20, mail = maria@ucn.cl, password = password, rolType = ADMINISTRATOR, points = 150]"
+        );
+    }
+
 }

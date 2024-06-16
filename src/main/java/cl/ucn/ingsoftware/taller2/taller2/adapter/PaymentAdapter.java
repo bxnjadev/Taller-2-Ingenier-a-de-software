@@ -17,6 +17,14 @@ public class PaymentAdapter implements JsonSerializer<Payment> {
         this.creditCardJsonSerializer = creditCardJsonSerializer;
     }
 
+    /**
+     * Adapter for serialize a credential object
+     * @param payment object
+     * @param type the gson type
+     * @param jsonSerializationContext the serialization context from gson
+     * @return A Json element that contain the object serialized
+     */
+
     @Override
     public JsonElement serialize(Payment payment,
                                  Type type,

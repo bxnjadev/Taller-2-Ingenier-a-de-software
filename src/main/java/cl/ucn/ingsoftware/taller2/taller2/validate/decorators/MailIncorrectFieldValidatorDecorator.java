@@ -8,6 +8,10 @@ import javafx.scene.control.TextField;
 
 import java.util.Map;
 
+/**
+ * This is a decorator class that check if a mail is valid
+ */
+
 public class MailIncorrectFieldValidatorDecorator extends AbstractFormFieldValidatorDecorator {
 
     private final UserService userService;

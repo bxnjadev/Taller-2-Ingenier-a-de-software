@@ -6,8 +6,14 @@ import java.util.List;
 public class ReaderUtil {
 
     private ReaderUtil() {
-
+        throw new IllegalArgumentException();
     }
+
+    /**
+     * Get all lines from a reader and return as string
+     * @param reader the obejct reader
+     * @return the string lines
+     */
 
     public static String readAllAsString(Reader reader) {
         StringBuilder stringBuilder = new StringBuilder();

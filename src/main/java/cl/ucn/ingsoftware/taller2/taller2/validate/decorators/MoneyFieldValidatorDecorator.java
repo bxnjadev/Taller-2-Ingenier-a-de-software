@@ -7,11 +7,21 @@ import javafx.scene.control.TextField;
 
 import java.util.Map;
 
+/**
+ * This is a decorator class that check field money is up 300 CLP
+ */
+
 public class MoneyFieldValidatorDecorator extends AbstractFormFieldValidatorDecorator {
 
     public MoneyFieldValidatorDecorator(FormFieldValidator formFieldValidator) {
         super(formFieldValidator);
     }
+
+    /**
+     * Check if a field money is up 300 CLP
+     * @param fields the map fields, where String is the name field and TextField the value field
+     * @return true if a money is up 300 CLP
+     */
 
     @Override
     public boolean validate(Map<String, TextField> fields) {

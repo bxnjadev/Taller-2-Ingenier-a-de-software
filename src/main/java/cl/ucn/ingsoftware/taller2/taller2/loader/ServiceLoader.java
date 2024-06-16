@@ -12,6 +12,10 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+/**
+ * This class represent a service loader
+ */
+
 public class ServiceLoader implements Loader {
 
     private final ServicesRegistry servicesRegistry;
@@ -25,6 +29,11 @@ public class ServiceLoader implements Loader {
     public ServiceLoader(ServicesRegistry servicesRegistry) {
         this.servicesRegistry = servicesRegistry;
     }
+
+    /**
+     * Load the component from service loader
+     * this component load every serviced from a json file
+     */
 
     @Override
     public void load() {
